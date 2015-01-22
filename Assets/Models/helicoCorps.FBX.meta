@@ -1,0 +1,125 @@
+fileFormatVersion: 2
+guid: f0cdbd9e82353944b90e0957b1580987
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: aile
+    100002: aileronD
+    100004: aileronG
+    100006: cabine
+    100008: derive
+    100010: //RootNode
+    100012: moteur
+    100014: Tube001
+    100016: Tube002
+    100018: Tube003
+    100020: Tube004
+    100022: Tube005
+    100024: Tube007
+    400000: aile
+    400002: aileronD
+    400004: aileronG
+    400006: cabine
+    400008: derive
+    400010: //RootNode
+    400012: moteur
+    400014: Tube001
+    400016: Tube002
+    400018: Tube003
+    400020: Tube004
+    400022: Tube005
+    400024: Tube007
+    2300000: aile
+    2300002: aileronD
+    2300004: aileronG
+    2300006: cabine
+    2300008: derive
+    2300010: //RootNode
+    2300012: moteur
+    2300014: Tube001
+    2300016: Tube002
+    2300018: Tube003
+    2300020: Tube004
+    2300022: Tube005
+    2300024: Tube007
+    3300000: aile
+    3300002: aileronD
+    3300004: aileronG
+    3300006: cabine
+    3300008: derive
+    3300010: //RootNode
+    3300012: moteur
+    3300014: Tube001
+    3300016: Tube002
+    3300018: Tube003
+    3300020: Tube004
+    3300022: Tube005
+    3300024: Tube007
+    4300000: helico
+    4300002: derive
+    4300004: aileronG
+    4300006: Tube001
+    4300008: Tube002
+    4300010: Tube005
+    4300012: Tube007
+    4300014: aileronD
+    4300016: aile
+    4300018: cabine
+    4300020: moteur
+    4300022: Tube004
+    4300024: Tube003
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
