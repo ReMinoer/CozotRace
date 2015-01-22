@@ -1,2 +1,2 @@
 # CozotRace
-Projet industriel de jeu de course sous Unity des 2ème années de l'ESIR.
+Race game project made with Unity by 5 second year students in digital imaging of ESIR.
