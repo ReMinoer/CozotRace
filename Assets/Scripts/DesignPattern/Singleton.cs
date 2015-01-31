@@ -6,7 +6,6 @@ namespace DesignPattern
 
 	public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 	{
-
 		private static T _instance;
 		private static object _lock = new object();
 		private static bool applicationIsQuitting = false;
@@ -48,8 +47,10 @@ namespace DesignPattern
 			}
 		}
 
-		public void OnDestroy () {
-			applicationIsQuitting = true;
+		public void OnDestroy ()
+		{
+			if (!Application.isEditor)
+				applicationIsQuitting = true;
 		}
 
 	}
