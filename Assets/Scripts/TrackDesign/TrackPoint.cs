@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-// BUG : Duplication au coeur de la ligne
 [ExecuteInEditMode]
 public class TrackPoint : MonoBehaviour {
 
@@ -30,9 +29,6 @@ public class TrackPoint : MonoBehaviour {
 		// Handle the insertion mode
 		if (InsertMode && Application.isEditor && !Application.isPlaying)
 		{
-			Track.Instance.DisableAllInsertModes();
-			InsertMode = true;
-
 			bool insertionFind = false;
 			bool sameInsertion = false;
 
@@ -147,5 +143,8 @@ public class TrackPoint : MonoBehaviour {
 			PreviousPoint.GetComponent<TrackPoint>().NextPoint = this.gameObject;
 		if (NextPoint != null)
 			NextPoint.GetComponent<TrackPoint>().PreviousPoint = this.gameObject;
+
+		if (InsertMode)
+			Track.Instance.DisableInsertModeOtherPoints(this.gameObject);
 	}
 }

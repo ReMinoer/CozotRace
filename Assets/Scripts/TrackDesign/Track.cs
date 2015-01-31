@@ -7,16 +7,6 @@ public class Track : DesignPattern.Singleton<Track> {
 	protected Track() {}
 
 	public GameObject StartPoint;
-
-	public void DisableAllInsertModes()
-	{
-		GameObject currentPoint = StartPoint;
-		while (currentPoint != null)
-		{
-			currentPoint.GetComponent<TrackPoint>().InsertMode = false;
-			currentPoint = currentPoint.GetComponent<TrackPoint>().NextPoint;
-		}
-	}
 	
 	public List<GameObject> GetAllPoints()
 	{
@@ -39,5 +29,21 @@ public class Track : DesignPattern.Singleton<Track> {
 			currentPoint = currentPoint.GetComponent<TrackPoint>().NextPoint;
 
 		return currentPoint;
+	}
+	
+	public void DisableInsertModeOtherPoints(GameObject point)
+	{
+		GameObject currentPoint = StartPoint;
+		while (currentPoint != null)
+		{
+			if (currentPoint == point)
+			{
+				currentPoint = currentPoint.GetComponent<TrackPoint>().NextPoint;
+				continue;
+			}
+			
+			currentPoint.GetComponent<TrackPoint>().InsertMode = false;
+			currentPoint = currentPoint.GetComponent<TrackPoint>().NextPoint;
+		}
 	}
 }
