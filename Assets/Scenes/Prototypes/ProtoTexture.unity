@@ -372,11 +372,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 575332688}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 1360394139}
+  m_RootOrder: 1
 --- !u!65 &575332693
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -665,7 +665,7 @@ Transform:
   - {fileID: 2076200584}
   - {fileID: 1172348351}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!65 &966679498
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -720,14 +720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbec3701774ffca458bdc719699ea1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerSpeed: 4
-  TurnSpeed: 2
-  TurnPower: 100
-  FloorAcceleratorTexture: {fileID: 2800000, guid: ffa3cb1932e598244a6b42a70473c70f,
-    type: 3}
-  FloorAcceleratorSpeed: 2
-  FloorReducerTexture: {fileID: 2800000, guid: b133c21ed5a915d49b0b39f7d8f70f01, type: 3}
-  FloorReducerSpeed: .5
+  Speed: 6
+  TurnSpeed: 200
 --- !u!136 &966679502
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -920,7 +914,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
       propertyPath: m_LocalScale.x
@@ -1056,10 +1050,56 @@ Transform:
   m_GameObject: {fileID: 1278001254}
   m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381661, w: .875426114}
   m_LocalPosition: {x: 5.40999985, y: 6.53999996, z: -1.88999999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: .99999994, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
+--- !u!1 &1360394138
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1360394139}
+  - 114: {fileID: 1360394140}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1360394139
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1360394138}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_Children:
+  - {fileID: 1474920606}
+  - {fileID: 575332692}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+--- !u!114 &1360394140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1360394138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fab4a0d01048e24e8c1964217f7556f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Grounds:
+  - Texture: {fileID: 2800000, guid: ffa3cb1932e598244a6b42a70473c70f, type: 3}
+    SpeedCoeff: 1
+  - Texture: {fileID: 2800000, guid: b133c21ed5a915d49b0b39f7d8f70f01, type: 3}
+    SpeedCoeff: .5
 --- !u!1 &1474920602
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,11 +1166,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1474920602}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 3}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 1360394139}
+  m_RootOrder: 0
 --- !u!65 &1474920607
 BoxCollider:
   m_ObjectHideFlags: 0

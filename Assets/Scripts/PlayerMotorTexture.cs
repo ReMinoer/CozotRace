@@ -2,37 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerMotorTexture : MonoBehaviour {
+public class PlayerMotorTexture : MonoBehaviour
+{
+	public float Speed = 6.0f;
+	public float TurnSpeed = 200.0f;
 
-	public struct GroundProperty {
-		public Texture FloorTexture { get; set; }
-		public float MultiplierSpeedTexture { get; set; }
+	private float _speedCoeff = 1.0f;
+
+	void Start()
+	{
 	}
 
-	public float PlayerSpeed = 4.0f;
-	public float TurnSpeed = 2.0f;
-	public float TurnPower = 100.0f;
-
-	public List<GroundProperty> Floor = new List<GroundProperty>() {
-		new GroundProperty() {FloorTexture = new Texture(), MultiplierSpeedTexture = 0.5f},
-		new GroundProperty() {FloorTexture = new Texture(), MultiplierSpeedTexture = 2.0f}
-	};
-
-	private float MultiplierSpeed = 1.0f;
-	
-	void Start () {
+	void Update ()
+	{
+		float horizontalInput = Input.GetAxis("Horizontal");
+		float verticalInput = Input.GetAxis("Vertical");
+		transform.Rotate(horizontalInput * Mathf.Ceil(verticalInput) * TurnSpeed * Vector3.up * Time.deltaTime, Space.World);
+		transform.Translate (verticalInput * _speedCoeff * Speed * Vector3.back * Time.deltaTime);
 	}
 	
-	void Update () {
-		transform.Rotate(TurnPower * Vector3.up * Input.GetAxis ("Horizontal") * Mathf.Ceil(Input.GetAxis ("Vertical")) * TurnSpeed * Time.deltaTime, Space.World);
-		transform.Translate (MultiplierSpeed *Vector3.back * Input.GetAxis ("Vertical") * PlayerSpeed * Time.deltaTime);
-	}
-	
-	void OnTriggerStay (Collider collider) {
-		foreach (GroundProperty floor in Floor) {
-			if (collider.gameObject.renderer.material.mainTexture == floor.FloorTexture) {
-					MultiplierSpeed = floor.MultiplierSpeedTexture;
+	void OnTriggerStay (Collider collider)
+	{
+		foreach (Map.GroundProperty ground in Map.Instance.Grounds)
+			if (collider.gameObject.renderer.material.mainTexture == ground.Texture)
+			{
+				_speedCoeff = ground.SpeedCoeff;
+				break;
 			}
-		}
 	}
 }
