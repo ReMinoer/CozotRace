@@ -648,7 +648,7 @@ Transform:
   m_PrefabInternal: {fileID: 1175634995}
   m_GameObject: {fileID: 966679496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .930000007, y: .930000007, z: .610000014}
+  m_LocalPosition: {x: 8.64000034, y: .930000007, z: .610000014}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children:
   - {fileID: 696767787}
@@ -723,10 +723,11 @@ MonoBehaviour:
   PlayerSpeed: 4
   TurnSpeed: 2
   TurnPower: 100
-  asphalt: {fileID: 2800000, guid: ffa3cb1932e598244a6b42a70473c70f, type: 3}
-  ReducerSpeedTexture1: 2
-  grass: {fileID: 2800000, guid: b133c21ed5a915d49b0b39f7d8f70f01, type: 3}
-  ReducerSpeedTexture2: .800000012
+  FloorAcceleratorTexture: {fileID: 2800000, guid: ffa3cb1932e598244a6b42a70473c70f,
+    type: 3}
+  FloorAcceleratorSpeed: 2
+  FloorReducerTexture: {fileID: 2800000, guid: b133c21ed5a915d49b0b39f7d8f70f01, type: 3}
+  FloorReducerSpeed: .5
 --- !u!136 &966679502
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -891,7 +892,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400010, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
       propertyPath: m_LocalPosition.x
-      value: .930000007
+      value: 8.64000034
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
       propertyPath: m_LocalPosition.y
