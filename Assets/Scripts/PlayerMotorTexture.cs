@@ -40,10 +40,10 @@ public class PlayerMotorTexture : MonoBehaviour {
 	}
 	
 	void OnTriggerStay (Collider collider) {
-		Floor.ForEach (delegate(GroundProperty floor) {
-				if (collider.gameObject.renderer.material.mainTexture == floor.FloorTexture) {
-						MultiplierSpeed = floor.MultiplierSpeedTexture;
-				}
-		});
+		foreach (GroundProperty floor in Floor) {
+			if (collider.gameObject.renderer.material.mainTexture == floor.FloorTexture) {
+					MultiplierSpeed = floor.MultiplierSpeedTexture;
+			}
+		}
 	}
 }
