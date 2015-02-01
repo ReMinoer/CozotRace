@@ -5,33 +5,22 @@ using System.Collections.Generic;
 public class PlayerMotorTexture : MonoBehaviour {
 
 	public struct GroundProperty {
-		public Texture FloorTexture;
-		public float MultiplierSpeedTexture;
+		public Texture FloorTexture { get; set; }
+		public float MultiplierSpeedTexture { get; set; }
 	}
 
 	public float PlayerSpeed = 4.0f;
 	public float TurnSpeed = 2.0f;
 	public float TurnPower = 100.0f;
-	
-	public Texture FloorAcceleratorTexture;
-	public float FloorAcceleratorSpeed = 2.0f;
-	public Texture FloorReducerTexture;
-	public float FloorReducerSpeed = 0.5f;
-	
-	private List<GroundProperty> Floor = new List<GroundProperty>();
+
+	public List<GroundProperty> Floor = new List<GroundProperty>() {
+		new GroundProperty() {FloorTexture = new Texture(), MultiplierSpeedTexture = 0.5f},
+		new GroundProperty() {FloorTexture = new Texture(), MultiplierSpeedTexture = 2.0f}
+	};
+
 	private float MultiplierSpeed = 1.0f;
 	
 	void Start () {
-		GroundProperty FloorAccelerator = new GroundProperty();
-		FloorAccelerator.FloorTexture = FloorAcceleratorTexture;
-		FloorAccelerator.MultiplierSpeedTexture = FloorAcceleratorSpeed;
-
-		GroundProperty FloorReducer = new GroundProperty();
-		FloorReducer.FloorTexture = FloorReducerTexture;
-		FloorReducer.MultiplierSpeedTexture = FloorReducerSpeed;
-
-		Floor.Add (FloorAccelerator);
-		Floor.Add (FloorReducer);
 	}
 	
 	void Update () {
