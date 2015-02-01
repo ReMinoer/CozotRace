@@ -632,8 +632,8 @@ GameObject:
   - 95: {fileID: 966679500}
   - 54: {fileID: 966679499}
   - 65: {fileID: 966679498}
-  - 114: {fileID: 966679501}
   - 136: {fileID: 966679502}
+  - 114: {fileID: 966679501}
   m_Layer: 0
   m_Name: car02
   m_TagString: Untagged
@@ -717,14 +717,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 966679496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9abb3db3ea926654e97e2927e0952409, type: 3}
+  m_Script: {fileID: 11500000, guid: fbec3701774ffca458bdc719699ea1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpeed: 4
   TurnSpeed: 2
   TurnPower: 100
   asphalt: {fileID: 2800000, guid: ffa3cb1932e598244a6b42a70473c70f, type: 3}
+  ReducerSpeedTexture1: 2
   grass: {fileID: 2800000, guid: b133c21ed5a915d49b0b39f7d8f70f01, type: 3}
+  ReducerSpeedTexture2: .800000012
 --- !u!136 &966679502
 CapsuleCollider:
   m_ObjectHideFlags: 0
