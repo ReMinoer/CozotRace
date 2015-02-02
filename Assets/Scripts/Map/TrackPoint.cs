@@ -134,6 +134,9 @@ public class TrackPoint : MonoBehaviour {
 
 	void OnValidate()
 	{
+		if (InsertMode)
+			Track.Instance.DisableInsertModeOtherPoints(this.gameObject);
+
 		GameObject lastPoint = Track.Instance.GetLastPoint();
 		if (PreviousPoint == lastPoint.GetComponent<TrackPoint>().PreviousPoint
 		    && NextPoint == lastPoint.GetComponent<TrackPoint>().NextPoint)
@@ -143,8 +146,5 @@ public class TrackPoint : MonoBehaviour {
 			PreviousPoint.GetComponent<TrackPoint>().NextPoint = this.gameObject;
 		if (NextPoint != null)
 			NextPoint.GetComponent<TrackPoint>().PreviousPoint = this.gameObject;
-
-		if (InsertMode)
-			Track.Instance.DisableInsertModeOtherPoints(this.gameObject);
 	}
 }
