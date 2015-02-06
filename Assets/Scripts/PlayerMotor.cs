@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerMotor : MonoBehaviour {
 	public float Speed = 0f;
 	public bool GoForward = false;
-	public bool GoBackward = false;
 	// Use this for initialization
 	void Start () {
 	

@@ -873,14 +873,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655b5218f5308ac40ac1c9404b606288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardAccelerationForce: 2.5
-  BackwardAccelerationForce: 1
-  BrakeForce: 3
   Speed: 0
-  ForwardSpeedLimit: 15
-  BackwardSpeedLimit: 7
   GoForward: 0
-  GoBackward: 0
 --- !u!114 &11465692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -892,6 +886,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8adef283fbf89489edbff23c97abf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForwardAccelerationForce: 2.5
+  BackwardAccelerationForce: 2.5
+  ForwardSpeedLimit: 25
+  BackwardSpeedLimit: 10
+  BrakeForce: 3
 --- !u!124 &12465690
 Behaviour:
   m_ObjectHideFlags: 1
