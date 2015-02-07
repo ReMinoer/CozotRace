@@ -5,9 +5,9 @@ using System.Collections;
 public class DrivingState
 {
 	// Continous state
-	public float Accelerate; // [0;1]
-	public float Brake; // [0;1] (include backward)
-	public float Turn; // [-TurnSpeedMax;TurnSpeedMax]
+	public float Forward; // [0;1]
+	public float Backward; // [0;1]
+	public float Turn; // [-1;1]
 	public bool Boost;
 
 	// Ponctual state
@@ -20,8 +20,8 @@ public class DrivingState
 
 	public bool HasChange(DrivingState other)
 	{
-		return Accelerate != other.Accelerate
-			|| Brake != other.Brake
+		return Forward != other.Forward
+			|| Backward != other.Backward
 			|| Turn != other.Turn
 			|| Boost != other.Boost
 			|| DashLeft

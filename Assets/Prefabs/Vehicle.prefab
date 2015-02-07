@@ -875,6 +875,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 0
   GoForward: 0
+  drivingState:
+    Forward: 0
+    Backward: 0
+    Turn: 0
+    Boost: 0
+    DashLeft: 0
+    DashRight: 0
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11465692
 MonoBehaviour:
   m_ObjectHideFlags: 1
