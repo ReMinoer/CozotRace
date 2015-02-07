@@ -2,14 +2,8 @@
 using System.Collections;
 
 public class PlayerMotor : MonoBehaviour {
-	public float ForwardAccelerationForce=2.5f;
-	public float BackwardAccelerationForce=2.5f;
-	public float BrakeForce=3f;
 	public float Speed = 0f;
-	public float ForwardSpeedLimit = 25f;
-	public float BackwardSpeedLimit = 10f;
 	public bool GoForward = false;
-	public bool GoBackward = false;
 	// Use this for initialization
 	void Start () {
 	
@@ -17,66 +11,54 @@ public class PlayerMotor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		Speed = rigidbody.velocity.magnitude;
+		Speed = GetComponent<VehicleMotor>().SpeedCompute();
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis ("Vertical");
 
 		if (Speed < 1 && Speed > 0) {
 			if(verticalInput > 0) {
 				if(!GoForward) { 
-					rigidbody.velocity = rigidbody.velocity * 0;
+					GetComponent<VehicleMotor>().Stop();
 				}
 				else {
-					GetComponent<VehicleMotor>().ForwardAcceleration(-10*ForwardAccelerationForce * transform.forward * Time.deltaTime);
-					if(rigidbody.velocity.magnitude > ForwardSpeedLimit)
-						rigidbody.velocity = rigidbody.velocity.normalized*ForwardSpeedLimit;
+					GetComponent<VehicleMotor>().ForwardAcceleration();
 				}
 			}
 			if(verticalInput<0) {
 				if(GoForward) {
-					rigidbody.velocity = rigidbody.velocity * 0;
+					GetComponent<VehicleMotor>().Stop();
 				}
 				else {
-					GetComponent<VehicleMotor>().BackwardAcceleration(10*BackwardAccelerationForce * transform.forward * Time.deltaTime);
-					if(rigidbody.velocity.magnitude > BackwardSpeedLimit)
-						rigidbody.velocity = rigidbody.velocity.normalized*BackwardSpeedLimit;
+					GetComponent<VehicleMotor>().BackwardAcceleration();
 				}
 			}
 		}
 		if(Speed>=1) {
 			if(verticalInput>0) {
 				if(!GoForward) {
-					GetComponent<VehicleMotor>().Brake (-10*BrakeForce * transform.forward * Time.deltaTime);
+					GetComponent<VehicleMotor>().Brake (-1);
 				}
 				else {
-					GetComponent<VehicleMotor>().ForwardAcceleration(-10*ForwardAccelerationForce * transform.forward * Time.deltaTime);
-					if(rigidbody.velocity.magnitude > ForwardSpeedLimit)
-						rigidbody.velocity = rigidbody.velocity.normalized*ForwardSpeedLimit;
+					GetComponent<VehicleMotor>().ForwardAcceleration();
 				}
 			}
 			if(verticalInput<0) {
 				if(GoForward) {
-					GetComponent<VehicleMotor>().Brake (10*BrakeForce * transform.forward * Time.deltaTime);
+					GetComponent<VehicleMotor>().Brake (1);
 				}
 				else {
-					GetComponent<VehicleMotor>().BackwardAcceleration(10*BackwardAccelerationForce * transform.forward * Time.deltaTime);
-					if(rigidbody.velocity.magnitude > BackwardSpeedLimit)
-						rigidbody.velocity = rigidbody.velocity.normalized*BackwardSpeedLimit;
+					GetComponent<VehicleMotor>().BackwardAcceleration();
 				}
 			}
 		}
 		if(Speed==0) {
 			if(verticalInput>0) {
 				GoForward=true;
-				GetComponent<VehicleMotor>().ForwardAcceleration(-10*ForwardAccelerationForce * transform.forward * Time.deltaTime);
-				if(rigidbody.velocity.magnitude > ForwardSpeedLimit)
-					rigidbody.velocity = rigidbody.velocity.normalized*ForwardSpeedLimit;
+				GetComponent<VehicleMotor>().ForwardAcceleration();
 			}
 			if(verticalInput<0) {
 				GoForward=false;
-				GetComponent<VehicleMotor>().BackwardAcceleration(10*BackwardAccelerationForce * transform.forward * Time.deltaTime);
-				if(rigidbody.velocity.magnitude > BackwardSpeedLimit)
-					rigidbody.velocity = rigidbody.velocity.normalized*BackwardSpeedLimit;
+				GetComponent<VehicleMotor>().BackwardAcceleration();
 			}
 		}
 
