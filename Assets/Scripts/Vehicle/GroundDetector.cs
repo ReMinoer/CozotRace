@@ -13,7 +13,7 @@ public class GroundDetector : MonoBehaviour {
 
 	void OnTriggerStay (Collider collider)
 	{
-		foreach (Map.GroundProperty ground in Map.Instance.Grounds)
+		foreach (GroundProperty ground in Map.Instance.Grounds)
 			if (collider.gameObject.renderer.material.mainTexture == ground.Texture)
 		{
 			vehicle.SpeedCoeff = ground.SpeedCoeff;
