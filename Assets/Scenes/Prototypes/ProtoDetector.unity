@@ -223,8 +223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LateralCount: 5
-  Interval: .200000003
-  Angle: 30
+  Interval: 1
+  Angle: 15
   DetectorsHeight: 2
 --- !u!1 &348737064
 GameObject:
