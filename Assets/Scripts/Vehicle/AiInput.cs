@@ -67,9 +67,9 @@ public class AiInput : MonoBehaviour
 
 		float enter = 0;
 		if (plane.Raycast(ray, out enter) && enter <= circleRadius)
-			state.Accelerate = 1f;
+			state.Forward = 1f;
 		else
-			state.Brake = 1f;
+			state.Backward = 1f;
 	}
 
 	void SmoothTurnFollow()
