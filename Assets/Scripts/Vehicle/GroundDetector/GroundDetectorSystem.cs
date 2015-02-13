@@ -15,7 +15,8 @@ public class GroundDetectorSystem : MonoBehaviour
 	void Awake()
 	{
         Central = GroundDetectorV2.New("GroundDetector");
-        Central.transform.parent = transform;
+		Central.transform.parent = transform;
+		Central.transform.localPosition = Vector3.zero;
 
 		Left = GroundDetectorLine.New();
 		Left.Count = LateralCount;
@@ -24,6 +25,7 @@ public class GroundDetectorSystem : MonoBehaviour
 		Left.IgnoreFirst = true;
 
 		Left.transform.parent = transform;
+		Left.transform.localPosition = Vector3.zero;
 		Left.transform.rotation = Quaternion.AngleAxis(-Angle, transform.up);
 		
 		Right = GroundDetectorLine.New();
@@ -33,6 +35,7 @@ public class GroundDetectorSystem : MonoBehaviour
 		Right.IgnoreFirst = true;
 
 		Right.transform.parent = transform;
+		Right.transform.localPosition = Vector3.zero;
 		Right.transform.rotation = Quaternion.AngleAxis(Angle, transform.up);
 	}
 }

@@ -4991,7 +4991,7 @@ Transform:
   - {fileID: 902181491}
   - {fileID: 2076200584}
   - {fileID: 1172348351}
-  - {fileID: 980673376}
+  - {fileID: 1995865190}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!65 &966679498
@@ -5045,7 +5045,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 966679496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbec3701774ffca458bdc719699ea1e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f1ff652d9886d546b244a512c289c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 6
@@ -5193,59 +5193,6 @@ MeshCollider:
   m_SmoothSphereCollisions: 0
   m_Convex: 0
   m_Mesh: {fileID: 4300002, guid: bb800d3d58578c9438abd9c34f1e6dfd, type: 3}
---- !u!1 &980673375
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 980673376}
-  - 65: {fileID: 980673378}
-  - 114: {fileID: 980673377}
-  m_Layer: 0
-  m_Name: GroundDetector
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &980673376
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 980673375}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00600000005, y: -.0105999997, z: .0245999992}
-  m_LocalScale: {x: .0666666701, y: .0666666701, z: .0666666701}
-  m_Children: []
-  m_Father: {fileID: 966679497}
-  m_RootOrder: 13
---- !u!114 &980673377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 980673375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6baa2e027f734c34fb769e27737f28ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vehicle: {fileID: 966679501}
---- !u!65 &980673378
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 980673375}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: .200000003, y: .200000003, z: .200000003}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &992678477
 GameObject:
   m_ObjectHideFlags: 0
@@ -6450,7 +6397,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400010, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
       propertyPath: m_LocalScale.x
@@ -7204,8 +7151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Grounds:
   - Texture: {fileID: 2800000, guid: ffa3cb1932e598244a6b42a70473c70f, type: 3}
+    IsObstacle: 0
     SpeedCoeff: 1
   - Texture: {fileID: 2800000, guid: b133c21ed5a915d49b0b39f7d8f70f01, type: 3}
+    IsObstacle: 1
     SpeedCoeff: .5
 --- !u!1 &1383683831
 GameObject:
@@ -10288,6 +10237,49 @@ Transform:
   - {fileID: 233512109}
   m_Father: {fileID: 338220359}
   m_RootOrder: 18
+--- !u!1 &1995865189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1995865190}
+  - 114: {fileID: 1995865191}
+  m_Layer: 0
+  m_Name: GroundDetectorSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1995865190
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1995865189}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 966679497}
+  m_RootOrder: 13
+--- !u!114 &1995865191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1995865189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c30993e5308f7c4ea42420a4c208626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LateralCount: 5
+  Interval: 1
+  Angle: 15
+  DetectorsHeight: 2
 --- !u!1 &2013997675
 GameObject:
   m_ObjectHideFlags: 0
