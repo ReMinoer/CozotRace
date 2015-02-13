@@ -151,8 +151,8 @@ GameObject:
   - 65: {fileID: 6565690}
   - 65: {fileID: 6565694}
   - 65: {fileID: 6565692}
-  - 114: {fileID: 11465692}
-  - 114: {fileID: 11465690}
+  - 114: {fileID: 11473650}
+  - 114: {fileID: 11473648}
   m_Layer: 0
   m_Name: Vehicle
   m_TagString: Untagged
@@ -862,29 +862,7 @@ Animator:
   m_ApplyRootMotion: 1
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11465690
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 165706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 655b5218f5308ac40ac1c9404b606288, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 0
-  GoForward: 0
-  drivingState:
-    Forward: 0
-    Backward: 0
-    Turn: 0
-    Boost: 0
-    DashLeft: 0
-    DashRight: 0
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &11465692
+--- !u!114 &11473648
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -900,6 +878,19 @@ MonoBehaviour:
   ForwardSpeedLimit: 25
   BackwardSpeedLimit: 10
   BrakeForce: 3
+  GoForward: 0
+--- !u!114 &11473650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba7acdf758b9424399d07a51ae5f3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0
 --- !u!124 &12465690
 Behaviour:
   m_ObjectHideFlags: 1

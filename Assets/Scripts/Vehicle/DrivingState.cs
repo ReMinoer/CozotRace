@@ -9,6 +9,7 @@ public class DrivingState
 	public float Backward; // [0;1]
 	public float Turn; // [-1;1]
 	public bool Boost;
+	//public bool GoesForward; //true if goes forward, else false
 
 	// Ponctual state
 	public bool DashLeft;
