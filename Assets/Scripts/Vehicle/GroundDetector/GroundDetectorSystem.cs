@@ -6,7 +6,7 @@ public class GroundDetectorSystem : MonoBehaviour
     public int LateralCount = 5;
 	public float Interval = 1;
 	public float Angle = 15;
-    public float DetectorsHeight = 2;
+    public float DetectorsHeight = 5;
 
 	public GroundDetectorV2 Central { get; private set; }
 	public GroundDetectorLine Left { get; private set; }

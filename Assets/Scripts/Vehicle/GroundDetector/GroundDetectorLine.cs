@@ -7,7 +7,7 @@ public class GroundDetectorLine : Factory<GroundDetectorLine>
 {
 	public int Count = 5;
 	public float Interval = 1;
-	public float DetectorsHeight = 2;
+	public float DetectorsHeight = 5;
 	public bool IgnoreFirst = false;
 
 	public Vector3 Destination

@@ -5,17 +5,25 @@ public class PlayerMotorTextureV2 : MonoBehaviour
 	public float Speed = 6.0f;
 	public float TurnSpeed = 200.0f;
 
-	private GroundDetectorSystem _groundDetectorSystem;
+	private GroundDetectorV2 _groundDetector;
 
     void Start()
     {
-        _groundDetectorSystem = GetComponentInChildren<GroundDetectorSystem>();
+        GroundDetectorSystem groundDetectorSystem = GetComponentInChildren<GroundDetectorSystem>();
+		if (groundDetectorSystem != null)
+			_groundDetector = groundDetectorSystem.Central;
+		else
+			_groundDetector = GetComponentInChildren<GroundDetectorV2> ();
     }
 
 	void Update ()
 	{
-	    GroundProperty ground = _groundDetectorSystem.Central.Ground;
-        float speedCoeff = ground != null ? ground.SpeedCoeff : 1;
+		float speedCoeff = 1;
+		if (_groundDetector != null)
+		{
+			GroundProperty ground = _groundDetector.Ground;
+	        speedCoeff = ground != null ? ground.SpeedCoeff : 1;
+		}
 
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis("Vertical");

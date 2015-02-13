@@ -225,7 +225,7 @@ MonoBehaviour:
   LateralCount: 5
   Interval: 1
   Angle: 15
-  DetectorsHeight: 2
+  DetectorsHeight: 5
 --- !u!1 &348737064
 GameObject:
   m_ObjectHideFlags: 0
