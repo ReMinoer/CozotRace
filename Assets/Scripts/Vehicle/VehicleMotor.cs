@@ -8,6 +8,7 @@ public class VehicleMotor : MonoBehaviour {
 	public float BackwardSpeedLimit = 10f;
 	public float BrakeForce=3f;
 	public bool GoForward = false;
+	public float MaxRotationAngle = 100f;
 	public float Speed = 0f;
 
 	public void ChangeState(DrivingState state) {
@@ -59,10 +60,7 @@ public class VehicleMotor : MonoBehaviour {
 			}
 		}
 
-		if (state.Turn < 0)
-						LeftRotation ();
-				else if(state.Turn>0)
-						RightRotation ();
+		Turn (state.Turn);
 	}
 
 	public float SpeedCompute() {
@@ -89,13 +87,8 @@ public class VehicleMotor : MonoBehaviour {
 			rigidbody.velocity = rigidbody.velocity.normalized*BackwardSpeedLimit;
 	}
 
-	public void LeftRotation() {
-		Vector3 angle = Vector3.down*100*Time.deltaTime;
+	public void Turn(float rotationCoef) {
+		Vector3 angle = Vector3.up*MaxRotationAngle*rotationCoef*Time.deltaTime;
 		transform.Rotate (angle);
-		}
-
-	public void RightRotation() {
-		Vector3 angle = Vector3.up*100*Time.deltaTime;
-		transform.Rotate (angle);
-		}
+	}
 }
