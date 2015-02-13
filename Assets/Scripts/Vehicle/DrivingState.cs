@@ -4,6 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class DrivingState
 {
+	public float Time;
 	// Continous state
 	public float Forward; // [0;1]
 	public float Backward; // [0;1]
