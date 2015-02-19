@@ -10,9 +10,16 @@ public class VehicleMotor : MonoBehaviour {
 	public bool GoForward = false;
 	public float MaxRotationAngle = 100f;
 	public float Speed = 0f;
+	public float currentTime;
 	public DrivingState formerState = new DrivingState();
 
+	void Start () {
+		currentTime = Time.time;
+	}
+
+
 	public void ChangeState(DrivingState state) {
+			currentTime = Time.time;
 			Speed = SpeedCompute();
 			if (Speed < 1 && Speed > 0) {
 				if(state.Forward > 0) {
