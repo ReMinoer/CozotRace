@@ -73,7 +73,6 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
-    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &45034622
 GameObject:
@@ -379,9 +378,7 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 11473650, guid: c7ae2930d1f144d489a7a4e1df273538, type: 2}
-    - {fileID: 11473648, guid: c7ae2930d1f144d489a7a4e1df273538, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7ae2930d1f144d489a7a4e1df273538, type: 2}
   m_RootGameObject: {fileID: 1258252886}
   m_IsPrefabParent: 0
@@ -1455,6 +1452,8 @@ GameObject:
   - 65: {fileID: 1258252890}
   - 65: {fileID: 1258252893}
   - 65: {fileID: 1258252892}
+  - 114: {fileID: 1258252894}
+  - 114: {fileID: 1258252891}
   m_Layer: 0
   m_Name: Vehicle
   m_TagString: Untagged
@@ -1532,6 +1531,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .194708616, y: .0475079082, z: .0551601946}
   m_Center: {x: -.000595414662, y: .0209853649, z: .0474142544}
+--- !u!114 &1258252891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11473648, guid: c7ae2930d1f144d489a7a4e1df273538,
+    type: 2}
+  m_PrefabInternal: {fileID: 309806473}
+  m_GameObject: {fileID: 1258252886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8adef283fbf89489edbff23c97abf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForwardAccelerationForce: 2.5
+  BackwardAccelerationForce: 2.5
+  ForwardSpeedLimit: 25
+  BackwardSpeedLimit: 10
+  BrakeForce: 3
+  GoForward: 0
+  MaxRotationAngle: 100
+  Speed: 0
+  formerState:
+    Forward: 0
+    Backward: 0
+    Turn: 0
+    Boost: 0
+    DashLeft: 0
+    DashRight: 0
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!65 &1258252892
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1558,6 +1586,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .0500000007, y: .0240181927, z: .150000006}
   m_Center: {x: 0, y: .012990904, z: 0}
+--- !u!114 &1258252894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11473650, guid: c7ae2930d1f144d489a7a4e1df273538,
+    type: 2}
+  m_PrefabInternal: {fileID: 309806473}
+  m_GameObject: {fileID: 1258252886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cba7acdf758b9424399d07a51ae5f3ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1496648273
 GameObject:
   m_ObjectHideFlags: 0
