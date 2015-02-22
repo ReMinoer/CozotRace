@@ -24,6 +24,18 @@ public class TrackPoint : MonoBehaviour {
 		}
 	}
 
+	void Start()
+	{
+		if (!Application.isPlaying)
+			return;
+
+		// Apply trackpoint on relief
+		int layerMask = 1 << LayerMask.NameToLayer("Map");
+		RaycastHit hit;
+		if (Physics.Raycast (this.transform.position, Vector3.down, out hit, Mathf.Infinity, layerMask))
+			this.transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+	}
+
 	void Update ()
 	{
 		// Handle the insertion mode
