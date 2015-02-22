@@ -1551,7 +1551,9 @@ MonoBehaviour:
   GoForward: 0
   MaxRotationAngle: 100
   Speed: 0
+  currentTime: 0
   formerState:
+    Time: 0
     Forward: 0
     Backward: 0
     Turn: 0
