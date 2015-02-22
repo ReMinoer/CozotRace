@@ -10,57 +10,66 @@ public class VehicleMotor : MonoBehaviour {
 	public bool GoForward = false;
 	public float MaxRotationAngle = 100f;
 	public float Speed = 0f;
+	public float currentTime;
+	public DrivingState formerState = new DrivingState();
+
+	void Start () {
+		currentTime = Time.time;
+	}
+
 
 	public void ChangeState(DrivingState state) {
-		Speed = SpeedCompute();
-		if (Speed < 1 && Speed > 0) {
-			if(state.Forward > 0) {
-				if(!GoForward) { 
-					Stop();
+			currentTime = Time.time;
+			Speed = SpeedCompute();
+			if (Speed < 1 && Speed > 0) {
+				if(state.Forward > 0) {
+					if(!GoForward) { 
+						Stop();
+					}
+					else {
+						ForwardAcceleration();
+					}
 				}
-				else {
-					ForwardAcceleration();
+				if(state.Backward>0) {
+					if(GoForward) {
+						Stop();
+					}
+					else {
+						BackwardAcceleration();
+					}
 				}
 			}
-			if(state.Backward>0) {
-				if(GoForward) {
-					Stop();
+			if(Speed>=1) {
+				if(state.Forward>0) {
+					if(!GoForward) {
+						Brake (-1);
+					}
+					else {
+						ForwardAcceleration();
+					}
 				}
-				else {
+				if(state.Backward>0) {
+					if(GoForward) {
+						Brake (1);
+					}
+					else {
+						BackwardAcceleration();
+					}
+				}
+			}
+			if(Speed==0) {
+				if(state.Forward>0) {
+					GoForward=true;
+					ForwardAcceleration();
+				}
+				if(state.Backward>0) {
+					GoForward=false;
 					BackwardAcceleration();
 				}
 			}
-		}
-		if(Speed>=1) {
-			if(state.Forward>0) {
-				if(!GoForward) {
-					Brake (-1);
-				}
-				else {
-					ForwardAcceleration();
-				}
-			}
-			if(state.Backward>0) {
-				if(GoForward) {
-					Brake (1);
-				}
-				else {
-					BackwardAcceleration();
-				}
-			}
-		}
-		if(Speed==0) {
-			if(state.Forward>0) {
-				GoForward=true;
-				ForwardAcceleration();
-			}
-			if(state.Backward>0) {
-				GoForward=false;
-				BackwardAcceleration();
-			}
-		}
 
-		Turn (state.Turn);
+			Turn (state.Turn);
+		formerState=state;
 	}
 
 	public float SpeedCompute() {

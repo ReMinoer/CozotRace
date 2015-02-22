@@ -879,6 +879,17 @@ MonoBehaviour:
   BackwardSpeedLimit: 10
   BrakeForce: 3
   GoForward: 0
+  MaxRotationAngle: 100
+  Speed: 0
+  formerState:
+    Forward: 0
+    Backward: 0
+    Turn: 0
+    Boost: 0
+    DashLeft: 0
+    DashRight: 0
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!114 &11473650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -890,7 +901,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba7acdf758b9424399d07a51ae5f3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0
 --- !u!124 &12465690
 Behaviour:
   m_ObjectHideFlags: 1
