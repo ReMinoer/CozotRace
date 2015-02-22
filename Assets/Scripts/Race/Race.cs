@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/*
 public class Race : MonoBehaviour {
 
 	public List<PlayerVehiculeData> Players; 
@@ -34,3 +34,4 @@ public class Race : MonoBehaviour {
 	
 	}
 }
+*/
