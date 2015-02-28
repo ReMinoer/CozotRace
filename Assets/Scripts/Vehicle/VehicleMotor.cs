@@ -1,103 +1,118 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 
-public class VehicleMotor : MonoBehaviour {
-	public float ForwardAccelerationForce=2.5f;
-	public float BackwardAccelerationForce=2.5f;
-	public float ForwardSpeedLimit = 25f;
-	public float BackwardSpeedLimit = 10f;
-	public float BrakeForce=3f;
-	public bool GoForward = false;
-	public float MaxRotationAngle = 100f;
-	public float Speed = 0f;
-	public float currentTime;
-	public DrivingState formerState = new DrivingState();
+public class VehicleMotor : MonoBehaviour
+{
+    public enum VehicleState
+    {
+        Stopped,
+        Forward,
+        Backward
+    }
 
-	void Start () {
-		currentTime = Time.time;
+    private VehicleState _state;
+
+	public float ForwardForce = 25f;
+    public float BackwardForce = 25f;
+    public float BrakeForce = 30f;
+	public float ForwardSpeedMax = 25f;
+	public float BackwardSpeedMax = 10f;
+	public float TurningAngle = 50f;
+    public float FloatingHeight = 1;
+
+    private const float StopThreshold = 0.1f;
+
+    public void Update()
+    {
+        // Lock floating height and rotation on X & Z axis
+        transform.position = new Vector3(transform.position.x, FloatingHeight, transform.position.z);
+        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+    }
+
+	public void ChangeState(DrivingState state)
+    {
+        // Stop the vehicle if its speed near to zero
+        if (state.Forward < float.Epsilon && state.Backward < float.Epsilon
+            && rigidbody.velocity.magnitude < StopThreshold)
+        {
+            rigidbody.velocity = Vector3.zero;
+            _state = VehicleState.Stopped;
+        }
+
+        VehicleState currentState;
+	    do
+	    {
+            currentState = _state;
+
+	        switch (_state)
+	        {
+                case VehicleState.Stopped:
+                    if (state.Forward > 0)
+                        _state = VehicleState.Forward;
+                    else if (state.Backward > 0)
+                        _state = VehicleState.Backward;
+                    break;
+
+                case VehicleState.Forward:
+                    GoForward(state.Forward);
+                    Brake(-state.Backward);
+                    break;
+
+                case VehicleState.Backward:
+                    GoBackward(state.Backward);
+                    Brake(state.Forward);
+                    break;
+            }
+
+        } while (_state != currentState);
+
+		Turn (state.Turn);
+    }
+
+    public void GoForward(float coeff)
+    {
+        if (coeff < 0)
+            throw new ArgumentException("coeff must be superior or egal to 0 !");
+        if (coeff < float.Epsilon)
+            return;
+
+        Vector3 force = coeff * ForwardForce * transform.forward * Time.deltaTime;
+        rigidbody.AddForce(force, ForceMode.Impulse);
+
+		if(rigidbody.velocity.magnitude > ForwardSpeedMax)
+			rigidbody.velocity = rigidbody.velocity.normalized * ForwardSpeedMax;
 	}
 
+    public void GoBackward(float coeff)
+    {
+        if (coeff < 0)
+            throw new ArgumentException("coeff must be superior or egal to 0 !");
+        if (coeff < float.Epsilon)
+            return;
 
-	public void ChangeState(DrivingState state) {
-			currentTime = Time.time;
-			Speed = SpeedCompute();
-			if (Speed < 1 && Speed > 0) {
-				if(state.Forward > 0) {
-					if(!GoForward) { 
-						Stop();
-					}
-					else {
-						ForwardAcceleration();
-					}
-				}
-				if(state.Backward>0) {
-					if(GoForward) {
-						Stop();
-					}
-					else {
-						BackwardAcceleration();
-					}
-				}
-			}
-			if(Speed>=1) {
-				if(state.Forward>0) {
-					if(!GoForward) {
-						Brake (-1);
-					}
-					else {
-						ForwardAcceleration();
-					}
-				}
-				if(state.Backward>0) {
-					if(GoForward) {
-						Brake (1);
-					}
-					else {
-						BackwardAcceleration();
-					}
-				}
-			}
-			if(Speed==0) {
-				if(state.Forward>0) {
-					GoForward=true;
-					ForwardAcceleration();
-				}
-				if(state.Backward>0) {
-					GoForward=false;
-					BackwardAcceleration();
-				}
-			}
+        Vector3 force = -BackwardForce * transform.forward * Time.deltaTime;
+        rigidbody.AddForce(force, ForceMode.Impulse);
 
-			Turn (state.Turn);
-		formerState=state;
+        if (rigidbody.velocity.magnitude > BackwardSpeedMax)
+            rigidbody.velocity = rigidbody.velocity.normalized * BackwardSpeedMax;
+    }
+
+	public void Brake(float coeff)
+	{
+        if (coeff < -1 || coeff > 1)
+            throw new ArgumentException("coeff must be between -1 and 1 !");
+
+	    Vector3 force = coeff * BrakeForce * transform.forward * Time.deltaTime;
+        rigidbody.AddForce(force, ForceMode.Impulse);
 	}
 
-	public float SpeedCompute() {
-		return rigidbody.velocity.magnitude;
-	}
+	public void Turn(float coeff)
+    {
+        if (coeff < -1 || coeff > 1)
+            throw new ArgumentException("coeff must be between -1 and 1 !");
 
-	public void Stop() {
-		rigidbody.velocity = rigidbody.velocity * 0;
-	}
-
-	public void ForwardAcceleration() {
-		rigidbody.AddForce(-10*ForwardAccelerationForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
-		if(rigidbody.velocity.magnitude > ForwardSpeedLimit)
-			rigidbody.velocity = rigidbody.velocity.normalized*ForwardSpeedLimit;
-	}
-
-	public void Brake(int upOrDown) {
-		rigidbody.AddForce(upOrDown*10*BrakeForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
-	}
-
-	public void BackwardAcceleration() {
-		rigidbody.AddForce(10*BackwardAccelerationForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
-		if(rigidbody.velocity.magnitude > BackwardSpeedLimit)
-			rigidbody.velocity = rigidbody.velocity.normalized*BackwardSpeedLimit;
-	}
-
-	public void Turn(float rotationCoef) {
-		Vector3 angle = Vector3.up*MaxRotationAngle*rotationCoef*Time.deltaTime;
-		transform.Rotate (angle);
+        Vector3 angle = coeff * TurningAngle * Vector3.up * Time.deltaTime;
+        rigidbody.AddTorque(angle);
+        //transform.Rotate(angle);
 	}
 }

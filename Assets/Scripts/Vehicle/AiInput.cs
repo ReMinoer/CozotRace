@@ -7,6 +7,9 @@ public class AiInput : MonoBehaviour
 	public float Speed = 2;
 	public float TurnSpeed = 2;
 	*/
+
+    public bool DebugTrajectory = false;
+    public bool DebugAngularVelocity = false;
 	
 	private VehicleMotor _vehicle;
 
@@ -14,7 +17,7 @@ public class AiInput : MonoBehaviour
     private GameObject _nextPoint;
 
     private Vector3 _lastPosition;
-    //private GameObject _trajectoryCircle;
+    private GameObject _trajectoryCircle;
 
 	void Start ()
 	{
@@ -24,16 +27,15 @@ public class AiInput : MonoBehaviour
         _nextPoint = _lastPoint.GetComponent<TrackPoint>().NextPoint;
 
         _lastPosition = this.transform.position;
-        /*
-        _trajectoryCircle = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-	    Destroy(_trajectoryCircle.collider);
-	    _trajectoryCircle.transform.parent = this.transform;
-	    _trajectoryCircle.renderer.material.color = Color.red;
-	    _trajectoryCircle.transform.localScale = new Vector3(1, 0.01f, 1);
-         */
+        
+        //_trajectoryCircle = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        //Destroy(_trajectoryCircle.collider);
+        //_trajectoryCircle.transform.parent = this.transform;
+        //_trajectoryCircle.renderer.material.color = Color.red;
+        //_trajectoryCircle.transform.localScale = new Vector3(1, 0.01f, 1);
 	}
 
-	void Update ()
+    void FixedUpdate()
 	{
 		BinocleMethod();
 		//SimpleFollow();
@@ -51,11 +53,11 @@ public class AiInput : MonoBehaviour
 		// STEP 1 : Get the trajectory circle radius
 		float speed = rigidbody.velocity.ToXZ().magnitude;
 		float angularVelocity = rigidbody.angularVelocity.ToXZ().magnitude;
-		float circleRadius = speed / angularVelocity;
+        float circleRadius = angularVelocity < float.Epsilon ? 0 : speed / angularVelocity;
 		
 		// STEP 2 : Get the trajectory circle center
 		Vector2 previousPosition;
-		if (_lastPoint.GetComponent<TrackPoint> ().PreviousPoint == null)
+		if (_lastPoint.GetComponent<TrackPoint>().PreviousPoint == null)
 			previousPosition = Track.Instance.GetLastPoint().transform.position;
 		else
 			previousPosition = _lastPoint.GetComponent<TrackPoint>().PreviousPoint.transform.position.ToXZ();
@@ -69,11 +71,11 @@ public class AiInput : MonoBehaviour
 		Plane plane = new Plane((position - destination).ToX0Y().normalized, destination.ToX0Y());
 		Ray ray = new Ray(circleCenter.ToX0Y(), (destination - circleCenter).ToX0Y().normalized);
 
-		float enter = 0;
-		if (plane.Raycast(ray, out enter) && enter <= circleRadius)
-			state.Forward = 1f;
-		else
-			state.Backward = 1f;
+        //float enter = 0;
+        //if (plane.Raycast(ray, out enter) && enter <= circleRadius)
+        //    state.Backward = 1f;
+        //else
+            state.Forward = 1f;
 
 		// STEP 4 : Turn
 	    Vector2 plateForward = this.transform.forward.ToXZ();
@@ -87,7 +89,10 @@ public class AiInput : MonoBehaviour
 		// STEP 6 : Check trackpoint and go to next if necessary
 		position = this.transform.position.ToXZ();
 		Vector2 direction = (destination - position).normalized;
-		Vector2 diff = destination - _lastPoint.transform.position.ToXZ();
+	    GameObject futurePoint = _nextPoint.GetComponent<TrackPoint>().NextPoint;
+        Vector2 diff = futurePoint == null
+            ? Track.Instance.StartPoint.transform.position.ToXZ() - _lastPoint.transform.position.ToXZ()
+            : futurePoint.transform.position.ToXZ() - _lastPoint.transform.position.ToXZ();
 
 		if (destination == position || Vector3.Dot(direction.ToX0Y(), diff.ToX0Y()) < 0)
 		{
@@ -101,68 +106,19 @@ public class AiInput : MonoBehaviour
         }
 
         // Draw debug trajectory
-        Debug.DrawLine(_lastPosition, this.transform.position, Color.blue, 2);
+	    if (DebugTrajectory)
+	        Debug.DrawLine(_lastPosition, this.transform.position, Color.blue, 5);
         _lastPosition = this.transform.position;
 
-        // Draw debug circle
-        //_trajectoryCircle.transform.position = new Vector3(circleCenter.x, this.transform.position.y, circleCenter.y);
-        //_trajectoryCircle.transform.localScale = Vector3.Scale(Vector3.one, new Vector3(circleRadius, 0.01f, circleRadius));
+	    // Draw debug circle
+        //if (circleRadius > 0)
+        //{
+        //    _trajectoryCircle.transform.position = new Vector3(circleCenter.x, this.transform.position.y, circleCenter.y);
+        //    _trajectoryCircle.transform.localScale = Vector3.Scale(Vector3.one,
+        //        new Vector3(circleRadius * 2, 0.01f, circleRadius * 2));
+        //}
+        //_trajectoryCircle.renderer.enabled = DebugAngularVelocity;
     }
-
-	void CheckTrack()
-	{
-
-	}
-
-	/*
-	void SmoothTurnFollow()
-	{
-		Vector3 destination = _nextPoint.transform.position;
-		Vector3 direction = (destination - this.transform.position).normalized;
-		Vector3 diff = destination - _lastPoint.transform.position;
-		
-		Vector3 orientation = (this.transform.right).normalized;
-		
-		float angle = Vector3.Angle(direction, orientation);
-		Vector3 cross = Vector3.Cross(direction, orientation);
-		float turn = Mathf.Min(angle, TurnSpeed);
-		this.transform.Rotate(this.transform.up, cross.y > 0 ? -turn : turn);
-		orientation = (this.transform.right).normalized;
-		
-		this.transform.position += orientation * Speed * Time.deltaTime;
-		
-		if (destination == this.transform.position || Vector3.Dot(direction, diff) < 0)
-		{
-			_lastPoint = _nextPoint;
-			if (_nextPoint.GetComponent<TrackPoint>().NextPoint != null)
-				_nextPoint = _nextPoint.GetComponent<TrackPoint>().NextPoint;
-			else if (_lastPoint.transform.position == Track.Instance.StartPoint.transform.position)
-				_nextPoint = Track.Instance.StartPoint.GetComponent<TrackPoint>().NextPoint;
-			else
-				_nextPoint = Track.Instance.StartPoint;
-		}
-	}
-
-	void SimpleFollow()
-	{
-		Vector3 destination = _nextPoint.transform.position;
-		Vector3 direction = (destination - this.transform.position).normalized;
-		Vector3 diff = destination - _lastPoint.transform.position;
-		
-		this.transform.position += direction * Speed * Time.deltaTime;
-		
-		if (destination == this.transform.position || Vector3.Dot(direction, diff) < 0)
-		{
-			this.transform.position = destination;
-			_lastPoint = _nextPoint;
-			if (_nextPoint.GetComponent<TrackPoint>().NextPoint != null)
-				_nextPoint = _nextPoint.GetComponent<TrackPoint>().NextPoint;
-			else if (_lastPoint.transform.position == Track.Instance.StartPoint.transform.position)
-				_nextPoint = Track.Instance.StartPoint.GetComponent<TrackPoint>().NextPoint;
-			else
-				_nextPoint = Track.Instance.StartPoint;
-		}
-	}*/
 }
 
 public static class VectorExtension
