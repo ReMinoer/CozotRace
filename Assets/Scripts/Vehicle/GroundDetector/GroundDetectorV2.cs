@@ -22,7 +22,7 @@ public class GroundDetectorV2 : Factory<GroundDetectorV2>
             return;
 
         foreach (GroundProperty ground in Map.Instance.Grounds)
-            if (other.gameObject.renderer.material.mainTexture == ground.Texture && Ground == null)
+            if (other.gameObject.GetComponent<Renderer>().material.mainTexture == ground.Texture && Ground == null)
             {
                 Ground = ground;
                 _currentCollider = other;

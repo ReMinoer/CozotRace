@@ -33,9 +33,9 @@ public class VehicleMotor : MonoBehaviour
     {
         // Stop the vehicle if its speed near to zero
         if (state.Forward < float.Epsilon && state.Backward < float.Epsilon
-            && rigidbody.velocity.magnitude < StopThreshold)
+            && GetComponent<Rigidbody>().velocity.magnitude < StopThreshold)
         {
-            rigidbody.velocity = Vector3.zero;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
             _state = VehicleState.Stopped;
         }
 
@@ -77,10 +77,10 @@ public class VehicleMotor : MonoBehaviour
             return;
 
         Vector3 force = coeff * ForwardForce * transform.forward * Time.deltaTime;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
 
-		if(rigidbody.velocity.magnitude > ForwardSpeedMax)
-			rigidbody.velocity = rigidbody.velocity.normalized * ForwardSpeedMax;
+		if(GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
 	}
 
     public void GoBackward(float coeff)
@@ -91,10 +91,10 @@ public class VehicleMotor : MonoBehaviour
             return;
 
         Vector3 force = -BackwardForce * transform.forward * Time.deltaTime;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
 
-        if (rigidbody.velocity.magnitude > BackwardSpeedMax)
-            rigidbody.velocity = rigidbody.velocity.normalized * BackwardSpeedMax;
+        if (GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
     }
 
 	public void Brake(float coeff)
@@ -103,7 +103,7 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be between -1 and 1 !");
 
 	    Vector3 force = coeff * BrakeForce * transform.forward * Time.deltaTime;
-        rigidbody.AddForce(force, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
 	}
 
 	public void Turn(float coeff)
@@ -112,7 +112,7 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be between -1 and 1 !");
 
         Vector3 angle = coeff * TurningAngle * Vector3.up * Time.deltaTime;
-        rigidbody.AddTorque(angle);
+        GetComponent<Rigidbody>().AddTorque(angle);
         //transform.Rotate(angle);
 	}
 }
