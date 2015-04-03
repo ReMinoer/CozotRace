@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-/*
-public class Race : MonoBehaviour {
 
-	public List<PlayerVehiculeData> Players; 
-	public List<AiVehiculeData> Ais;
-	public List<ReplayVehiculeData> Replays;
+public class Race : DesignPattern.Singleton<Race> {
+
+	public List<PlayerVehicleData> Players; 
+	public List<AiVehicleData> Ais;
+	public List<ReplayVehicleData> Replays;
 	public int Laps;
-	public Checkpoint FirstCheckpoint;
+	public CheckPoint FirstCheckPoint;
+	/*
+	public int CheckPointsCount { get { } }
 
-	public int CheckpointsCount { get { } }
-
-	Checkpoint GetLastCheckpoint () {
+	CheckPoint GetLastCheckPoint () {
 
 	}
 
@@ -20,18 +20,10 @@ public class Race : MonoBehaviour {
 
 	}
 
-	void InitializeVehiculePosition() {
+	void InitializeVehiclePosition() {
 
 	}
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-}
 */
+
+}

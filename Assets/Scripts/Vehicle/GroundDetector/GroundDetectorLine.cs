@@ -35,7 +35,7 @@ public class GroundDetectorLine : Factory<GroundDetectorLine>
 			Detectors[i].transform.parent = transform;
 			Detectors[i].transform.localPosition = -transform.forward * ((i + (IgnoreFirst ? 1 : 0)) * Interval);
 			
-			var boxCollider = Detectors[i].collider as BoxCollider;
+			var boxCollider = Detectors[i].GetComponent<Collider>() as BoxCollider;
 			if (boxCollider != null)
 			{
 				Vector3 size = boxCollider.size;
