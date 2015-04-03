@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class PlayerInput : MonoBehaviour {
 
-	public float Speed = 6.0f;
-	public float TurnSpeed = 200.0f;
-
 	public enum PlayerIndex
 	{
 		PlayerOne,
@@ -55,40 +52,32 @@ public class PlayerInput : MonoBehaviour {
 //			drivingState2.Turn = horizontalInput2;
 //			
 //			Players[1].GetComponent<VehicleMotor> ().ChangeState (drivingState2);
-//		}
-		if (Index == PlayerIndex.PlayerOne) {
-				DrivingState drivingState = new DrivingState ();
-				float horizontalInput = Input.GetAxis ("Horizontal");
-				float verticalInput = Input.GetAxis ("Vertical");
+		//		}
+		DrivingState drivingState = new DrivingState ();
+		float horizontalInput;
+		float verticalInput;
 
-				drivingState.Forward = Mathf.Clamp (verticalInput, 0, 1);
-				drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
-				drivingState.Turn = horizontalInput;
-
-				//GetComponent<VehicleMotor> ().ChangeState (drivingState);
-
-				float speedCoeff = Map.Instance.Grounds [TerrainTexture.Instance.GetMainTexture (transform.position)].SpeedCoeff;
-
-				transform.Rotate (horizontalInput * TurnSpeed * Vector3.up * Time.deltaTime, Space.World);
-				transform.Translate (verticalInput * speedCoeff * Speed * Vector3.back * Time.deltaTime);
+		switch (Index)
+		{
+		case PlayerIndex.PlayerOne:
+			horizontalInput = Input.GetAxis ("Horizontal");
+			verticalInput = Input.GetAxis ("Vertical");
+			break;
+		case PlayerIndex.PlayerTwo:
+			horizontalInput = Input.GetAxis ("Horizontal2");
+			verticalInput = Input.GetAxis ("Vertical2");
+			break;
+		default:
+			horizontalInput = Input.GetAxis ("Horizontal");
+			verticalInput = Input.GetAxis ("Vertical");
+			break;
 		}
 
-		if (Index == PlayerIndex.PlayerTwo) {
-			DrivingState drivingState = new DrivingState ();
-			float horizontalInput = Input.GetAxis ("Horizontal2");
-			float verticalInput = Input.GetAxis ("Vertical2");
-			
-			drivingState.Forward = Mathf.Clamp (verticalInput, 0, 1);
-			drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
-			drivingState.Turn = horizontalInput;
-			
-			//GetComponent<VehicleMotor> ().ChangeState (drivingState);
-			
-			float speedCoeff = Map.Instance.Grounds [TerrainTexture.Instance.GetMainTexture (transform.position)].SpeedCoeff;
-			
-			transform.Rotate (horizontalInput * TurnSpeed * Vector3.up * Time.deltaTime, Space.World);
-			transform.Translate (verticalInput * speedCoeff * Speed * Vector3.back * Time.deltaTime);
-		}
+		drivingState.Forward = Mathf.Clamp (verticalInput, 0, 1);
+		drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
+		drivingState.Turn = horizontalInput;
+		
+		GetComponent<VehicleMotor> ().ChangeState (drivingState);
 	}
 
 //	void OnValidate()

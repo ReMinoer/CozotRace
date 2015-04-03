@@ -234,8 +234,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 222721624}
-  m_LocalRotation: {x: -5.16556042e-09, y: .992992938, z: -.118174247, w: -4.34050982e-08}
-  m_LocalPosition: {x: .0199999996, y: .115999997, z: .228}
+  m_LocalRotation: {x: .118174233, y: 0, z: 0, w: .992992878}
+  m_LocalPosition: {x: .0199999996, y: .115999997, z: -.228}
   m_LocalScale: {x: .0666666701, y: .0666666701, z: .0666666701}
   m_Children: []
   m_Father: {fileID: 667191087}
@@ -678,6 +678,7 @@ GameObject:
   - 65: {fileID: 658367632}
   - 136: {fileID: 658367631}
   - 114: {fileID: 658367630}
+  - 114: {fileID: 658367635}
   m_Layer: 0
   m_Name: CarB
   m_TagString: Untagged
@@ -710,8 +711,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba7acdf758b9424399d07a51ae5f3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2
-  TurnSpeed: 200
   Index: 1
 --- !u!136 &658367631
 CapsuleCollider:
@@ -771,6 +770,24 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &658367635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 658367628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8adef283fbf89489edbff23c97abf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForwardForce: 25
+  BackwardForce: 25
+  BrakeForce: 30
+  ForwardSpeedMax: 25
+  BackwardSpeedMax: 10
+  TurningAngle: 50
+  FloatingHeight: 1
 --- !u!1 &667191086
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +801,7 @@ GameObject:
   - 65: {fileID: 667191090}
   - 136: {fileID: 667191089}
   - 114: {fileID: 667191088}
+  - 114: {fileID: 667191093}
   m_Layer: 0
   m_Name: CarA
   m_TagString: Untagged
@@ -816,8 +834,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cba7acdf758b9424399d07a51ae5f3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 2
-  TurnSpeed: 200
   Index: 0
 --- !u!136 &667191089
 CapsuleCollider:
@@ -877,6 +893,24 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &667191093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 667191086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e8adef283fbf89489edbff23c97abf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForwardForce: 25
+  BackwardForce: 25
+  BrakeForce: 30
+  ForwardSpeedMax: 25
+  BackwardSpeedMax: 10
+  TurningAngle: 50
+  FloatingHeight: 1
 --- !u!1 &713771201
 GameObject:
   m_ObjectHideFlags: 0
@@ -898,7 +932,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 713771201}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -937,7 +971,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 722860204}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -1.62920685e-07}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1393,8 +1427,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1028395062}
-  m_LocalRotation: {x: -5.16556042e-09, y: .992992938, z: -.118174247, w: -4.34050982e-08}
-  m_LocalPosition: {x: .0199999996, y: .115999997, z: .228}
+  m_LocalRotation: {x: .118174233, y: 0, z: 0, w: .992992878}
+  m_LocalPosition: {x: .0199999996, y: .115999997, z: -.228}
   m_LocalScale: {x: .0666666701, y: .0666666701, z: .0666666701}
   m_Children: []
   m_Father: {fileID: 658367629}

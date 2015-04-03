@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TerrainTexture : DesignPattern.Singleton<TerrainTexture> {
+public class TerrainTexture : MonoBehaviour {
 
 	public int surfaceIndex = 0;
 

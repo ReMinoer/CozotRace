@@ -24,8 +24,13 @@ public class PlayerMotorTextureV2 : MonoBehaviour
 			GroundProperty ground = _groundDetector.Ground;
 	        speedCoeff = ground != null ? ground.SpeedCoeff : 1;
 		}*/
-
-		float speedCoeff = Map.Instance.Grounds[TerrainTexture.Instance.GetMainTexture(transform.position)].SpeedCoeff;
+		
+		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		float speedCoeff;
+		if (terrainTexture != null)
+			speedCoeff = Map.Instance.Grounds [GetComponent<TerrainTexture>().GetMainTexture (transform.position)].SpeedCoeff;
+		else
+			speedCoeff = 1;
 
 		float horizontalInput = Input.GetAxis("Horizontal2");
 		float verticalInput = Input.GetAxis("Vertical2");
