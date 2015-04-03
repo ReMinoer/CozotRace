@@ -42,7 +42,7 @@ public class ReplayRecorder : MonoBehaviour {
 	}
 
 	void OnDestroy () {
-		//SerializeToFile (@"C:\test.xml");
+		//SerializeToFile (@"Assets\Resources\ProtoReplay.xml");
 	}
 
 }

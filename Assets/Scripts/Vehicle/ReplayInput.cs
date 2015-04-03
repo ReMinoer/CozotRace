@@ -23,7 +23,7 @@ public class ReplayInput : MonoBehaviour {
 	}
 
 	void Awake () {
-		ListDState = DeserializeFromFile (@"C:\test.xml");
+		ListDState = DeserializeFromFile (@"Assets\Resources\ProtoReplay.xml");
 
 	}
 
