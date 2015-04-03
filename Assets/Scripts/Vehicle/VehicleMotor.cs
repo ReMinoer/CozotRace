@@ -73,27 +73,27 @@ public class VehicleMotor : MonoBehaviour {
 	}
 
 	public float SpeedCompute() {
-		return rigidbody.velocity.magnitude;
+		return GetComponent<Rigidbody>().velocity.magnitude;
 	}
 
 	public void Stop() {
-		rigidbody.velocity = rigidbody.velocity * 0;
+		GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity * 0;
 	}
 
 	public void ForwardAcceleration() {
-		rigidbody.AddForce(-10*ForwardAccelerationForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
-		if(rigidbody.velocity.magnitude > ForwardSpeedLimit)
-			rigidbody.velocity = rigidbody.velocity.normalized*ForwardSpeedLimit;
+		GetComponent<Rigidbody>().AddForce(-10*ForwardAccelerationForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
+		if(GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedLimit)
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized*ForwardSpeedLimit;
 	}
 
 	public void Brake(int upOrDown) {
-		rigidbody.AddForce(upOrDown*10*BrakeForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
+		GetComponent<Rigidbody>().AddForce(upOrDown*10*BrakeForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
 	}
 
 	public void BackwardAcceleration() {
-		rigidbody.AddForce(10*BackwardAccelerationForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
-		if(rigidbody.velocity.magnitude > BackwardSpeedLimit)
-			rigidbody.velocity = rigidbody.velocity.normalized*BackwardSpeedLimit;
+		GetComponent<Rigidbody>().AddForce(10*BackwardAccelerationForce * transform.forward * Time.deltaTime,ForceMode.Impulse);
+		if(GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedLimit)
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized*BackwardSpeedLimit;
 	}
 
 	public void Turn(float rotationCoef) {

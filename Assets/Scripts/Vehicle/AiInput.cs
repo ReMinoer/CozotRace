@@ -49,8 +49,8 @@ public class AiInput : MonoBehaviour
 		Vector2 destination = _nextPoint.transform.position.ToXZ();
 		
 		// STEP 1 : Get the trajectory circle radius
-		float speed = rigidbody.velocity.ToXZ().magnitude;
-		float angularVelocity = rigidbody.angularVelocity.ToXZ().magnitude;
+		float speed = GetComponent<Rigidbody>().velocity.ToXZ().magnitude;
+		float angularVelocity = GetComponent<Rigidbody>().angularVelocity.ToXZ().magnitude;
 		float circleRadius = speed / angularVelocity;
 		
 		// STEP 2 : Get the trajectory circle center
@@ -62,7 +62,7 @@ public class AiInput : MonoBehaviour
 		Vector3 cross = Vector3.Cross((start - previousPosition).normalized.ToX0Y(),
 		                            (destination - start).normalized.ToX0Y());
 		
-		Vector2 centerDirection = Quaternion.AngleAxis(cross.y > 0 ? -90 : 90, Vector3.right) * rigidbody.velocity.ToXZ();
+		Vector2 centerDirection = Quaternion.AngleAxis(cross.y > 0 ? -90 : 90, Vector3.right) * GetComponent<Rigidbody>().velocity.ToXZ();
 		Vector2 circleCenter = position + (centerDirection.normalized * circleRadius);
 
 		// STEP 3 : Send ray, check if intersect in the circle and set vertical movement
