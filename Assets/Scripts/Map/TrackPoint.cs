@@ -116,8 +116,8 @@ public class TrackPoint : MonoBehaviour {
 	}
 
 	void OnDestroy()
-	{
-		Unlink(this.gameObject);
+    {
+        Unlink(this.gameObject);
 	}
 	
 	void OnDrawGizmos()
@@ -149,12 +149,15 @@ public class TrackPoint : MonoBehaviour {
 		if (InsertMode)
 			Track.Instance.DisableInsertModeOtherPoints(this.gameObject);
 
-		GameObject lastPoint = Track.Instance.GetLastPoint();
-		if (PreviousPoint == lastPoint.GetComponent<TrackPoint>().PreviousPoint
-		    && NextPoint == lastPoint.GetComponent<TrackPoint>().NextPoint)
-			return;
+	    if (PreviousPoint != null)
+	    {
+	        GameObject lastPoint = Track.Instance.GetLastPoint();
+	        if (PreviousPoint == lastPoint.GetComponent<TrackPoint>().PreviousPoint
+	            && NextPoint == lastPoint.GetComponent<TrackPoint>().NextPoint)
+	            return;
+	    }
 
-		if (PreviousPoint != null)
+	    if (PreviousPoint != null)
 			PreviousPoint.GetComponent<TrackPoint>().NextPoint = this.gameObject;
 		if (NextPoint != null)
 			NextPoint.GetComponent<TrackPoint>().PreviousPoint = this.gameObject;
