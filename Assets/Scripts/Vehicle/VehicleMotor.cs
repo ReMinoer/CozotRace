@@ -23,6 +23,14 @@ public class VehicleMotor : MonoBehaviour
 
 
     private const float StopThreshold = 0.1f;
+	private float SpeedCoeff = 1f;
+
+	public event EventHandler<StateChangedEventArgs> StateChanged;
+
+	public class StateChangedEventArgs : EventArgs {
+		public DrivingState State { get; set; }
+
+	}
 
     public void FixedUpdate()
     {
@@ -68,7 +76,13 @@ public class VehicleMotor : MonoBehaviour
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             _state = VehicleState.Stopped;
-        }
+		}
+
+		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		if (terrainTexture != null)
+			SpeedCoeff = Map.Instance.Grounds [terrainTexture.GetMainTexture (transform.position)].SpeedCoeff;
+		else
+			SpeedCoeff = 1;
 
         VehicleState currentState;
 	    do
@@ -98,6 +112,11 @@ public class VehicleMotor : MonoBehaviour
         } while (_state != currentState);
 
 		Turn (state.Turn);
+
+		state.Time = Time.realtimeSinceStartup;
+
+		if (StateChanged != null)
+			StateChanged.Invoke (this, new StateChangedEventArgs { State = state });
     }
 
     public void GoForward(float coeff)
@@ -106,12 +125,9 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be superior or egal to 0 !");
         if (coeff < float.Epsilon)
             return;
-
-        //Vector3 force = Time.deltaTime;
-		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce);//, ForceMode.Impulse);
-
+		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce);
 		if(GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
-			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax * SpeedCoeff;
 	}
 
     public void GoBackward(float coeff)
@@ -120,30 +136,22 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be superior or egal to 0 !");
         if (coeff < float.Epsilon)
             return;
-
-        //Vector3 force = -BackwardForce * Time.deltaTime;
-		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce);//, ForceMode.Impulse);
-
+		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce);
         if (GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax * SpeedCoeff;
     }
 
 	public void Brake(float coeff)
 	{
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
-
-	    //Vector3 force = coeff * BrakeForce * Time.deltaTime;
-		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff*BrakeForce);//, ForceMode.Impulse);
+		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff*BrakeForce);
 	}
 
 	public void Turn(float coeff)
     {
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
-
-        //Vector3 angle = coeff * TurningAngle * Time.deltaTime;
         GetComponent<Rigidbody>().AddRelativeTorque(0f,coeff*TurningAngle,0f);
-        //transform.Rotate(angle);
 	}
 }
