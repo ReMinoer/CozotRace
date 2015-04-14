@@ -1212,9 +1212,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugTrajectory: 1
-  _cautiousSpeedFactor: 0
-  _cautiousMaxAngle: 50
+  _cautiousSpeedFactor: .100000001
+  _cautiousMaxAngle: 180
   _cautiousAngularVelocityFactor: 30
+  _reactionAngle: 60
+  _minimalTurn: .200000003
 --- !u!114 &902843399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,7 +1287,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 1.20000005
   m_AngularDrag: 2
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

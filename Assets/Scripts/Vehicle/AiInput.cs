@@ -21,6 +21,11 @@ public class AiInput : MonoBehaviour
     [SerializeField]
     private float _cautiousAngularVelocityFactor = 30f;                     // how cautious the AI should be when considering its own current angular velocity (i.e. easing off acceleration if spinning!)
 
+    [SerializeField]
+    private float _reactionAngle = 60f;
+    [SerializeField]
+    private float _minimalTurn = 0.2f;
+
     private void Awake()
     {
         _vehicle = GetComponent<VehicleMotor>();
@@ -36,12 +41,10 @@ public class AiInput : MonoBehaviour
             fwd = _rigidbody.velocity;
         }
 
-        Debug.Log(_rigidbody.velocity.magnitude + "/" + _vehicle.ForwardSpeedMax);
-
         // the car will brake according to the upcoming change in direction of the target. Useful for route-based AI, slowing for corners.
 
         // check out the angle of our target compared to the current direction of the car
-        float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position, fwd);
+        float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position - transform.position, fwd);
 
         // also consider the current amount we're turning, multiplied up and then compared in the same way as an upcoming corner angle
         float spinningAngle = _rigidbody.angularVelocity.magnitude * _cautiousAngularVelocityFactor;
@@ -53,20 +56,25 @@ public class AiInput : MonoBehaviour
 
         float desiredSpeed = Mathf.Lerp(_vehicle.ForwardSpeedMax, _vehicle.ForwardSpeedMax * _cautiousSpeedFactor, cautiousnessRequired);
 
-        bool accelerate = GetComponent<Rigidbody>().velocity.magnitude > desiredSpeed;
+        bool accelerate = desiredSpeed > _vehicle.SignedSpeed;
 
         Vector3 offsetTargetPos = _progressTracker.Target.position;
 
         Vector2 forward2D = this.transform.forward.ToXZ();
         Vector2 position2D = this.transform.position.ToXZ();
         Vector2 destination2D = offsetTargetPos.ToXZ();
+        float angleTurn = Vector3.Angle(forward2D.ToX0Y(), (destination2D - position2D).normalized.ToX0Y());
         Vector3 crossTurn = Vector3.Cross(forward2D.ToX0Y(), (destination2D - position2D).normalized.ToX0Y());
+        float turn = Mathf.Lerp(0, (crossTurn.y > 0 ? 1 : -1), Mathf.Clamp01(angleTurn / _reactionAngle));
+
+        if (turn > -_minimalTurn && turn < _minimalTurn)
+            turn = 0;
 
         var state = new DrivingState
         {
             Forward = accelerate ? 1 : 0,
             Backward = accelerate ? 0 : 1,
-            Turn = crossTurn.y > 0 ? 1 : -1
+            Turn = turn
         };
 
         _vehicle.ChangeState(state);

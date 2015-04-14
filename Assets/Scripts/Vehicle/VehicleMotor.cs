@@ -21,9 +21,17 @@ public class VehicleMotor : MonoBehaviour
 	public float BackwardSpeedMax = 10f;
 	public float TurningAngle = 50f;
 
-
     private const float StopThreshold = 0.1f;
 	private float SpeedCoeff = 1f;
+
+    public float SignedSpeed
+    {
+        get
+        {
+            float speed = GetComponent<Rigidbody>().velocity.magnitude;
+            return _state == VehicleState.Backward ? -speed : speed;
+        }
+    }
 
 	public event EventHandler<StateChangedEventArgs> StateChanged;
 
