@@ -1,123 +1,80 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(VehicleMotor))]
+[RequireComponent(typeof(ProgressTracker))]
 public class AiInput : MonoBehaviour
 {
-	/*
-	public float Speed = 2;
-	public float TurnSpeed = 2;
-	*/
-
     public bool DebugTrajectory = false;
-    public bool DebugAngularVelocity = false;
-	
-	private VehicleMotor _vehicle;
-
-	private GameObject _lastPoint;
-    private GameObject _nextPoint;
-
     private Vector3 _lastPosition;
-    private GameObject _trajectoryCircle;
 
-	void Start ()
-	{
-		_vehicle = GetComponent<VehicleMotor>();
+    private VehicleMotor _vehicle;
+    private ProgressTracker _progressTracker;
+    private Rigidbody _rigidbody;
 
-		_lastPoint = Track.Instance.StartPoint;
-        _nextPoint = _lastPoint.GetComponent<TrackPoint>().NextPoint;
+    [SerializeField]
+    [Range(0, 1)]
+    private float _cautiousSpeedFactor = 0.05f;               // percentage of max speed to use when being maximally cautious
+    [SerializeField]
+    [Range(0, 180)]
+    private float _cautiousMaxAngle = 50f;                  // angle of approaching corner to treat as warranting maximum caution
+    [SerializeField]
+    private float _cautiousAngularVelocityFactor = 30f;                     // how cautious the AI should be when considering its own current angular velocity (i.e. easing off acceleration if spinning!)
 
-        _lastPosition = this.transform.position;
-        
-        //_trajectoryCircle = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        //Destroy(_trajectoryCircle.collider);
-        //_trajectoryCircle.transform.parent = this.transform;
-        //_trajectoryCircle.renderer.material.color = Color.red;
-        //_trajectoryCircle.transform.localScale = new Vector3(1, 0.01f, 1);
-	}
+    private void Awake()
+    {
+        _vehicle = GetComponent<VehicleMotor>();
+        _progressTracker = GetComponent<ProgressTracker>();
+        _rigidbody = GetComponent<Rigidbody>();
+    }
 
     void FixedUpdate()
-	{
-		BinocleMethod();
-		//SimpleFollow();
-		//SmoothTurnFollow();
-	}
-
-	void BinocleMethod()
     {
-        DrivingState state = new DrivingState();
-
-		Vector2 position = this.transform.position.ToXZ();
-		Vector2 start = _lastPoint.transform.position.ToXZ();
-		Vector2 destination = _nextPoint.transform.position.ToXZ();
-		
-		// STEP 1 : Get the trajectory circle radius
-		float speed = GetComponent<Rigidbody>().velocity.ToXZ().magnitude;
-		float angularVelocity = GetComponent<Rigidbody>().angularVelocity.ToXZ().magnitude;
-        float circleRadius = angularVelocity < float.Epsilon ? 0 : speed / angularVelocity;
-		
-		// STEP 2 : Get the trajectory circle center
-		Vector2 previousPosition;
-		if (_lastPoint.GetComponent<TrackPoint>().PreviousPoint == null)
-			previousPosition = Track.Instance.GetLastPoint().transform.position;
-		else
-			previousPosition = _lastPoint.GetComponent<TrackPoint>().PreviousPoint.transform.position.ToXZ();
-		Vector3 cross = Vector3.Cross((start - previousPosition).normalized.ToX0Y(),
-		                            (destination - start).normalized.ToX0Y());
-		
-		Vector2 centerDirection = Quaternion.AngleAxis(cross.y > 0 ? -90 : 90, Vector3.right) * GetComponent<Rigidbody>().velocity.ToXZ();
-		Vector2 circleCenter = position + (centerDirection.normalized * circleRadius);
-
-		// STEP 3 : Send ray, check if intersect in the circle and set vertical movement
-		Plane plane = new Plane((position - destination).ToX0Y().normalized, destination.ToX0Y());
-		Ray ray = new Ray(circleCenter.ToX0Y(), (destination - circleCenter).ToX0Y().normalized);
-
-        //float enter = 0;
-        //if (plane.Raycast(ray, out enter) && enter <= circleRadius)
-        //    state.Backward = 1f;
-        //else
-            state.Forward = 1f;
-
-		// STEP 4 : Turn
-	    Vector2 plateForward = this.transform.forward.ToXZ();
-        Vector3 crossTurn = Vector3.Cross(plateForward.ToX0Y(), (destination - position).normalized.ToX0Y());
-
-		state.Turn = crossTurn.y > 0 ? 1 : -1;
-		
-		// STEP 5 : Send state to VehicleMotor
-        _vehicle.ChangeState(state);
-
-		// STEP 6 : Check trackpoint and go to next if necessary
-		position = this.transform.position.ToXZ();
-		Vector2 direction = (destination - position).normalized;
-	    GameObject futurePoint = _nextPoint.GetComponent<TrackPoint>().NextPoint;
-        Vector2 diff = futurePoint == null
-            ? Track.Instance.StartPoint.transform.position.ToXZ() - _lastPoint.transform.position.ToXZ()
-            : futurePoint.transform.position.ToXZ() - _lastPoint.transform.position.ToXZ();
-
-		if (destination == position || Vector3.Dot(direction.ToX0Y(), diff.ToX0Y()) < 0)
-		{
-			_lastPoint = _nextPoint;
-			if (_nextPoint.GetComponent<TrackPoint>().NextPoint != null)
-				_nextPoint = _nextPoint.GetComponent<TrackPoint>().NextPoint;
-			else if (_lastPoint.transform.position == Track.Instance.StartPoint.transform.position)
-				_nextPoint = Track.Instance.StartPoint.GetComponent<TrackPoint>().NextPoint;
-			else
-				_nextPoint = Track.Instance.StartPoint;
+        Vector3 fwd = transform.forward;
+        if (_rigidbody.velocity.magnitude > _vehicle.ForwardSpeedMax * 0.1f)
+        {
+            fwd = _rigidbody.velocity;
         }
 
-        // Draw debug trajectory
-	    if (DebugTrajectory)
-	        Debug.DrawLine(_lastPosition, this.transform.position, Color.blue, 5);
-        _lastPosition = this.transform.position;
+        Debug.Log(_rigidbody.velocity.magnitude + "/" + _vehicle.ForwardSpeedMax);
 
-	    // Draw debug circle
-        //if (circleRadius > 0)
-        //{
-        //    _trajectoryCircle.transform.position = new Vector3(circleCenter.x, this.transform.position.y, circleCenter.y);
-        //    _trajectoryCircle.transform.localScale = Vector3.Scale(Vector3.one,
-        //        new Vector3(circleRadius * 2, 0.01f, circleRadius * 2));
-        //}
-        //_trajectoryCircle.renderer.enabled = DebugAngularVelocity;
+        // the car will brake according to the upcoming change in direction of the target. Useful for route-based AI, slowing for corners.
+
+        // check out the angle of our target compared to the current direction of the car
+        float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position, fwd);
+
+        // also consider the current amount we're turning, multiplied up and then compared in the same way as an upcoming corner angle
+        float spinningAngle = _rigidbody.angularVelocity.magnitude * _cautiousAngularVelocityFactor;
+
+        // if it's different to our current angle, we need to be cautious (i.e. slow down) a certain amount
+        float cautiousnessRequired = Mathf.InverseLerp(0, _cautiousMaxAngle,
+                                                        Mathf.Max(spinningAngle,
+                                                                    approachingCornerAngle));
+
+        float desiredSpeed = Mathf.Lerp(_vehicle.ForwardSpeedMax, _vehicle.ForwardSpeedMax * _cautiousSpeedFactor, cautiousnessRequired);
+
+        bool accelerate = GetComponent<Rigidbody>().velocity.magnitude > desiredSpeed;
+
+        Vector3 offsetTargetPos = _progressTracker.Target.position;
+
+        Vector2 forward2D = this.transform.forward.ToXZ();
+        Vector2 position2D = this.transform.position.ToXZ();
+        Vector2 destination2D = offsetTargetPos.ToXZ();
+        Vector3 crossTurn = Vector3.Cross(forward2D.ToX0Y(), (destination2D - position2D).normalized.ToX0Y());
+
+        var state = new DrivingState
+        {
+            Forward = accelerate ? 1 : 0,
+            Backward = accelerate ? 0 : 1,
+            Turn = crossTurn.y > 0 ? 1 : -1
+        };
+
+        _vehicle.ChangeState(state);
+
+        // Draw debug trajectory
+        if (DebugTrajectory)
+            Debug.DrawLine(_lastPosition, this.transform.position, accelerate ? Color.green : Color.red, 5);
+        _lastPosition = this.transform.position;
     }
 }
 

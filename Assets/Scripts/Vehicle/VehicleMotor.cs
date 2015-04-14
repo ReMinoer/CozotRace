@@ -24,9 +24,9 @@ public class VehicleMotor : MonoBehaviour
 
 	public event EventHandler<StateChangedEventArgs> StateChanged;
 
-	public class StateChangedEventArgs : EventArgs {
+	public class StateChangedEventArgs : EventArgs
+    {
 		public DrivingState State { get; set; }
-
 	}
 
     public void Update()
@@ -34,6 +34,15 @@ public class VehicleMotor : MonoBehaviour
         // Lock floating height and rotation on X & Z axis
         transform.position = new Vector3(transform.position.x, FloatingHeight, transform.position.z);
         transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+    }
+
+    public void FixedUpdate()
+    {
+        if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
+
+        if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
+            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
     }
 
 	public void ChangeState(DrivingState state)
@@ -45,33 +54,23 @@ public class VehicleMotor : MonoBehaviour
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             _state = VehicleState.Stopped;
         }
+        else if (Vector3.Dot(GetComponent<Rigidbody>().velocity.normalized, transform.forward) >= 0)
+            _state = VehicleState.Forward;
+        else
+            _state = VehicleState.Backward;
 
-        VehicleState currentState;
-	    do
+	    switch (_state)
 	    {
-            currentState = _state;
+            case VehicleState.Forward:
+                GoForward(state.Forward);
+                Brake(-state.Backward);
+                break;
 
-	        switch (_state)
-	        {
-                case VehicleState.Stopped:
-                    if (state.Forward > 0)
-                        _state = VehicleState.Forward;
-                    else if (state.Backward > 0)
-                        _state = VehicleState.Backward;
-                    break;
-
-                case VehicleState.Forward:
-                    GoForward(state.Forward);
-                    Brake(-state.Backward);
-                    break;
-
-                case VehicleState.Backward:
-                    GoBackward(state.Backward);
-                    Brake(state.Forward);
-                    break;
-            }
-
-        } while (_state != currentState);
+            case VehicleState.Backward:
+                GoBackward(state.Backward);
+                Brake(state.Forward);
+                break;
+        }
 
 		Turn (state.Turn);
 
@@ -90,9 +89,6 @@ public class VehicleMotor : MonoBehaviour
 
         Vector3 force = coeff * ForwardForce * transform.forward * Time.deltaTime;
         GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-
-		if(GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
-			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
 	}
 
     public void GoBackward(float coeff)
@@ -104,9 +100,6 @@ public class VehicleMotor : MonoBehaviour
 
         Vector3 force = -BackwardForce * transform.forward * Time.deltaTime;
         GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
-
-        if (GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
     }
 
 	public void Brake(float coeff)
@@ -125,6 +118,5 @@ public class VehicleMotor : MonoBehaviour
 
         Vector3 angle = coeff * TurningAngle * Vector3.up * Time.deltaTime;
         GetComponent<Rigidbody>().AddTorque(angle);
-        //transform.Rotate(angle);
 	}
 }
