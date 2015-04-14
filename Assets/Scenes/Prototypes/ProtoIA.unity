@@ -1227,13 +1227,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8adef283fbf89489edbff23c97abf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FloatingHeight: 1
+  HoverForce: 65
   ForwardForce: 20
   BackwardForce: 10
   BrakeForce: 30
   ForwardSpeedMax: 15
   BackwardSpeedMax: 10
   TurningAngle: 200
-  FloatingHeight: 1
 --- !u!65 &902843400
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -12,15 +12,18 @@ public class VehicleMotor : MonoBehaviour
 
     private VehicleState _state;
 
+	public float FloatingHeight = 1.5f;
+	public float HoverForce = 65f;
 	public float ForwardForce = 25f;
     public float BackwardForce = 25f;
     public float BrakeForce = 30f;
 	public float ForwardSpeedMax = 25f;
 	public float BackwardSpeedMax = 10f;
 	public float TurningAngle = 50f;
-    public float FloatingHeight = 1;
+
 
     private const float StopThreshold = 0.1f;
+	private float SpeedCoeff = 1f;
 
 	public event EventHandler<StateChangedEventArgs> StateChanged;
 
@@ -29,15 +32,41 @@ public class VehicleMotor : MonoBehaviour
 		public DrivingState State { get; set; }
 	}
 
-    public void Update()
-    {
-        // Lock floating height and rotation on X & Z axis
-        transform.position = new Vector3(transform.position.x, FloatingHeight, transform.position.z);
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-    }
-
     public void FixedUpdate()
     {
+		Ray rayN = new Ray (transform.position, -transform.up);
+		Ray rayT = new Ray (transform.position, -transform.up);
+
+		Transform noseTransform = null;
+		Transform tailTransform = null;
+		Transform childTransform = transform.FindChild ("car02");
+
+		if (childTransform != null) {
+			noseTransform = childTransform.gameObject.transform.FindChild ("Nose");
+			tailTransform = childTransform.gameObject.transform.FindChild ("Tail");
+		}
+
+		if(noseTransform != null)
+			rayN = new Ray (noseTransform.position, -noseTransform.up);
+		if (tailTransform != null)
+			rayT = new Ray (tailTransform.position, -tailTransform.up);
+		
+		RaycastHit hitN, hitT;
+
+		if (Physics.Raycast (rayN, out hitN, FloatingHeight))
+        {
+			float proportionalHeight = (FloatingHeight - hitN.distance) / FloatingHeight ;
+			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
+			GetComponent<Rigidbody>().AddForce(appliedHoverForce, ForceMode.Acceleration);
+		}
+
+		if (Physics.Raycast (rayT, out hitT, FloatingHeight))
+        {
+						float proportionalHeight = (FloatingHeight - hitT.distance) / FloatingHeight;
+						Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
+						GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
+        }
+
         if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
 
@@ -58,6 +87,12 @@ public class VehicleMotor : MonoBehaviour
             _state = VehicleState.Forward;
         else
             _state = VehicleState.Backward;
+
+		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		if (terrainTexture != null)
+			SpeedCoeff = Map.Instance.Grounds [terrainTexture.GetMainTexture (transform.position)].SpeedCoeff;
+		else
+			SpeedCoeff = 1;
 
 	    switch (_state)
 	    {
@@ -87,8 +122,7 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < float.Epsilon)
             return;
 
-        Vector3 force = coeff * ForwardForce * transform.forward * Time.deltaTime;
-        GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce);
 	}
 
     public void GoBackward(float coeff)
@@ -98,17 +132,14 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < float.Epsilon)
             return;
 
-        Vector3 force = -BackwardForce * transform.forward * Time.deltaTime;
-        GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce);
     }
 
 	public void Brake(float coeff)
 	{
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
-
-	    Vector3 force = coeff * BrakeForce * transform.forward * Time.deltaTime;
-        GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff*BrakeForce);
 	}
 
 	public void Turn(float coeff)
@@ -116,7 +147,6 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
 
-        Vector3 angle = coeff * TurningAngle * Vector3.up * Time.deltaTime;
-        GetComponent<Rigidbody>().AddTorque(angle);
+        GetComponent<Rigidbody>().AddRelativeTorque(0f,coeff*TurningAngle,0f);
 	}
 }
