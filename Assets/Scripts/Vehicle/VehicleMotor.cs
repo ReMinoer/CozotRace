@@ -28,7 +28,9 @@ public class VehicleMotor : MonoBehaviour
     {
         get
         {
-            float speed = GetComponent<Rigidbody>().velocity.magnitude;
+            Vector3 velocity2D = GetComponent<Rigidbody>().velocity;
+            velocity2D.y = 0;
+            float speed = velocity2D.magnitude;
             return _state == VehicleState.Backward ? -speed : speed;
         }
     }
