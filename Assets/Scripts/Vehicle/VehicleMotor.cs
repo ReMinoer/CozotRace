@@ -66,6 +66,12 @@ public class VehicleMotor : MonoBehaviour
 						Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
 						GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
 				}
+
+		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		if (terrainTexture != null)
+			SpeedCoeff = Map.Instance.Grounds [GetComponent<TerrainTexture>().GetMainTexture (transform.position)].SpeedCoeff;
+		else
+			SpeedCoeff = 1;
     }
 
 	public void ChangeState(DrivingState state)
