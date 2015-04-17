@@ -33,7 +33,7 @@ public class GroundDetectorLine : Factory<GroundDetectorLine>
 			Detectors[i] = GroundDetectorV2.New("GroundDetector");
 			
 			Detectors[i].transform.parent = transform;
-			Detectors[i].transform.localPosition = -transform.forward * ((i + (IgnoreFirst ? 1 : 0)) * Interval);
+			Detectors[i].transform.localPosition = transform.forward * ((i + (IgnoreFirst ? 1 : 0)) * Interval);
 			
 			var boxCollider = Detectors[i].GetComponent<Collider>() as BoxCollider;
 			if (boxCollider != null)
@@ -43,4 +43,17 @@ public class GroundDetectorLine : Factory<GroundDetectorLine>
 			}
 		}
 	}
+
+    bool GetNearestObstacle(out Vector3 position)
+    {
+        foreach (GroundDetectorV2 detector in Detectors)
+            if (detector.Ground.IsObstacle)
+            {
+                position = detector.transform.position;
+                return true;
+            }
+
+        position = Vector3.zero;
+        return false;
+    }
 }
