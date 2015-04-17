@@ -8,9 +8,10 @@ public class TrackPoint : MonoBehaviour {
 	public GameObject PreviousPoint;
 	public GameObject NextPoint;
 
-	public bool InsertMode = false;
+    public bool InsertMode = false;
+    private bool _isQuitting = false;
 
-	void Awake()
+    void Awake()
 	{
 		if(Application.isEditor && !Application.isPlaying)
 		{
@@ -115,34 +116,11 @@ public class TrackPoint : MonoBehaviour {
 			trackPoint.PreviousPoint.GetComponent<TrackPoint>().NextPoint = trackPoint.NextPoint;
 	}
 
-	void OnDestroy()
+    void OnDestroy()
     {
-        Unlink(this.gameObject);
-	}
-	
-	void OnDrawGizmos()
-	{
-		Gizmos.color = Color.cyan;
-		Gizmos.DrawSphere(transform.position, 0.2f);
-
-		if (NextPoint != null)
-			Gizmos.DrawLine(transform.position, NextPoint.transform.position);
-	}
-	
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.magenta;
-		Gizmos.DrawSphere(transform.position, 0.2f);
-		
-		if (NextPoint != null)
-		{
-			Gizmos.DrawLine(transform.position, NextPoint.transform.position);
-			Gizmos.DrawSphere((transform.position + NextPoint.transform.position) / 2, 0.1f);
-		}
-		
-		if (PreviousPoint != null)
-			Gizmos.DrawSphere((transform.position + PreviousPoint.transform.position) / 2, 0.1f);
-	}
+        if (!Track.Instance.IsDisable)
+            Unlink(this.gameObject);
+    }
 
 	void OnValidate()
 	{
@@ -161,5 +139,17 @@ public class TrackPoint : MonoBehaviour {
 			PreviousPoint.GetComponent<TrackPoint>().NextPoint = this.gameObject;
 		if (NextPoint != null)
 			NextPoint.GetComponent<TrackPoint>().PreviousPoint = this.gameObject;
-	}
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(transform.position, 0.2f);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(transform.position, 0.2f);
+    }
 }
