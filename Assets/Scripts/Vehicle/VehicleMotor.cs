@@ -84,10 +84,10 @@ public class VehicleMotor : MonoBehaviour
 			SpeedCoeff = 1;
 
         if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
 
-        if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
+		if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
     }
 
 	public void ChangeState(DrivingState state)
@@ -104,11 +104,11 @@ public class VehicleMotor : MonoBehaviour
         else
             _state = VehicleState.Backward;
 
-		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		/*TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
 		if (terrainTexture != null)
 			SpeedCoeff = Map.Instance.Grounds [terrainTexture.GetMainTexture (transform.position)].SpeedCoeff;
 		else
-			SpeedCoeff = 1;
+			SpeedCoeff = 1;*/
 
 	    switch (_state)
 	    {
@@ -137,9 +137,9 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < float.Epsilon)
             return;
 
-		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce);
+		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce * SpeedCoeff);
 		Vector3 face = transform.forward;
-		GetWellOriented(face);
+		//GetWellOriented(face);
 	}
 
     public void GoBackward(float coeff)
@@ -149,9 +149,9 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < float.Epsilon)
             return;
 
-		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce);
+		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce * SpeedCoeff);
 		Vector3 face = transform.forward;
-		GetWellOriented(face);
+		//GetWellOriented(face);
     }
 
 	public void Brake(float coeff)
@@ -160,7 +160,7 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be between -1 and 1 !");
 		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff*BrakeForce);
 		Vector3 face = transform.forward;
-		GetWellOriented(face);
+	//	GetWellOriented(face);
 	}
 
 	public void Turn(float coeff)
@@ -170,7 +170,7 @@ public class VehicleMotor : MonoBehaviour
 
         GetComponent<Rigidbody>().AddRelativeTorque(0f,coeff*TurningAngle,0f);
 		Vector3 face = transform.forward;
-		GetWellOriented(face);
+	//	GetWellOriented(face);
 	}
 
 	public void GetWellOriented(Vector3 face) {
