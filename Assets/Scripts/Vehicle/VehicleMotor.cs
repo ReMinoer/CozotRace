@@ -112,7 +112,6 @@ public class VehicleMotor : MonoBehaviour
         } while (_state != currentState);
 
 		Turn (state.Turn);
-
 		state.Time = Time.realtimeSinceStartup;
 
 		if (StateChanged != null)
@@ -128,6 +127,8 @@ public class VehicleMotor : MonoBehaviour
 		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce);
 		if(GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
 			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax * SpeedCoeff;
+		Vector3 face = transform.forward;
+		GetWellOriented(face);
 	}
 
     public void GoBackward(float coeff)
@@ -139,6 +140,8 @@ public class VehicleMotor : MonoBehaviour
 		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce);
         if (GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax * SpeedCoeff;
+		Vector3 face = transform.forward;
+		GetWellOriented(face);
     }
 
 	public void Brake(float coeff)
@@ -146,6 +149,8 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
 		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff*BrakeForce);
+		Vector3 face = transform.forward;
+		GetWellOriented(face);
 	}
 
 	public void Turn(float coeff)
@@ -153,5 +158,47 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
         GetComponent<Rigidbody>().AddRelativeTorque(0f,coeff*TurningAngle,0f);
+		Vector3 face = transform.forward;
+		GetWellOriented(face);
 	}
+
+	public void GetWellOriented(Vector3 face) {
+		Ray rayFR = new Ray (transform.position, -transform.up);
+		Ray rayFL = new Ray (transform.position, -transform.up);
+		Ray rayBR = new Ray (transform.position, -transform.up);
+		Ray rayBL = new Ray (transform.position, -transform.up);
+		
+		Vector3 upDir;
+		Transform frontRightTransform = null;
+		Transform frontLeftTransform = null;
+		Transform backRightTransform = null;
+		Transform backLeftTransform = null;
+		Transform childTransform = transform.FindChild ("car02");
+		if (childTransform != null) {
+			frontRightTransform = childTransform.gameObject.transform.FindChild ("FrontRight");
+			frontLeftTransform = childTransform.gameObject.transform.FindChild ("FrontLeft");
+			backRightTransform = childTransform.gameObject.transform.FindChild ("BackRight");
+			backLeftTransform = childTransform.gameObject.transform.FindChild ("BackLeft");
+		}
+		if (frontRightTransform != null)
+			rayFR = new Ray (frontRightTransform.position, -Vector3.up);
+		if (frontLeftTransform != null)
+			rayFL = new Ray (frontLeftTransform.position, -Vector3.up);
+		if (backRightTransform != null)
+			rayBR = new Ray (backRightTransform.position, -Vector3.up);
+		if (backLeftTransform != null)
+			rayBL = new Ray (backLeftTransform.position, -Vector3.up);
+		RaycastHit hitFR, hitFL, hitBR, hitBL;
+		Physics.Raycast (rayFR, out hitFR);
+		Physics.Raycast (rayFL, out hitFL);
+		Physics.Raycast (rayBR, out hitBR);
+		Physics.Raycast (rayBL, out hitBL);
+		upDir = ((hitBR.normal +
+		         hitBL.normal +
+		         hitFL.normal +
+		         hitFR.normal
+		         )/4).normalized;
+		Debug.Log (upDir);
+		transform.rotation = Quaternion.FromToRotation (transform.up, upDir);
+}
 }
