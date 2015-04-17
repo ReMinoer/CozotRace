@@ -32,7 +32,7 @@ public class Orientation : MonoBehaviour {
 			rayBR = new Ray (backRightTransform.position, -backRightTransform.up);
 		if (backLeftTransform != null)
 			rayBL = new Ray (backLeftTransform.position, -backLeftTransform.up);
-		
+		Vector3 face = transform.forward;
 		RaycastHit hitFR, hitFL, hitBR, hitBL;
 		Physics.Raycast (rayFR, out hitFR);
 		Physics.Raycast (rayFL, out hitFL);
@@ -43,7 +43,6 @@ public class Orientation : MonoBehaviour {
 		         Vector3.Cross (hitFL.point - Vector3.up, hitFR.point - Vector3.up) +
 		         Vector3.Cross (hitFR.point - Vector3.up, hitBR.point - Vector3.up)
 		         ).normalized;
-		
-		transform.up = upDir;
+		//transform.LookAt (face, upDir);
 	}
 }
