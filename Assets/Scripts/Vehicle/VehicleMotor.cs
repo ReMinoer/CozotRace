@@ -21,22 +21,29 @@ public class VehicleMotor : MonoBehaviour
 	public float BackwardSpeedMax = 10f;
 	public float TurningAngle = 50f;
 
-
     private const float StopThreshold = 0.1f;
 	private float SpeedCoeff = 1f;
 
+    public float SignedSpeed
+    {
+        get
+        {
+            Vector3 velocity2D = GetComponent<Rigidbody>().velocity;
+            velocity2D.y = 0;
+            float speed = velocity2D.magnitude;
+            return _state == VehicleState.Backward ? -speed : speed;
+        }
+    }
+
 	public event EventHandler<StateChangedEventArgs> StateChanged;
 
-	public class StateChangedEventArgs : EventArgs {
+	public class StateChangedEventArgs : EventArgs
+    {
 		public DrivingState State { get; set; }
-
 	}
 
     public void FixedUpdate()
     {
-        // Lock floating height and rotation on X & Z axis
-       // transform.position = new Vector3(transform.position.x, FloatingHeight, transform.position.z);
-        //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 		Ray rayN = new Ray (transform.position, -transform.up);
 		Ray rayT = new Ray (transform.position, -transform.up);
 
@@ -56,16 +63,31 @@ public class VehicleMotor : MonoBehaviour
 		
 		RaycastHit hitN, hitT;
 
-		if (Physics.Raycast (rayN, out hitN, FloatingHeight)) {
+		if (Physics.Raycast (rayN, out hitN, FloatingHeight))
+        {
 			float proportionalHeight = (FloatingHeight - hitN.distance) / FloatingHeight ;
 			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
 			GetComponent<Rigidbody>().AddForce(appliedHoverForce, ForceMode.Acceleration);
 		}
-		if (Physics.Raycast (rayT, out hitT, FloatingHeight)) {
-						float proportionalHeight = (FloatingHeight - hitT.distance) / FloatingHeight;
-						Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
-						GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
-				}
+
+		if (Physics.Raycast (rayT, out hitT, FloatingHeight))
+        {
+			float proportionalHeight = (FloatingHeight - hitT.distance) / FloatingHeight;
+			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
+			GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
+		}
+
+		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		if (terrainTexture != null)
+			SpeedCoeff = Map.Instance.Grounds [GetComponent<TerrainTexture>().GetMainTexture (transform.position)].SpeedCoeff;
+		else
+			SpeedCoeff = 1;
+
+        if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
+
+		if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
+			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
     }
 
 	public void ChangeState(DrivingState state)
@@ -76,43 +98,32 @@ public class VehicleMotor : MonoBehaviour
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             _state = VehicleState.Stopped;
-		}
+        }
+        else if (Vector3.Dot(GetComponent<Rigidbody>().velocity.normalized, transform.forward) >= 0)
+            _state = VehicleState.Forward;
+        else
+            _state = VehicleState.Backward;
 
-		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
+		/*TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
 		if (terrainTexture != null)
 			SpeedCoeff = Map.Instance.Grounds [terrainTexture.GetMainTexture (transform.position)].SpeedCoeff;
 		else
-			SpeedCoeff = 1;
+			SpeedCoeff = 1;*/
 
-        VehicleState currentState;
-	    do
+	    switch (_state)
 	    {
-            currentState = _state;
+            case VehicleState.Forward:
+                GoForward(state.Forward);
+                Brake(-state.Backward);
+                break;
 
-	        switch (_state)
-	        {
-                case VehicleState.Stopped:
-                    if (state.Forward > 0)
-                        _state = VehicleState.Forward;
-                    else if (state.Backward > 0)
-                        _state = VehicleState.Backward;
-                    break;
-
-                case VehicleState.Forward:
-                    GoForward(state.Forward);
-                    Brake(-state.Backward);
-                    break;
-
-                case VehicleState.Backward:
-                    GoBackward(state.Backward);
-                    Brake(state.Forward);
-                    break;
-            }
-
-        } while (_state != currentState);
+            case VehicleState.Backward:
+                GoBackward(state.Backward);
+                Brake(state.Forward);
+                break;
+        }
 
 		Turn (state.Turn);
-
 		state.Time = Time.realtimeSinceStartup;
 
 		if (StateChanged != null)
@@ -125,9 +136,10 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be superior or egal to 0 !");
         if (coeff < float.Epsilon)
             return;
-		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce);
-		if(GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
-			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax * SpeedCoeff;
+
+		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff * ForwardForce * SpeedCoeff);
+		Vector3 face = transform.forward;
+		//GetWellOriented(face);
 	}
 
     public void GoBackward(float coeff)
@@ -136,9 +148,10 @@ public class VehicleMotor : MonoBehaviour
             throw new ArgumentException("coeff must be superior or egal to 0 !");
         if (coeff < float.Epsilon)
             return;
-		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce);
-        if (GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
-            GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax * SpeedCoeff;
+
+		GetComponent<Rigidbody>().AddRelativeForce(0f,0f,-coeff*BackwardForce * SpeedCoeff);
+		Vector3 face = transform.forward;
+		//GetWellOriented(face);
     }
 
 	public void Brake(float coeff)
@@ -146,12 +159,57 @@ public class VehicleMotor : MonoBehaviour
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
 		GetComponent<Rigidbody> ().AddRelativeForce (0f,0f,coeff*BrakeForce);
+		Vector3 face = transform.forward;
+	//	GetWellOriented(face);
 	}
 
 	public void Turn(float coeff)
     {
         if (coeff < -1 || coeff > 1)
             throw new ArgumentException("coeff must be between -1 and 1 !");
+
         GetComponent<Rigidbody>().AddRelativeTorque(0f,coeff*TurningAngle,0f);
+		Vector3 face = transform.forward;
+	//	GetWellOriented(face);
 	}
+
+	public void GetWellOriented(Vector3 face) {
+		Ray rayFR = new Ray (transform.position, -transform.up);
+		Ray rayFL = new Ray (transform.position, -transform.up);
+		Ray rayBR = new Ray (transform.position, -transform.up);
+		Ray rayBL = new Ray (transform.position, -transform.up);
+		
+		Vector3 upDir;
+		Transform frontRightTransform = null;
+		Transform frontLeftTransform = null;
+		Transform backRightTransform = null;
+		Transform backLeftTransform = null;
+		Transform childTransform = transform.FindChild ("car02");
+		if (childTransform != null) {
+			frontRightTransform = childTransform.gameObject.transform.FindChild ("FrontRight");
+			frontLeftTransform = childTransform.gameObject.transform.FindChild ("FrontLeft");
+			backRightTransform = childTransform.gameObject.transform.FindChild ("BackRight");
+			backLeftTransform = childTransform.gameObject.transform.FindChild ("BackLeft");
+		}
+		if (frontRightTransform != null)
+			rayFR = new Ray (frontRightTransform.position, -Vector3.up);
+		if (frontLeftTransform != null)
+			rayFL = new Ray (frontLeftTransform.position, -Vector3.up);
+		if (backRightTransform != null)
+			rayBR = new Ray (backRightTransform.position, -Vector3.up);
+		if (backLeftTransform != null)
+			rayBL = new Ray (backLeftTransform.position, -Vector3.up);
+		RaycastHit hitFR, hitFL, hitBR, hitBL;
+		Physics.Raycast (rayFR, out hitFR);
+		Physics.Raycast (rayFL, out hitFL);
+		Physics.Raycast (rayBR, out hitBR);
+		Physics.Raycast (rayBL, out hitBL);
+		upDir = ((hitBR.normal +
+		         hitBL.normal +
+		         hitFL.normal +
+		         hitFR.normal
+		         )/4).normalized;
+		Debug.Log (upDir);
+		transform.rotation = Quaternion.FromToRotation (transform.up, upDir);
+}
 }
