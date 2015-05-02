@@ -2,33 +2,10 @@
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
-<<<<<<< HEAD
 public class TrackPoint : LinkedPoint
 {
-=======
-public class TrackPoint : MonoBehaviour {
-
-	public GameObject PreviousPoint;
-	public GameObject NextPoint;
-
-    public bool InsertMode = false;
     private bool _isQuitting = false;
 
-    void Awake()
-	{
-		if(Application.isEditor && !Application.isPlaying)
-		{
-			if (this.NextPoint == null && this.PreviousPoint == null)
-				return;
-
-			// Allow to duplicate last point of the track
-			GameObject lastPoint = Track.Instance.GetLastPoint();
-			if (this.NextPoint == null && lastPoint != this.gameObject)
-				Link(lastPoint, this.gameObject);
-		}
-	}
-
->>>>>>> f090c7547039ce8cd90d46d6973f822a0239351d
 	void Start()
 	{
 		if (!Application.isPlaying)
@@ -40,139 +17,26 @@ public class TrackPoint : MonoBehaviour {
 		if (Physics.Raycast (this.transform.position, Vector3.down, out hit, Mathf.Infinity, layerMask))
 			this.transform.position = new Vector3(transform.position.x, hit.point.y, transform.position.z);
 	}
-<<<<<<< HEAD
-	
-	void OnDrawGizmos()
-	{
-		Gizmos.color = Color.cyan;
-		Gizmos.DrawSphere(transform.position, 0.2f);
-		
-		if (NextPoint != null)
-			Gizmos.DrawLine(transform.position, NextPoint.transform.position);
-	}
-	
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.magenta;
-		Gizmos.DrawSphere(transform.position, 0.2f);
-	}
 	
 	protected override GameObject GetLastPoint()
 	{
 		return Track.Instance.GetLastPoint();
 	}
+
 	protected override List<GameObject> GetAllPoints()
 	{
 		return Track.Instance.GetAllPoints();
 	}
+
 	protected override void DisableInsertModeOtherPoints(GameObject gameObject)
 	{
-		Track.Instance.DisableInsertModeOtherPoints(gameObject);
-	}
-=======
-
-	void Update ()
-	{
-		// Handle the insertion mode
-		if (InsertMode && Application.isEditor && !Application.isPlaying)
-		{
-			bool insertionFind = false;
-			bool sameInsertion = false;
-
-			List<GameObject> points = Track.Instance.GetAllPoints();
-			points.Remove(this.gameObject);
-			points.Sort((a, b) => (a.transform.position - transform.position).magnitude.CompareTo(
-								(b.transform.position - transform.position).magnitude));
-			
-			List<GameObject> alreadySeePoints = new List<GameObject>();
-			GameObject previousPoint = null, nextPoint = null;
-
-			foreach (GameObject newNearest in points)
-			{
-				foreach (GameObject alreadySee in alreadySeePoints)
-				{
-					if (this.NextPoint == newNearest && this.PreviousPoint == alreadySee)
-					{
-						sameInsertion = true;
-						break;
-					}
-					if (this.PreviousPoint == newNearest && this.NextPoint == alreadySee)
-					{
-						sameInsertion = true;
-						break;
-					}
-					if (newNearest.GetComponent<TrackPoint>().NextPoint == alreadySee)
-					{
-						previousPoint = newNearest;
-						nextPoint = alreadySee;
-						insertionFind = true;
-						break;
-					}
-					if (newNearest.GetComponent<TrackPoint>().PreviousPoint == alreadySee)
-					{
-						previousPoint = alreadySee;
-						nextPoint = newNearest;
-						insertionFind = true;
-						break;
-					}
-				}
-
-				if (insertionFind || sameInsertion)
-					break;
-				else
-					alreadySeePoints.Add(newNearest);
-			}
-
-			if (insertionFind)
-			{
-				Unlink(this.gameObject);
-
-				Link(this.gameObject, nextPoint);
-				Link(previousPoint, this.gameObject);
-			}
-		}
-	}
-	
-	private static void Link(GameObject point, GameObject nextPoint)
-	{
-		point.GetComponent<TrackPoint>().NextPoint = nextPoint;
-		if (nextPoint != null)
-			nextPoint.GetComponent<TrackPoint>().PreviousPoint = point;
-	}
-	
-	private static void Unlink(GameObject point)
-	{
-		TrackPoint trackPoint = point.GetComponent<TrackPoint>();
-		
-		if (trackPoint.NextPoint != null)
-			trackPoint.NextPoint.GetComponent<TrackPoint>().PreviousPoint = trackPoint.PreviousPoint;
-		if (trackPoint.PreviousPoint != null)
-			trackPoint.PreviousPoint.GetComponent<TrackPoint>().NextPoint = trackPoint.NextPoint;
+		Track.Instance.DisableInsertModeOtherPoints(this.gameObject);
 	}
 
-    void OnDestroy()
+    protected override void OnDestroy()
     {
         if (!Track.Instance.IsDisable)
-            Unlink(this.gameObject);
-    }
-
-	void OnValidate()
-	{
-		if (InsertMode)
-			Track.Instance.DisableInsertModeOtherPoints(this.gameObject);
-
-	    if (PreviousPoint != null)
-	    {
-	        GameObject lastPoint = Track.Instance.GetLastPoint();
-	        if (PreviousPoint == lastPoint.GetComponent<TrackPoint>().PreviousPoint
-	            && NextPoint == lastPoint.GetComponent<TrackPoint>().NextPoint)
-	            return;
-	    }
-
-	    if (PreviousPoint != null)
-			PreviousPoint.GetComponent<TrackPoint>().NextPoint = this.gameObject;
-		if (NextPoint != null)
-			NextPoint.GetComponent<TrackPoint>().PreviousPoint = this.gameObject;
+			base.OnDestroy ();
     }
 
     void OnDrawGizmos()
@@ -186,5 +50,4 @@ public class TrackPoint : MonoBehaviour {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(transform.position, 0.2f);
     }
->>>>>>> f090c7547039ce8cd90d46d6973f822a0239351d
 }

@@ -102,7 +102,7 @@ public abstract class LinkedPoint : MonoBehaviour
 			trackPoint.PreviousPoint.GetComponent<LinkedPoint>().NextPoint = trackPoint.NextPoint;
 	}
 	
-	void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		Unlink(this.gameObject);
 	}
