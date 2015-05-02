@@ -4,22 +4,22 @@ using System.Collections;
 public class CameraVitesseEffects : MonoBehaviour {
 
 	public Transform target;
-	public float distance = 20.0f;
-	public float height = 5.0f;
-	public float heightDamping = 2.0f;
+	public float distance = 0.35f;
+	public float height = 0.3f;
+	public float heightDamping = 10.0f;
 	
-	public float lookAtHeight = 0.0f;
+	public float lookAtHeight = 0.02f;
 	
 	public Rigidbody parentRigidbody;
 	
-	public float rotationSnapTime = 0.3F;
+	public float rotationSnapTime = 0.5F;
 	
-	public float distanceSnapTime;
-	public float distanceMultiplier;
+	public float distanceSnapTime = 0.5F;
+	public float distanceMultiplier = 0.08F;
 	
 	private Vector3 lookAtVector;
 	
-	private float usedDistance;
+	private float usedDistance = 1.0F;
 	
 	float wantedRotationAngle;
 	float wantedHeight;
