@@ -12,19 +12,12 @@ public class CheckPoint : LinkedPoint
 
 	void OnDrawGizmos()
 	{
-		Gizmos.color = Color.cyan;
-		Gizmos.DrawCube(transform.position,Vector3.one);
-		
-		if (NextPoint != null)
-			Gizmos.DrawLine(transform.position, NextPoint.transform.position);
+		if (NextPoint != null) {
+			Gizmos.color = Color.cyan;
+			Gizmos.DrawLine (transform.position, NextPoint.transform.position);
+		}
 	}
-	
-	void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.magenta;
-		Gizmos.DrawCube(transform.position,Vector3.one);
-	}
-	
+
 	protected override GameObject GetLastPoint()
 	{
 		return Race.Instance.GetLastCheckPoint();
