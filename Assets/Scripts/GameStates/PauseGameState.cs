@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PauseGameState : GameState
 {
-	/*public PauseGameState(GameManager gameManager)
+	public PauseGameState(GameManager gameManager)
         : base(gameManager)
     {
     }
@@ -16,6 +16,6 @@ public class PauseGameState : GameState
     public override void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-            GameManager.DifferedChangeState(new PlayGameState(GameManager));
-    }*/
+            GameManager.ChangeStateDiffered(new PlayGameState(GameManager));
+    }
 }

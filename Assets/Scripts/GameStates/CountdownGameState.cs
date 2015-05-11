@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IntroGameState : GameState
+public class CountdownGameState : GameState
 {
-	public IntroGameState(GameManager gameManager)
+    public CountdownGameState(GameManager gameManager)
         : base(gameManager)
     {
     }
@@ -15,6 +15,6 @@ public class IntroGameState : GameState
 
     public override void Update()
     {
-        GameManager.ChangeStateDiffered(new CountdownGameState(GameManager));
+        GameManager.ChangeStateDiffered(new PlayGameState(GameManager));
     }
 }

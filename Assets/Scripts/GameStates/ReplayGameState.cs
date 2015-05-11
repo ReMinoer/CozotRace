@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameOverState : GameState
+public class ReplayGameState : GameState
 {
-	/*public GameOverState(GameManager gameManager)
+    public ReplayGameState(GameManager gameManager)
         : base(gameManager)
     {
     }
 
     public override void Init()
     {
-        GameManager.Pause();
+        GameManager.Resume();
     }
 
     public override void Update()
     {
-        Application.LoadLevel((int)SceneId.MainMenu);
-    }*/
+    }
 }
