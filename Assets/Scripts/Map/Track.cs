@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 [ExecuteInEditMode]
 public class Track : DesignPattern.Singleton<Track>
@@ -27,6 +28,13 @@ public class Track : DesignPattern.Singleton<Track>
     public void UpdateCache()
     {
         List<GameObject> trackpoints = GetAllPoints();
+
+        if (trackpoints.Count <= 0)
+        {
+            _points = new Vector3[0];
+            _distances = new float[0];
+            return;
+        }
 
         _points = new Vector3[trackpoints.Count + 1];
         _distances = new float[trackpoints.Count + 1];
@@ -192,6 +200,10 @@ public class Track : DesignPattern.Singleton<Track>
     void OnDrawGizmos()
     {
         UpdateCache();
+
+        if (_points.Length <= 0)
+            return;
+
         Vector3 prev = _points[0];
         Gizmos.color = Color.blue;
         for (float dist = 0; dist < Length; dist += 1)
