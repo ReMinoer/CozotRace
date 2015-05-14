@@ -3,7 +3,7 @@ using System.Collections;
 
 public class IntroGameState : GameState
 {
-	/*public IntroGameState(GameManager gameManager)
+	public IntroGameState(GameManager gameManager)
         : base(gameManager)
     {
     }
@@ -15,6 +15,6 @@ public class IntroGameState : GameState
 
     public override void Update()
     {
-        GameManager.DifferedChangeState(new PlayGameState(GameManager));
-    }*/
+        GameManager.ChangeStateDiffered(new CountdownGameState(GameManager));
+    }
 }

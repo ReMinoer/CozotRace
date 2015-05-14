@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
-    /*public GameState State;
-    public PlayerController Player { get; private set; }
-    public ThrowUI ThrowUI { get; private set; }
+    public GameState State;
 
     public TimeSpan Chronometer
     {
@@ -20,12 +18,13 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     private bool _differedChangeStateRequest;
     private GameState _stateRequested;
 
+    protected GameManager()
+    {
+    }
+
     void Awake()
     {
-        State = new BeginGameState(this);
-
-        Player = GetComponentInChildren<PlayerController>();
-        ThrowUI = GetComponentInChildren<ThrowUI>();
+        State = new IntroGameState(this);
     }
 
     void Start()
@@ -51,17 +50,11 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public void Resume()
     {
         _chronometerEnabled = true;
-        Player.ControlEnabled = true;
-        ThrowUI.enabled = true;
-        GameUIManager.Instance.PauseBackground.GetComponent<Image>().enabled = false;
     }
 
     public void Pause()
     {
         _chronometerEnabled = false;
-        Player.ControlEnabled = false;
-        ThrowUI.enabled = false;
-        GameUIManager.Instance.PauseBackground.GetComponent<Image>().enabled = true;
     }
 
     public void ResetChrono()
@@ -74,10 +67,10 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         State = newState;
         State.Init();
     }
-    
-    public void DifferedChangeState(GameState newState)
+
+    public void ChangeStateDiffered(GameState newState)
     {
         _stateRequested = newState;
         _differedChangeStateRequest = true;
-    }*/
+    }
 }
