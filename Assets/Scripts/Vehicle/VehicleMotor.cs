@@ -18,8 +18,12 @@ public class VehicleMotor : MonoBehaviour
     public float BackwardForce = 25f;
     public float BrakeForce = 30f;
 	public float ForwardSpeedMax = 25f;
+	public float ForwardSpeedMaxActual = 25f;
+	public float SpeedEvolution = 0.2f;
 	public float BackwardSpeedMax = 10f;
 	public float TurningAngle = 50f;
+
+	public bool isBoosted = false;
 
     private const float StopThreshold = 0.1f;
 	private float SpeedCoeff = 1f;
@@ -76,6 +80,12 @@ public class VehicleMotor : MonoBehaviour
 			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
 			GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
 		}
+		
+		if (ForwardSpeedMaxActual > ForwardSpeedMax)
+			ForwardSpeedMaxActual -= SpeedEvolution;
+
+		if (ForwardSpeedMaxActual < ForwardSpeedMax)
+			ForwardSpeedMaxActual += SpeedEvolution;
 
 		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
 		if (terrainTexture != null)
@@ -83,11 +93,12 @@ public class VehicleMotor : MonoBehaviour
 		else
 			SpeedCoeff = 1;
 
-        if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMax)
-			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMax;
+        if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMaxActual)
+			if (!isBoosted)
+				GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMaxActual;
 
 		if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
-			GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
+				GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * BackwardSpeedMax;
     }
 
 	public void ChangeState(DrivingState state)
