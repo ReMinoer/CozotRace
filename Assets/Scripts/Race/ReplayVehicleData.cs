@@ -1,8 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
-public class ReplayVehicleData : VehicleData {
-
-	public string ReplayPath;
-	public bool IsGhost;
+[Serializable]
+public class ReplayVehicleData : VehicleData
+{
+    public string ReplayPath { get; set; }
+    public override GameObject Instantiate()
+    {
+        throw new System.NotImplementedException();
+    }
 }

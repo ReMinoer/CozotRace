@@ -29,6 +29,8 @@ public class ProgressTracker : MonoBehaviour
     private Vector3 _lastPosition;
     private float _speed;
 
+    private VehicleMotor _vehicle;
+
     // setup script properties
     private void Start()
     {
@@ -38,6 +40,9 @@ public class ProgressTracker : MonoBehaviour
 
         // You can manually create a transform and assign it to this component *and* the AI,
         // then this component will update it, and the AI can read it.
+
+        _vehicle = GetComponentInChildren<VehicleMotor>();
+
         if (Target == null)
         {
             Target = new GameObject(name + " Waypoint Target").transform;
@@ -56,7 +61,7 @@ public class ProgressTracker : MonoBehaviour
     {
         // Find the position to aim
         if (Time.deltaTime > 0)
-            _speed = Mathf.Lerp(_speed, (_lastPosition - transform.position).magnitude / Time.deltaTime,
+            _speed = Mathf.Lerp(_speed, (_lastPosition - _vehicle.transform.position).magnitude / Time.deltaTime,
                                Time.deltaTime);
 
         Target.position =
@@ -69,13 +74,13 @@ public class ProgressTracker : MonoBehaviour
 
         // Find the current progress
         ProgressPoint = Track.Instance.GetRoutePoint(_progressDistance);
-        Vector3 progressDelta = ProgressPoint.Position - transform.position;
+        Vector3 progressDelta = ProgressPoint.Position - _vehicle.transform.position;
         if (Vector3.Dot(progressDelta, ProgressPoint.Direction) < 0)
         {
             _progressDistance += progressDelta.magnitude * 0.5f;
         }
 
-        _lastPosition = transform.position;
+        _lastPosition = _vehicle.transform.position;
     }
 
     private void OnDrawGizmos()
@@ -83,7 +88,7 @@ public class ProgressTracker : MonoBehaviour
         if (Application.isPlaying)
         {
             Gizmos.color = Color.magenta;
-            Gizmos.DrawLine(transform.position, Target.position);
+            Gizmos.DrawLine(_vehicle.transform.position, Target.position);
             Gizmos.DrawLine(Target.position, Target.position + Target.forward);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(Track.Instance.GetRoutePosition(_progressDistance), 1);

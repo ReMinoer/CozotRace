@@ -1,11 +1,14 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
     public GameState State;
+
+    public List<PlayerVehicleData> PlayersData = new List<PlayerVehicleData>();
+    public List<AiVehicleData> AisData = new List<AiVehicleData>();
+    public StartGrid StartGrid;
 
     public TimeSpan Chronometer
     {

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
-[System.Serializable]
-public abstract class VehicleData {
-	public GameObject Vehicle;
-	public int GridPosition;
+[Serializable]
+public abstract class VehicleData
+{
+    public abstract GameObject Instantiate();
 }

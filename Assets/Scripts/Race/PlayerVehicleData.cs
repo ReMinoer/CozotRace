@@ -1,8 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using DesignPattern;
 
-public class PlayerVehicleData : VehicleData {
-	public enum PlayerIndex {PlayerOne, PlayerTwo, PlayerThree, PlayerFour};
+[Serializable]
+public class PlayerVehicleData : VehicleData
+{
+    public PlayerIndex PlayerIndex;
 
-
+    public override GameObject Instantiate()
+    {
+        PlayerInput playerInput = Factory<PlayerInput>.New("Vehicles/PlayerVehicle");
+        playerInput.Index = PlayerIndex;
+        return playerInput.gameObject;
+    }
 }
