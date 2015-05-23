@@ -21,6 +21,8 @@ public class RaceUiManager : MonoBehaviour
     public GameObject CheckpointTimeText;
     public GameObject GapText;
 
+    public GameObject CountdownText;
+
     private const float SpeedDisplayCoeff = 50;
     private const float CheckpointTimePeriod = 2;
     static private Color PositiveColor = Color.green;
@@ -37,10 +39,6 @@ public class RaceUiManager : MonoBehaviour
 
         NitroBar.GetComponent<Slider>().minValue = 0;
         NitroBar.GetComponent<Slider>().maxValue = 1;
-
-        // Test
-        DisplayCheckpointTime();
-        DisplayGapTime();
 	}
 	
 	void Update ()
@@ -94,6 +92,11 @@ public class RaceUiManager : MonoBehaviour
 
         // GapText
         GapText.GetComponent<Text>().enabled = _displayCheckpoint && _displayGap;
+
+        // CountdownText
+	    CountdownText.GetComponent<Text>().text = GameManager.Instance.CountdownEnabled
+	        ? GameManager.Instance.Countdown.Seconds.ToString()
+	        : "";
 	}
 
     public void DisplayCheckpointTime()
