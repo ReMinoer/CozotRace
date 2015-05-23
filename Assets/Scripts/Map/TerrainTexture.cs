@@ -19,11 +19,11 @@ public class TerrainTexture : MonoBehaviour {
 	void Update () {
 		surfaceIndex = GetMainTexture (transform.position);
 	}
-
+    /*
 	void OnGUI() {
 		GUI.Box (new Rect (100, 100, 200, 25), "index : " + surfaceIndex.ToString () + ", name : " + terrainData.splatPrototypes [surfaceIndex].texture.name);
 	}
-
+    */
 	private float[] GetTextureMix(Vector3 WorldPos) {
 		int mapX = (int)(((WorldPos.x - terrainPos.x) / terrainData.size.x) * terrainData.alphamapWidth);
 		int mapZ = (int)(((WorldPos.z - terrainPos.z) / terrainData.size.z) * terrainData.alphamapHeight);
