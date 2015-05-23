@@ -6,15 +6,21 @@ public class CheckPoint : LinkedPoint
 {
 	void OnTriggerEnter(Collider Col)
 	{
-		if (Col.isTrigger && Col.gameObject.GetComponent<Contestant>() != null)	Col.gameObject.GetComponent<Contestant> ().ValidateCheckPoint (this);
-
+		if (Col.isTrigger && Col.gameObject.GetComponent<Contestant>() != null)
+            Col.gameObject.GetComponent<Contestant> ().ValidateCheckPoint (this);
 	}
 
 	void OnDrawGizmos()
 	{
-		if (NextPoint != null) {
+		if (NextPoint != null)
+        {
 			Gizmos.color = Color.cyan;
 			Gizmos.DrawLine (transform.position, NextPoint.transform.position);
+		}
+		else
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(transform.position, Race.Instance.FirstCheckPoint.transform.position);
 		}
 	}
 

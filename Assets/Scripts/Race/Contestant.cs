@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Contestant : MonoBehaviour {
+public class Contestant : MonoBehaviour
+{
     public int CurrentLap { get; private set; }
     public CheckPoint CurrentCheckPoint { get; private set; }
 
@@ -9,16 +10,30 @@ public class Contestant : MonoBehaviour {
 	{
 		if (Cp == CurrentCheckPoint)
         {
-			if (CurrentCheckPoint.NextPoint == null)
+            //Debug.Log("Next checkpoint");
+            if (CurrentCheckPoint.NextPoint == null)
             {
-				CurrentLap++;
-				CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
-				if (Race.Instance.Laps < CurrentLap)
-				    GameManager.Instance.ChangeState(new FinishedGameState(GameManager.Instance));
-			}
-			else
-				CurrentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
-		}
+                CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
+            }
+            else
+            {
+                if (CurrentCheckPoint == Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>())
+                {
+                    //Debug.Log("Next lap");
+                    CurrentLap++;
+                    if (CurrentLap > Race.Instance.Laps)
+                    {
+                        //Debug.Log("Finish race");
+                        GameManager.Instance.ChangeState(new FinishedGameState(GameManager.Instance));
+                    }
+                }
+                CurrentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
+            }
+
+            var ui = gameObject.GetComponentInChildren<RaceUiManager>();
+            if (ui != null)
+                ui.DisplayCheckpointTime();
+        }
 		else
         {
 			Debug.Log("miss point");
@@ -30,8 +45,9 @@ public class Contestant : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-		CurrentLap = 1;
-		CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
+		CurrentLap = 0;
+        if (Race.Instance.FirstCheckPoint != null)
+            CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
 	}
 	
 	// Update is called once per frame

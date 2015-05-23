@@ -67,10 +67,14 @@ public class ProgressTracker : MonoBehaviour
         Target.position =
                     Track.Instance.GetRoutePoint(ProgressDistance + lookAheadForTargetOffset + lookAheadForTargetFactor * _speed)
                            .Position;
-        Target.rotation =
-            Quaternion.LookRotation(
-                Track.Instance.GetRoutePoint(ProgressDistance + _lookAheadForSpeedOffset + _lookAheadForSpeedFactor * _speed)
-                       .Direction);
+        if (Track.Instance.GetPointsCount() != 0)
+        {
+            Target.rotation =
+                Quaternion.LookRotation(
+                    Track.Instance.GetRoutePoint(ProgressDistance + _lookAheadForSpeedOffset +
+                                                 _lookAheadForSpeedFactor * _speed)
+                        .Direction);
+        }
 
         // Find the current progress
         ProgressPoint = Track.Instance.GetRoutePoint(ProgressDistance);

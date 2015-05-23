@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using DesignPattern;
 
-[RequireComponent(typeof(ProgressTracker))]
-public class AiInput : Factory<AiInput>
+public class AiInput : MonoBehaviour
 {
     public bool DebugTrajectory = false;
     private Vector3 _lastPosition;
@@ -40,9 +37,9 @@ public class AiInput : Factory<AiInput>
 
     private void Awake()
     {
-        _vehicle = GetComponentInChildren<VehicleMotor>();
+        _vehicle = GetComponent<VehicleMotor>();
         _progressTracker = GetComponent<ProgressTracker>();
-        _rigidbody = GetComponentInChildren<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
 
         _randomPerlin = Random.value * 100;
     }
@@ -56,6 +53,9 @@ public class AiInput : Factory<AiInput>
         }
 
         // the car will brake according to the upcoming change in direction of the target. Useful for route-based AI, slowing for corners.
+
+        if (_progressTracker.Target == null)
+            return;
 
         // check out the angle of our target compared to the current direction of the car
         float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position - _vehicle.transform.position, fwd);

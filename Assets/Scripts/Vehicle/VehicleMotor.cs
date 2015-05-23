@@ -1,7 +1,8 @@
 ﻿using System;
+using DesignPattern;
 using UnityEngine;
 
-public class VehicleMotor : MonoBehaviour
+public class VehicleMotor : Factory<VehicleMotor>
 {
     public enum VehicleState
     {
@@ -80,8 +81,9 @@ public class VehicleMotor : MonoBehaviour
 		}
 
 
-		if (Physics.Raycast (rayNose, out hitNose, FloatingHeight)) {
-			if (Physics.Raycast (rayTail, out hitTail, FloatingHeight)) {
+		if (Physics.Raycast(rayNose, out hitNose, FloatingHeight, LayerMask.GetMask("Map"))) {
+            if (Physics.Raycast(rayTail, out hitTail, FloatingHeight, LayerMask.GetMask("Map")))
+            {
 				// Debug.Log("Diff : "+(Mathf.Abs(hitNose.distance-hitTail.distance))+"\n");
 				if(hitNose.distance + MaxDiffHeight >= hitTail.distance) {
 					GetComponent<Rigidbody>().AddForce(appliedForce, ForceMode.Acceleration);
@@ -116,10 +118,14 @@ public class VehicleMotor : MonoBehaviour
 		}*/
 
 		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
-		if (terrainTexture != null)
-			SpeedCoeff = Map.Instance.Grounds [GetComponent<TerrainTexture>().GetMainTexture (transform.position)].SpeedCoeff;
-		else
-			SpeedCoeff = 1;
+        if (terrainTexture != null)
+        {
+            int textureIndex = GetComponent<TerrainTexture>().GetMainTexture(transform.position);
+            if (textureIndex != -1)
+                SpeedCoeff = Map.Instance.Grounds[textureIndex].SpeedCoeff;
+        }
+        else
+            SpeedCoeff = 1;
 
         if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMaxActual)
 			if (!isBoosted)

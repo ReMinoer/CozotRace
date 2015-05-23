@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using DesignPattern;
 
-[RequireComponent(typeof(ProgressTracker))]
-public class PlayerInput : Factory<PlayerInput>
+public class PlayerInput : MonoBehaviour
 {
 
 	public PlayerIndex Index;

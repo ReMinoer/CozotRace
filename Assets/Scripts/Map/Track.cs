@@ -59,6 +59,9 @@ public class Track : DesignPattern.Singleton<Track>
 
     public Vector3 GetRoutePosition(float dist)
     {
+        if (GetPointsCount() == 0)
+            return Vector3.zero;
+
         int point = 0;
 
         if (Math.Abs(Length) < float.Epsilon)

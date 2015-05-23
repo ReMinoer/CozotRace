@@ -9,7 +9,8 @@ public class HoverMotor : MonoBehaviour {
 	{
 		Ray ray = new Ray (transform.position, -transform.up);	
 		RaycastHit hit;
-		if (Physics.Raycast (ray, out hit, FloatingHeight)) {
+		if (Physics.Raycast (ray, out hit, FloatingHeight))
+        {
 			float proportionalHeight = (FloatingHeight - hit.distance) / FloatingHeight;
 			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
 			GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);

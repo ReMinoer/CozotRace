@@ -10,7 +10,7 @@ public class ReplayGameState : GameState
 
     public override void Init()
     {
-        GameManager.Resume();
+        GameManager.Pause();
     }
 
     public override void Update()

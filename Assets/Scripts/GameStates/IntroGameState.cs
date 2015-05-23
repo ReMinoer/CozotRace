@@ -31,6 +31,7 @@ public class IntroGameState : GameState
             GameManager.AddContestant(gameObject);
             i++;
         }
+
     }
 
     public override void Update()

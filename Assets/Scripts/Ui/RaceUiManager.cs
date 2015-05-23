@@ -3,9 +3,10 @@ using UnityEngine;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using DesignPattern;
 using UnityEngine.UI;
 
-public class RaceUiManager : MonoBehaviour
+public class RaceUiManager : Factory<RaceUiManager>
 {
     public GameObject Vehicle;
 
@@ -69,7 +70,7 @@ public class RaceUiManager : MonoBehaviour
         NitroBar.GetComponent<Slider>().value = 0.75f;
 
         // PositionText
-        PositionText.GetComponent<Text>().text = (GameManager.Instance.Contestants.IndexOf(Vehicle.transform.parent.gameObject) + 1).ToString();
+        PositionText.GetComponent<Text>().text = (GameManager.Instance.Contestants.IndexOf(Vehicle) + 1).ToString();
 
         // PositionMaxText
         PositionMaxText.GetComponent<Text>().text = "/" + GameManager.Instance.Contestants.Count;

@@ -159,6 +159,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &178896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 468766}
+  - 114: {fileID: 11471490}
+  m_Layer: 0
+  m_Name: CameraManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &182380
 GameObject:
   m_ObjectHideFlags: 1
@@ -313,6 +329,7 @@ Transform:
   - {fileID: 454836}
   - {fileID: 413380}
   - {fileID: 415898}
+  - {fileID: 468766}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &426506
@@ -365,6 +382,18 @@ Transform:
   - {fileID: 421676}
   m_Father: {fileID: 423844}
   m_RootOrder: 2
+--- !u!4 &468766
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 423844}
+  m_RootOrder: 5
 --- !u!4 &471022
 Transform:
   m_ObjectHideFlags: 1
@@ -411,7 +440,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a5a0604020a4853499e65bad2cb18fd7, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -501,6 +530,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Grounds: []
+--- !u!114 &11471490
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dad4a59198f60d44ab18f6f81b66833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RaceUiManagers: []
 --- !u!114 &11473920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -512,6 +553,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8519a96e24465b47baa4406e4379d37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayersData:
+  - PlayerIndex: 0
+  AisData: []
+  StartGrid: {fileID: 11442532}
+  CameraManager: {fileID: 11471490}
 --- !u!114 &11479936
 MonoBehaviour:
   m_ObjectHideFlags: 1

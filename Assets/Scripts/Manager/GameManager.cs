@@ -9,6 +9,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public List<PlayerVehicleData> PlayersData = new List<PlayerVehicleData>();
     public List<AiVehicleData> AisData = new List<AiVehicleData>();
     public StartGrid StartGrid;
+    public CameraManager CameraManager;
 
     public List<GameObject> Contestants { get; private set; }
 
