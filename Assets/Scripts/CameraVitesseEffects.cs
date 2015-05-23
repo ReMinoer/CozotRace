@@ -47,7 +47,7 @@ public class CameraVitesseEffects : MonoBehaviour {
 		currentRotationAngle = transform.eulerAngles.y;
 
 		//Debug.Log(string.Format("Current - Wanted : {0}", currentRotationAngle - wantedRotationAngle));
-		Debug.Log(string.Format("CurrentHeight - WantedHeight : {0}", currentHeight - wantedHeight));
+		//Debug.Log(string.Format("CurrentHeight - WantedHeight : {0}", currentHeight - wantedHeight));
 		currentRotationAngle = Mathf.SmoothDampAngle(currentRotationAngle, wantedRotationAngle, ref yVelocity, rotationSnapTime);
 
 		if (currentHeight - wantedHeight > 0.06) {
