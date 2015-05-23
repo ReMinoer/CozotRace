@@ -1613,7 +1613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebugTrajectory: 0
-  _cautiousSpeedFactor: .0500000007
+  _cautiousSpeedFactor: .100000001
   _cautiousMaxAngle: 50
   _cautiousAngularVelocityFactor: 30
   _reactionAngle: 60
@@ -1650,8 +1650,12 @@ MonoBehaviour:
   BackwardForce: 1
   BrakeForce: 4.25
   ForwardSpeedMax: 10
+  ForwardSpeedMaxActual: 25
+  SpeedEvolution: .200000003
   BackwardSpeedMax: 2.5
+  MaxDiffHeight: 1
   TurningAngle: .00999999978
+  isBoosted: 0
 --- !u!114 &11487914
 MonoBehaviour:
   m_ObjectHideFlags: 1
