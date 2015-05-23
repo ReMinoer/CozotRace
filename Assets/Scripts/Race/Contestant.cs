@@ -2,29 +2,25 @@
 using System.Collections;
 
 public class Contestant : MonoBehaviour {
-	private int _currentLap;
-	private CheckPoint _currentCheckPoint;
+    public int CurrentLap { get; private set; }
+    public CheckPoint CurrentCheckPoint { get; private set; }
 
 	public void ValidateCheckPoint(CheckPoint Cp)
 	{
-		if (Cp == _currentCheckPoint) {
-			Debug.Log ("test");
-			if (_currentCheckPoint.NextPoint == null) {
-				_currentLap++;
-				if (Race.Instance.Laps < _currentLap) {
-					Debug.Log("fin de course");
-				} 
-				else {
-					Debug.Log("nouveau tour");
-					_currentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
-				}
+		if (Cp == CurrentCheckPoint)
+        {
+			if (CurrentCheckPoint.NextPoint == null)
+            {
+				CurrentLap++;
+				CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
+				if (Race.Instance.Laps < CurrentLap)
+				    GameManager.Instance.ChangeState(new FinishedGameState(GameManager.Instance));
 			}
-			else {
-				//maj du checkpoint
-				_currentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
-			}
+			else
+				CurrentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
 		}
-		else {
+		else
+        {
 			Debug.Log("miss point");
 		}
 
@@ -32,13 +28,15 @@ public class Contestant : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-		_currentLap = 1;
-		_currentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
+	void Start ()
+    {
+		CurrentLap = 1;
+		CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }

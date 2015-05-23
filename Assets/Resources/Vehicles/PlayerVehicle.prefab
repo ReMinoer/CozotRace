@@ -298,6 +298,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 427032}
   - 114: {fileID: 11481552}
+  - 114: {fileID: 11408174}
+  - 114: {fileID: 11470228}
   m_Layer: 0
   m_Name: PlayerVehicle
   m_TagString: Untagged
@@ -645,6 +647,7 @@ GameObject:
   - 65: {fileID: 6553410}
   - 114: {fileID: 11454928}
   - 114: {fileID: 11468462}
+  - 114: {fileID: 11486104}
   m_Layer: 0
   m_Name: Vehicle
   m_TagString: Untagged
@@ -1473,7 +1476,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: .300000012
+  near clip plane: .100000001
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -2384,6 +2387,21 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: .5}
   m_EffectDistance: {x: 3, y: -3}
   m_UseGraphicAlpha: 1
+--- !u!114 &11408174
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eae8a88f29ae53439a5d3fc2b8d32d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAheadForTargetOffset: 5
+  lookAheadForTargetFactor: .100000001
+  _lookAheadForSpeedOffset: 10
+  _lookAheadForSpeedFactor: .200000003
 --- !u!114 &11416180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2866,6 +2884,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   surfaceIndex: 0
+--- !u!114 &11470228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80288386ef199334ea45591cc77cfdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11470518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3187,6 +3216,17 @@ MonoBehaviour:
   CheckpointTimeText: {fileID: 132302}
   GapText: {fileID: 138310}
   CountdownText: {fileID: 109586}
+--- !u!114 &11486104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80288386ef199334ea45591cc77cfdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11488500
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4575,7 +4615,7 @@ Canvas:
   serializedVersion: 2
   m_RenderMode: 1
   m_Camera: {fileID: 2074434}
-  m_PlaneDistance: 1
+  m_PlaneDistance: .200000003
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
