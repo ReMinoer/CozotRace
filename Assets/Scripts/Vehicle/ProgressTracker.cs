@@ -24,8 +24,8 @@ public class ProgressTracker : MonoBehaviour
     //public Track.RoutePoint speedPoint { get; private set; }
     public Track.RoutePoint ProgressPoint { get; private set; }
     public Transform Target { get; private set; }
+    public float ProgressDistance { get; private set; }
 
-    private float _progressDistance;
     private Vector3 _lastPosition;
     private float _speed;
 
@@ -54,7 +54,7 @@ public class ProgressTracker : MonoBehaviour
     // reset the object to sensible values
     public void Reset()
     {
-        _progressDistance = 0;
+        ProgressDistance = 0;
     }
 
     void Update()
@@ -65,19 +65,19 @@ public class ProgressTracker : MonoBehaviour
                                Time.deltaTime);
 
         Target.position =
-                    Track.Instance.GetRoutePoint(_progressDistance + lookAheadForTargetOffset + lookAheadForTargetFactor * _speed)
+                    Track.Instance.GetRoutePoint(ProgressDistance + lookAheadForTargetOffset + lookAheadForTargetFactor * _speed)
                            .Position;
         Target.rotation =
             Quaternion.LookRotation(
-                Track.Instance.GetRoutePoint(_progressDistance + _lookAheadForSpeedOffset + _lookAheadForSpeedFactor * _speed)
+                Track.Instance.GetRoutePoint(ProgressDistance + _lookAheadForSpeedOffset + _lookAheadForSpeedFactor * _speed)
                        .Direction);
 
         // Find the current progress
-        ProgressPoint = Track.Instance.GetRoutePoint(_progressDistance);
+        ProgressPoint = Track.Instance.GetRoutePoint(ProgressDistance);
         Vector3 progressDelta = ProgressPoint.Position - _vehicle.transform.position;
         if (Vector3.Dot(progressDelta, ProgressPoint.Direction) < 0)
         {
-            _progressDistance += progressDelta.magnitude * 0.5f;
+            ProgressDistance += progressDelta.magnitude * 0.5f;
         }
 
         _lastPosition = _vehicle.transform.position;
@@ -91,7 +91,7 @@ public class ProgressTracker : MonoBehaviour
             Gizmos.DrawLine(_vehicle.transform.position, Target.position);
             Gizmos.DrawLine(Target.position, Target.position + Target.forward);
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(Track.Instance.GetRoutePosition(_progressDistance), 1);
+            Gizmos.DrawWireSphere(Track.Instance.GetRoutePosition(ProgressDistance), 1);
         }
     }
 }

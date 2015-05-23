@@ -1,12 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class Race : DesignPattern.Singleton<Race> {
-
-	public List<PlayerVehicleData> Players; 
-	public List<AiVehicleData> Ais;
-	public List<ReplayVehicleData> Replays;
+public class Race : DesignPattern.Singleton<Race>
+{
 	public int Laps;
 	public GameObject FirstCheckPoint;
 
@@ -26,6 +22,10 @@ public class Race : DesignPattern.Singleton<Race> {
 		}
 	}
 
+    void Start()
+    {
+        DisableInsertModeAllPoints();
+    }
 
 	public List<GameObject> GetAllPoints()
 	{
@@ -74,20 +74,4 @@ public class Race : DesignPattern.Singleton<Race> {
 			currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
 		}
 	}
-
-	void Awake() {
-
-	}
-
-	void Start()
-	{
-		DisableInsertModeAllPoints();
-	}
-
-	void InitializeVehiclePosition() {
-
-	}
-
-
-
 }

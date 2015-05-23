@@ -10,6 +10,8 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public List<AiVehicleData> AisData = new List<AiVehicleData>();
     public StartGrid StartGrid;
 
+    public List<GameObject> Contestants { get; private set; }
+
     public TimeSpan Countdown
     {
         get { return TimeSpan.FromSeconds(6 - _countdown); }
@@ -31,6 +33,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
 
     protected GameManager()
     {
+        Contestants = new List<GameObject>();
     }
 
     void Awake()
@@ -54,6 +57,8 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         if (ChronometerEnabled)
             _chronometer += Time.unscaledDeltaTime;
 
+        Contestants.Sort(new PositionComparer());
+
         if (_differedChangeStateRequest)
         {
             ChangeState(_stateRequested);
@@ -64,11 +69,18 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public void Resume()
     {
         ChronometerEnabled = true;
+        Time.timeScale = 1;
     }
 
     public void Pause()
     {
         ChronometerEnabled = false;
+        Time.timeScale = 0;
+    }
+
+    public void AddContestant(GameObject contestant)
+    {
+        Contestants.Add(contestant);
     }
 
     public void ResetChrono()
@@ -91,5 +103,15 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     {
         _stateRequested = newState;
         _differedChangeStateRequest = true;
+    }
+
+    private class PositionComparer : IComparer<GameObject>
+    {
+        public int Compare(GameObject x, GameObject y)
+        {
+            return
+                - x.GetComponent<ProgressTracker>()
+                    .ProgressDistance.CompareTo(y.GetComponent<ProgressTracker>().ProgressDistance);
+        }
     }
 }

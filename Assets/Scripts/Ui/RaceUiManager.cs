@@ -69,17 +69,16 @@ public class RaceUiManager : MonoBehaviour
         NitroBar.GetComponent<Slider>().value = 0.75f;
 
         // PositionText
-        PositionText.GetComponent<Text>().text = 1.ToString();
+        PositionText.GetComponent<Text>().text = (GameManager.Instance.Contestants.IndexOf(Vehicle.transform.parent.gameObject) + 1).ToString();
 
         // PositionMaxText
-        PositionMaxText.GetComponent<Text>().text = "/" + 2.ToString();
+        PositionMaxText.GetComponent<Text>().text = "/" + GameManager.Instance.Contestants.Count;
 
         // LapText
-        LapText.GetComponent<Text>().text = string.Format("Lap : {0} of {1}", 1, 3);
+        LapText.GetComponent<Text>().text = string.Format("Lap : {0} of {1}", Vehicle.GetComponentInParent<Contestant>().CurrentLap, Race.Instance.Laps);
         
         // TimeText
-        var time = new TimeSpan(0,0,10,20,300);
-        TimeText.GetComponent<Text>().text = GetChronometerText(time, true);
+        TimeText.GetComponent<Text>().text = GetChronometerText(GameManager.Instance.Chronometer, true);
 
 	    if (Time.time - _checkpointTime > CheckpointTimePeriod)
         {
@@ -104,7 +103,7 @@ public class RaceUiManager : MonoBehaviour
         _displayCheckpoint = true;
         _checkpointTime = Time.time;
 
-        TimeSpan checkpoint = TimeSpan.FromSeconds(2);
+        TimeSpan checkpoint = GameManager.Instance.Chronometer;
 
         CheckpointTimeText.GetComponent<Text>().text = GetChronometerText(checkpoint, true);
     }
@@ -113,7 +112,7 @@ public class RaceUiManager : MonoBehaviour
     {
         _displayGap = true;
 
-        TimeSpan gap = TimeSpan.FromSeconds(-2);
+        TimeSpan gap = TimeSpan.FromSeconds(0);
 
         GapText.GetComponent<Text>().color = gap.Ticks > 0 ? NegativeColor : PositiveColor;
         GapText.GetComponent<Text>().text = GetChronometerText(gap, false, true);

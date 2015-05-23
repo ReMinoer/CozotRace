@@ -195,6 +195,7 @@ GameObject:
   - 4: {fileID: 447814}
   - 114: {fileID: 11487914}
   - 114: {fileID: 11420548}
+  - 114: {fileID: 11452410}
   m_Layer: 0
   m_Name: AiVehicle
   m_TagString: Untagged
@@ -250,6 +251,7 @@ GameObject:
   - 65: {fileID: 6565674}
   - 114: {fileID: 11466728}
   - 114: {fileID: 11442396}
+  - 114: {fileID: 11461382}
   m_Layer: 0
   m_Name: Vehicle
   m_TagString: Untagged
@@ -1633,6 +1635,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   surfaceIndex: 0
+--- !u!114 &11452410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80288386ef199334ea45591cc77cfdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11461382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80288386ef199334ea45591cc77cfdb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11466728
 MonoBehaviour:
   m_ObjectHideFlags: 1

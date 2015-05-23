@@ -19,6 +19,7 @@ public class IntroGameState : GameState
             GameObject gameObject = data.Instantiate();
             gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
             gameObject.transform.rotation = GameManager.StartGrid.StartPositions[i].rotation;
+            GameManager.AddContestant(gameObject);
             i++;
         }
 
@@ -27,6 +28,7 @@ public class IntroGameState : GameState
             GameObject gameObject = data.Instantiate();
             gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
             gameObject.transform.rotation = GameManager.StartGrid.StartPositions[i].rotation;
+            GameManager.AddContestant(gameObject);
             i++;
         }
     }
