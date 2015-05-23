@@ -21,8 +21,8 @@ public class VehicleMotor : MonoBehaviour
 	public float ForwardSpeedMaxActual = 25f;
 	public float SpeedEvolution = 0.2f;
 	public float BackwardSpeedMax = 10f;
+	public float MaxDiffHeight = 1.0f;
 	public float TurningAngle = 50f;
-
 	public bool isBoosted = false;
 
     private const float StopThreshold = 0.1f;
@@ -48,37 +48,50 @@ public class VehicleMotor : MonoBehaviour
 
     public void FixedUpdate()
     {
-		Ray rayN = new Ray (transform.position, -transform.up);
-		Ray rayT = new Ray (transform.position, -transform.up);
+		Ray rayNose = new Ray (transform.position, -transform.up);
+		Ray rayTail = new Ray (transform.position, -transform.up);
+		Ray rayCenter = new Ray (transform.position, -transform.up);
 
 		Transform noseTransform = null;
 		Transform tailTransform = null;
+		Transform centerTransform = null;
 		Transform childTransform = transform.FindChild ("car02");
 
+
 		if (childTransform != null) {
+			centerTransform = childTransform.gameObject.transform.FindChild ("Center");
 			noseTransform = childTransform.gameObject.transform.FindChild ("Nose");
 			tailTransform = childTransform.gameObject.transform.FindChild ("Tail");
 		}
 
 		if(noseTransform != null)
-			rayN = new Ray (noseTransform.position, -noseTransform.up);
+			rayNose = new Ray (noseTransform.position, -noseTransform.up);
 		if (tailTransform != null)
-			rayT = new Ray (tailTransform.position, -tailTransform.up);
+			rayTail = new Ray (tailTransform.position, -tailTransform.up);
+		if (centerTransform != null)
+			rayCenter = new Ray (centerTransform.position, -centerTransform.up);
 		
-		RaycastHit hitN, hitT;
-
-		if (Physics.Raycast (rayN, out hitN, FloatingHeight))
-        {
-			float proportionalHeight = (FloatingHeight - hitN.distance) / FloatingHeight ;
-			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
-			GetComponent<Rigidbody>().AddForce(appliedHoverForce, ForceMode.Acceleration);
+		RaycastHit hitNose, hitTail, hitCenter;
+		float proportionalHeight;
+		Vector3 appliedForce = Vector3.zero;
+		if(Physics.Raycast(rayCenter,out hitCenter, FloatingHeight)) {
+			proportionalHeight = (FloatingHeight - hitCenter.distance) / FloatingHeight ;
+			appliedForce = Vector3.up * proportionalHeight * HoverForce;
 		}
 
-		if (Physics.Raycast (rayT, out hitT, FloatingHeight))
-        {
-			float proportionalHeight = (FloatingHeight - hitT.distance) / FloatingHeight;
-			Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
-			GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
+
+		if (Physics.Raycast (rayNose, out hitNose, FloatingHeight)) {
+			if (Physics.Raycast (rayTail, out hitTail, FloatingHeight)) {
+				Debug.Log("Diff : "+(Mathf.Abs(hitNose.distance-hitTail.distance))+"\n");
+				if(hitNose.distance + MaxDiffHeight >= hitTail.distance) {
+					GetComponent<Rigidbody>().AddForce(appliedForce, ForceMode.Acceleration);
+				}
+				/*else {
+					float proportionalHeight = (FloatingHeight - hitTail.distance) / FloatingHeight;
+					Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
+					GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
+				}*/
+			}
 		}
 		
 		if (ForwardSpeedMaxActual > ForwardSpeedMax)
@@ -86,6 +99,21 @@ public class VehicleMotor : MonoBehaviour
 
 		if (ForwardSpeedMaxActual < ForwardSpeedMax)
 			ForwardSpeedMaxActual += SpeedEvolution;
+
+		/*if (Physics.Raycast (rayTail, out hitTail, FloatingHeight)) {
+			if (Physics.Raycast (rayNose, out hitNose, FloatingHeight)) {
+				if(hitTail.distance-hitNose.distance < MaxDiffHeight) {
+					float proportionalHeight = (FloatingHeight - hitTail.distance) / FloatingHeight ;
+					Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
+					GetComponent<Rigidbody>().AddForce(appliedHoverForce, ForceMode.Acceleration);
+				}
+				else {
+					float proportionalHeight = (FloatingHeight - hitNose.distance) / FloatingHeight;
+					Vector3 appliedHoverForce = Vector3.up * proportionalHeight * HoverForce;
+					GetComponent<Rigidbody> ().AddForce (appliedHoverForce, ForceMode.Acceleration);
+				}
+			}
+		}*/
 
 		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
 		if (terrainTexture != null)
