@@ -14,7 +14,7 @@ public class IntroGameState : GameState
 
         int i = 0;
 
-        foreach (PlayerVehicleData data in GameManager.PlayersData)
+        foreach (AiVehicleData data in GameManager.AisData)
         {
             GameObject gameObject = data.Instantiate();
             gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
@@ -22,7 +22,7 @@ public class IntroGameState : GameState
             i++;
         }
 
-        foreach (AiVehicleData data in GameManager.AisData)
+        foreach (PlayerVehicleData data in GameManager.PlayersData)
         {
             GameObject gameObject = data.Instantiate();
             gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;

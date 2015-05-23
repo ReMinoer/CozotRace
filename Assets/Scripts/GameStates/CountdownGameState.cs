@@ -11,10 +11,17 @@ public class CountdownGameState : GameState
     public override void Init()
     {
         GameManager.Pause();
+
+        GameManager.CountdownEnabled = true;
+        GameManager.ResetCountdown();
     }
 
     public override void Update()
     {
-        GameManager.ChangeStateDiffered(new PlayGameState(GameManager));
+        if (GameManager.Countdown.Ticks < 0)
+        {
+            GameManager.CountdownEnabled = false;
+            GameManager.ChangeStateDiffered(new PlayGameState(GameManager));
+        }
     }
 }
