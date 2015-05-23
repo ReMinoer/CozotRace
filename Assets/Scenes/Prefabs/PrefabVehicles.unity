@@ -241,6 +241,58 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 22479458, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22479458, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22445860, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22445860, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22445860, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22463400, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22463400, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22445332, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22445332, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22445332, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074434, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: near clip plane
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 22389054, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_PlaneDistance
+      value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 22389054, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
+      propertyPath: m_PixelPerfect
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8c1041cf135096d4bae5c773b1d40e4d, type: 2}
   m_IsPrefabParent: 0

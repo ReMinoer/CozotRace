@@ -82,7 +82,7 @@ public class VehicleMotor : MonoBehaviour
 
 		if (Physics.Raycast (rayNose, out hitNose, FloatingHeight)) {
 			if (Physics.Raycast (rayTail, out hitTail, FloatingHeight)) {
-				Debug.Log("Diff : "+(Mathf.Abs(hitNose.distance-hitTail.distance))+"\n");
+				// Debug.Log("Diff : "+(Mathf.Abs(hitNose.distance-hitTail.distance))+"\n");
 				if(hitNose.distance + MaxDiffHeight >= hitTail.distance) {
 					GetComponent<Rigidbody>().AddForce(appliedForce, ForceMode.Acceleration);
 				}
