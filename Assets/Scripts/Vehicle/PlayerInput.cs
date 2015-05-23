@@ -1,16 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using DesignPattern;
 
-public class PlayerInput : MonoBehaviour {
-
-	public enum PlayerIndex
-	{
-		PlayerOne,
-		PlayerTwo,
-		PlayerThree,
-		PlayerFour
-	}
+public class PlayerInput : Factory<PlayerInput>
+{
 
 	public PlayerIndex Index;
 
@@ -59,11 +53,11 @@ public class PlayerInput : MonoBehaviour {
 
 		switch (Index)
 		{
-		case PlayerIndex.PlayerOne:
+		case PlayerIndex.One:
 			horizontalInput = Input.GetAxis ("Horizontal");
 			verticalInput = Input.GetAxis ("Vertical");
 			break;
-		case PlayerIndex.PlayerTwo:
+		case PlayerIndex.Two:
 			horizontalInput = Input.GetAxis ("Horizontal2");
 			verticalInput = Input.GetAxis ("Vertical2");
 			break;
@@ -77,7 +71,7 @@ public class PlayerInput : MonoBehaviour {
 		drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
 		drivingState.Turn = horizontalInput;
 		
-		GetComponent<VehicleMotor> ().ChangeState (drivingState);
+		GetComponentInChildren<VehicleMotor> ().ChangeState (drivingState);
 	}
 
 //	void OnValidate()

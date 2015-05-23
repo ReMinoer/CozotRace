@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DesignPattern;
 
-[RequireComponent(typeof(VehicleMotor))]
 [RequireComponent(typeof(ProgressTracker))]
-public class AiInput : MonoBehaviour
+public class AiInput : Factory<AiInput>
 {
     public bool DebugTrajectory = false;
     private Vector3 _lastPosition;
@@ -40,16 +40,16 @@ public class AiInput : MonoBehaviour
 
     private void Awake()
     {
-        _vehicle = GetComponent<VehicleMotor>();
+        _vehicle = GetComponentInChildren<VehicleMotor>();
         _progressTracker = GetComponent<ProgressTracker>();
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponentInChildren<Rigidbody>();
 
         _randomPerlin = Random.value * 100;
     }
 
     void FixedUpdate()
     {
-        Vector3 fwd = transform.forward;
+        Vector3 fwd = _vehicle.transform.forward;
         if (_rigidbody.velocity.magnitude > _vehicle.ForwardSpeedMax * 0.1f)
         {
             fwd = _rigidbody.velocity;
@@ -58,7 +58,7 @@ public class AiInput : MonoBehaviour
         // the car will brake according to the upcoming change in direction of the target. Useful for route-based AI, slowing for corners.
 
         // check out the angle of our target compared to the current direction of the car
-        float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position - transform.position, fwd);
+        float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position - _vehicle.transform.position, fwd);
 
         // also consider the current amount we're turning, multiplied up and then compared in the same way as an upcoming corner angle
         float spinningAngle = _rigidbody.angularVelocity.magnitude * _cautiousAngularVelocityFactor;
@@ -97,8 +97,8 @@ public class AiInput : MonoBehaviour
         float accelerateAmount = (1 - _accelWanderAmount) +
                  (Mathf.PerlinNoise(Time.time * _accelWanderSpeed, _randomPerlin) * _accelWanderAmount);
 
-        Vector2 forward2D = this.transform.forward.ToXZ();
-        Vector2 position2D = this.transform.position.ToXZ();
+        Vector2 forward2D = _vehicle.transform.forward.ToXZ();
+        Vector2 position2D = _vehicle.transform.position.ToXZ();
         Vector2 destination2D = offsetTargetPos.ToXZ();
         float angleTurn = Vector3.Angle(forward2D.ToX0Y(), (destination2D - position2D).normalized.ToX0Y());
         Vector3 crossTurn = Vector3.Cross(forward2D.ToX0Y(), (destination2D - position2D).normalized.ToX0Y());
@@ -118,8 +118,8 @@ public class AiInput : MonoBehaviour
 
         // Draw debug trajectory
         if (DebugTrajectory)
-            Debug.DrawLine(_lastPosition, this.transform.position, accelerate ? Color.green : Color.red, 5);
-        _lastPosition = this.transform.position;
+            Debug.DrawLine(_lastPosition, _vehicle.transform.position, accelerate ? Color.green : Color.red, 5);
+        _lastPosition = _vehicle.transform.position;
     }
 
     private void OnCollisionStay(Collision col)

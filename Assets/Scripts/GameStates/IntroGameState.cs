@@ -11,6 +11,24 @@ public class IntroGameState : GameState
     public override void Init()
     {
         GameManager.Pause();
+
+        int i = 0;
+
+        foreach (PlayerVehicleData data in GameManager.PlayersData)
+        {
+            GameObject gameObject = data.Instantiate();
+            gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
+            gameObject.transform.rotation = GameManager.StartGrid.StartPositions[i].rotation;
+            i++;
+        }
+
+        foreach (AiVehicleData data in GameManager.AisData)
+        {
+            GameObject gameObject = data.Instantiate();
+            gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
+            gameObject.transform.rotation = GameManager.StartGrid.StartPositions[i].rotation;
+            i++;
+        }
     }
 
     public override void Update()
