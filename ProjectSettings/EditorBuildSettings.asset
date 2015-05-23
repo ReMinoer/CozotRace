@@ -10,4 +10,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prototypes/ProtoSelector.unity
   - enabled: 1
+    path: Assets/Scenes/Prototypes/ProtoRace4(1).unity
+  - enabled: 0
     path: Assets/Scenes/Prototypes/ProtoRace1.unity
+  - enabled: 1
+    path: Assets/Scenes/Prototypes/ProtoRace2.unity
+  - enabled: 0
+    path: Assets/Scenes/Prototypes/ProtoRace2.unity
+  - enabled: 1
+    path: Assets/Scenes/Prototypes/ProtoRace3.unity
