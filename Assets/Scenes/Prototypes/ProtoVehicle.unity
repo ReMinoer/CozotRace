@@ -606,6 +606,46 @@ Prefab:
       propertyPath: ColorModule.enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.atime1
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.key1.rgba
+      value: 4280288956
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.ctime0
+      value: 3470
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.ctime1
+      value: 51850
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.m_NumColorKeys
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.key0.rgba
+      value: 4280347077
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.key2.rgba
+      value: 131586
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ColorModule.gradient.maxGradient.ctime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 11495516, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: ForwardSpeedMax
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19853594, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: InitialModule.startColor.maxColor.rgba
+      value: 4279966670
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e85317e1b89354749b3523738e93ba94, type: 2}
   m_IsPrefabParent: 0
