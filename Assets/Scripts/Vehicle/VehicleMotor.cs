@@ -25,6 +25,12 @@ public class VehicleMotor : Factory<VehicleMotor>
 	public float MaxDiffHeight = 1.0f;
 	public float TurningAngle = 50f;
 	public bool isBoosted = false;
+	public float nitro = 2500;
+	public float nitroDecreaseSpeed = 1;
+
+	public Transform Nose;
+	public Transform Center;
+	public Transform Tail;
 
     private const float StopThreshold = 0.1f;
 	private float SpeedCoeff = 1f;
@@ -49,28 +55,17 @@ public class VehicleMotor : Factory<VehicleMotor>
 
     public void FixedUpdate()
     {
-		Ray rayNose = new Ray (transform.position, -transform.up);
-		Ray rayTail = new Ray (transform.position, -transform.up);
-		Ray rayCenter = new Ray (transform.position, -transform.up);
 
-		Transform noseTransform = null;
-		Transform tailTransform = null;
-		Transform centerTransform = null;
-		Transform childTransform = transform.FindChild ("car02");
+		Ray rayNose = new Ray();
+		Ray rayTail = new Ray();
+		Ray rayCenter = new Ray();
 
-
-		if (childTransform != null) {
-			centerTransform = childTransform.gameObject.transform.FindChild ("Center");
-			noseTransform = childTransform.gameObject.transform.FindChild ("Nose");
-			tailTransform = childTransform.gameObject.transform.FindChild ("Tail");
-		}
-
-		if(noseTransform != null)
-			rayNose = new Ray (noseTransform.position, -noseTransform.up);
-		if (tailTransform != null)
-			rayTail = new Ray (tailTransform.position, -tailTransform.up);
-		if (centerTransform != null)
-			rayCenter = new Ray (centerTransform.position, -centerTransform.up);
+		if(Nose != null)
+			rayNose = new Ray (Nose.position, -Nose.up);
+		if (Tail != null)
+			rayTail = new Ray (Tail.position, -Tail.up);
+		if (Center != null)
+			rayCenter = new Ray (Center.position, -Center.up);
 		
 		RaycastHit hitNose, hitTail, hitCenter;
 		float proportionalHeight;
@@ -127,8 +122,15 @@ public class VehicleMotor : Factory<VehicleMotor>
         else
             SpeedCoeff = 1;
 
+		if (isBoosted) {
+			ForwardSpeedMaxActual = 2 * ForwardSpeedMax;
+			nitro -= Time.deltaTime * nitroDecreaseSpeed;
+			if(nitro<0) nitro=0;
+		}
+		else
+			ForwardSpeedMaxActual = ForwardSpeedMax;
+
         if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMaxActual)
-			if (!isBoosted)
 				GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMaxActual;
 
 		if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
@@ -167,6 +169,8 @@ public class VehicleMotor : Factory<VehicleMotor>
                 Brake(state.Forward);
                 break;
         }
+
+		isBoosted = state.Boost && nitro>0;
 
 		Turn (state.Turn);
 		state.Time = Time.realtimeSinceStartup;
