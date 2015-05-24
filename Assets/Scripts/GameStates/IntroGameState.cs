@@ -32,6 +32,7 @@ public class IntroGameState : GameState
             i++;
         }
 
+        CameraManager.Instance.Start();
     }
 
     public override void Update()
