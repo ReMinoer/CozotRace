@@ -55,7 +55,6 @@ public class VehicleMotor : Factory<VehicleMotor>
 
     public void FixedUpdate()
     {
-
 		Ray rayNose = new Ray();
 		Ray rayTail = new Ray();
 		Ray rayCenter = new Ray();
