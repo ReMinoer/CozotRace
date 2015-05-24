@@ -25,6 +25,8 @@ public class VehicleMotor : Factory<VehicleMotor>
 	public float MaxDiffHeight = 1.0f;
 	public float TurningAngle = 50f;
 	public bool isBoosted = false;
+	public float nitro = 2500;
+	public float nitroDecreaseSpeed = 1;
 
 	public Transform Nose;
 	public Transform Center;
@@ -120,8 +122,15 @@ public class VehicleMotor : Factory<VehicleMotor>
         else
             SpeedCoeff = 1;
 
+		if (isBoosted) {
+			ForwardSpeedMaxActual = 2 * ForwardSpeedMax;
+			nitro -= Time.deltaTime * nitroDecreaseSpeed;
+			if(nitro<0) nitro=0;
+		}
+		else
+			ForwardSpeedMaxActual = ForwardSpeedMax;
+
         if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMaxActual)
-			if (!isBoosted)
 				GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMaxActual;
 
 		if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
@@ -160,6 +169,8 @@ public class VehicleMotor : Factory<VehicleMotor>
                 Brake(state.Forward);
                 break;
         }
+
+		isBoosted = state.Boost && nitro>0;
 
 		Turn (state.Turn);
 		state.Time = Time.realtimeSinceStartup;

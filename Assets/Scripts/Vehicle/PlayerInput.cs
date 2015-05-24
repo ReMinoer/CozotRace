@@ -47,26 +47,31 @@ public class PlayerInput : MonoBehaviour
 		DrivingState drivingState = new DrivingState ();
 		float horizontalInput;
 		float verticalInput;
+		bool boostInput = false;
 
 		switch (Index)
 		{
 		case PlayerIndex.One:
 			horizontalInput = Input.GetAxis ("Horizontal");
 			verticalInput = Input.GetAxis ("Vertical");
+			boostInput = Input.GetKey(KeyCode.Space);
 			break;
 		case PlayerIndex.Two:
 			horizontalInput = Input.GetAxis ("Horizontal2");
 			verticalInput = Input.GetAxis ("Vertical2");
+			//boostInput = Input.GetButton(
 			break;
 		default:
 			horizontalInput = Input.GetAxis ("Horizontal");
 			verticalInput = Input.GetAxis ("Vertical");
+			boostInput = Input.GetKey(KeyCode.Space);
 			break;
 		}
 
 		drivingState.Forward = Mathf.Clamp (verticalInput, 0, 1);
 		drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
 		drivingState.Turn = horizontalInput;
+		drivingState.Boost = boostInput;
 		
 		GetComponentInChildren<VehicleMotor> ().ChangeState (drivingState);
 	}
