@@ -10,7 +10,7 @@ public class FinishedGameState : GameState
 
     public override void Init()
     {
-        GameManager.Pause();
+        GameManager.Resume();
     }
 
     public override void Update()

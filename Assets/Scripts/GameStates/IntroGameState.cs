@@ -14,21 +14,27 @@ public class IntroGameState : GameState
 
         int i = 0;
 
+        int aiCount = 0;
         foreach (AiVehicleData data in GameManager.AisData)
         {
             GameObject gameObject = data.Instantiate();
             gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
             gameObject.transform.rotation = GameManager.StartGrid.StartPositions[i].rotation;
+            gameObject.GetComponent<Contestant>().PlayerName = "AI n°" + (aiCount + 1);
             GameManager.AddContestant(gameObject);
+            aiCount++;
             i++;
         }
 
+        int playerCount = 0;
         foreach (PlayerVehicleData data in GameManager.PlayersData)
         {
             GameObject gameObject = data.Instantiate();
             gameObject.transform.position = GameManager.StartGrid.StartPositions[i].position;
             gameObject.transform.rotation = GameManager.StartGrid.StartPositions[i].rotation;
+            gameObject.GetComponent<Contestant>().PlayerName = "Player " + (playerCount + 1);
             GameManager.AddContestant(gameObject);
+            playerCount++;
             i++;
         }
 

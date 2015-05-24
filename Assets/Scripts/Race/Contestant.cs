@@ -6,6 +6,7 @@ using System.Linq;
 
 public class Contestant : MonoBehaviour
 {
+    public string PlayerName { get; set; }
     public int CurrentLap { get; private set; }
     public CheckPoint CurrentCheckPoint { get; private set; }
     public ReadOnlyCollection<TimeSpan> SplitTimes
@@ -19,6 +20,8 @@ public class Contestant : MonoBehaviour
 	{
 		if (Cp == CurrentCheckPoint)
         {
+            _splitTimes.Add(GameManager.Instance.Chronometer);
+
             //Debug.Log("Next checkpoint");
             if (CurrentCheckPoint.NextPoint == null)
             {
@@ -33,13 +36,12 @@ public class Contestant : MonoBehaviour
                     if (CurrentLap > Race.Instance.Laps)
                     {
                         //Debug.Log("Finish race");
-                        GameManager.Instance.ChangeState(new FinishedGameState(GameManager.Instance));
+                        GameManager.Instance.EndRace(this);
                     }
                 }
                 CurrentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
             }
 
-            _splitTimes.Add(GameManager.Instance.Chronometer);
 
             var ui = gameObject.GetComponentInChildren<RaceUiManager>();
             if (ui != null)
@@ -53,7 +55,7 @@ public class Contestant : MonoBehaviour
                 }
             }
 
-            if (gameObject == GameManager.Instance.Contestants[1])
+            if (GameManager.Instance.Contestants.Count > 1 && gameObject == GameManager.Instance.Contestants[1])
             {
                 var firstPlayerUi = GameManager.Instance.Contestants[0].GetComponentInChildren<RaceUiManager>();
                 if (firstPlayerUi != null)
