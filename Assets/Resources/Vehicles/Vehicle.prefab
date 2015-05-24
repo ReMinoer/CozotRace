@@ -240,7 +240,7 @@ MonoBehaviour:
   SpeedEvolution: .200000003
   BackwardSpeedMax: 2.5
   MaxDiffHeight: 1
-  TurningAngle: .00999999978
+  TurningAngle: .0199999996
   isBoosted: 0
   nitro: 2500
   nitroDecreaseSpeed: 1
@@ -258,10 +258,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eae8a88f29ae53439a5d3fc2b8d32d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAheadForTargetOffset: 5
-  lookAheadForTargetFactor: .100000001
-  _lookAheadForSpeedOffset: 10
-  _lookAheadForSpeedFactor: .200000003
+  lookAheadForTargetOffset: 0
+  lookAheadForTargetFactor: 1
+  _lookAheadForSpeedOffset: 5
+  _lookAheadForSpeedFactor: 2
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
