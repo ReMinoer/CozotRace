@@ -5,5 +5,5 @@ using System.Collections;
 [Serializable]
 public abstract class VehicleData
 {
-    public abstract GameObject Instantiate();
+    public abstract GameObject Instantiate(Transform startPosition);
 }

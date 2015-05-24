@@ -8,9 +8,12 @@ public class PlayerVehicleData : VehicleData
 {
     public PlayerIndex PlayerIndex;
 
-    public override GameObject Instantiate()
+    public override GameObject Instantiate(Transform startPosition)
     {
         VehicleMotor vehicleMotor = Factory<VehicleMotor>.New("Vehicles/Vehicle");
+        vehicleMotor.transform.position = startPosition.position;
+        vehicleMotor.transform.rotation = startPosition.rotation;
+
         vehicleMotor.gameObject.AddComponent<PlayerInput>();
         vehicleMotor.gameObject.GetComponent<PlayerInput>().Index = PlayerIndex;
 
@@ -18,17 +21,17 @@ public class PlayerVehicleData : VehicleData
         if (model == null)
             throw new NullReferenceException();
         model.GetComponentInChildren<ReactorBehaviour>().Vehicle = vehicleMotor.gameObject;
-        model.transform.parent = vehicleMotor.gameObject.transform;
+        model.transform.SetParent(vehicleMotor.gameObject.transform, false);
 
         CameraVitesseEffects camera = Factory<CameraVitesseEffects>.New("Vehicles/CameraDynamic");
         camera.target = vehicleMotor.transform;
         camera.parentRigidbody = vehicleMotor.GetComponent<Rigidbody>();
-        camera.gameObject.transform.parent = vehicleMotor.gameObject.transform;
+        camera.transform.rotation = vehicleMotor.transform.rotation;
 
         RaceUiManager ui = Factory<RaceUiManager>.New("Vehicles/RaceUiManager");
         ui.GetComponent<Canvas>().worldCamera = camera.GetComponent<Camera>();
         ui.Vehicle = vehicleMotor.gameObject;
-        ui.gameObject.transform.parent = vehicleMotor.gameObject.transform;
+        ui.gameObject.transform.SetParent(vehicleMotor.gameObject.transform, false);
 
         CameraManager.Instance.RaceUiManagers.Add(ui);
 

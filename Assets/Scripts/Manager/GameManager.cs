@@ -105,12 +105,13 @@ public class GameManager : DesignPattern.Singleton<GameManager>
             {
                 EndRaceUiManager ui = Factory<EndRaceUiManager>.New("Ui/EndRaceUi");
                 ui.VehicleNumber = Contestants.Count;
-                ui.GetComponent<Canvas>().worldCamera = contestant.gameObject.GetComponentInChildren<Camera>();
+                ui.GetComponent<Canvas>().worldCamera = raceUiManager.GetComponent<Canvas>().worldCamera;
 
                 ui.GetComponent<CanvasScaler>().referenceResolution =
                     raceUiManager.GetComponent<CanvasScaler>().referenceResolution;
 
                 Destroy(raceUiManager.gameObject);
+
                 ui.gameObject.transform.SetParent(contestant.gameObject.transform, false);
 
                 foreach (Contestant finishedContestant in FinishedContestants)

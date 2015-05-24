@@ -6,7 +6,7 @@ using System.Collections;
 public class ReplayVehicleData : VehicleData
 {
     public string ReplayPath { get; set; }
-    public override GameObject Instantiate()
+    public override GameObject Instantiate(Transform startPosition)
     {
         throw new System.NotImplementedException();
     }
