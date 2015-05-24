@@ -25,7 +25,8 @@ public class RaceUiManager : Factory<RaceUiManager>
     public GameObject CountdownText;
 
     private const float SpeedDisplayCoeff = 50;
-    private const float CheckpointTimePeriod = 2;
+    private const float CheckpointTimePeriod = 3;
+    private const float GapTimePeriod = 1;
     static private Color PositiveColor = Color.green;
     static private Color NegativeColor = Color.red;
 
@@ -81,7 +82,7 @@ public class RaceUiManager : Factory<RaceUiManager>
         // TimeText
         TimeText.GetComponent<Text>().text = GetChronometerText(GameManager.Instance.Chronometer, true);
 
-	    if (Time.time - _checkpointTime > CheckpointTimePeriod)
+	    if (Time.time - _checkpointTime - (_displayGap ? GapTimePeriod : 0) > CheckpointTimePeriod)
         {
             _displayCheckpoint = false;
             _displayGap = false;
@@ -102,6 +103,7 @@ public class RaceUiManager : Factory<RaceUiManager>
     public void DisplayCheckpointTime(TimeSpan checkpointTime)
     {
         _displayCheckpoint = true;
+        _displayGap = false;
         _checkpointTime = Time.time;
 
         CheckpointTimeText.GetComponent<Text>().text = GetChronometerText(checkpointTime, true);
