@@ -10,7 +10,7 @@ public class CameraManager : Singleton<CameraManager> {
     public const float VirtualWidth = 1920;
     public const float VirtualHeight = 1080;
 
-	void Start ()
+	public void Start ()
 	{
         if (RaceUiManagers.Count == 1)
 		{
@@ -54,11 +54,6 @@ public class CameraManager : Singleton<CameraManager> {
             RaceUiManagers[2].GetComponent<Canvas>().worldCamera.depth = 1;
             RaceUiManagers[3].GetComponent<Canvas>().worldCamera.depth = 1;
 		}
-	}
-
-	void Update ()
-	{
-	
 	}
 
 	void OnValidate()
