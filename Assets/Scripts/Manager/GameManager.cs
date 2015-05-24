@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using DesignPattern;
 
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
@@ -29,12 +30,16 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     private float _countdown;
     private float _chronometer;
 
+    public List<Contestant> FinishedContestants { get; private set; }
+    private int _finishPlayerCount;
+
     private bool _differedChangeStateRequest;
     private GameState _stateRequested;
 
     protected GameManager()
     {
         Contestants = new List<GameObject>();
+        FinishedContestants = new List<Contestant>();
     }
 
     void Awake()
@@ -82,6 +87,46 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public void AddContestant(GameObject contestant)
     {
         Contestants.Add(contestant);
+    }
+
+    public void EndRace(Contestant contestant)
+    {
+        PlayerInput playerInput = contestant.gameObject.GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            _finishPlayerCount++;
+
+            Destroy(playerInput);
+            contestant.gameObject.AddComponent<AiInput>();
+
+            var raceUiManager = contestant.gameObject.GetComponentInChildren<RaceUiManager>();
+            if (raceUiManager != null)
+            {
+                Destroy(raceUiManager.gameObject);
+                EndRaceUiManager ui = Factory<EndRaceUiManager>.New("Ui/EndRaceUi");
+                ui.VehicleNumber = Contestants.Count;
+                ui.GetComponent<Canvas>().worldCamera = contestant.gameObject.GetComponentInChildren<Camera>();
+                ui.gameObject.transform.SetParent(contestant.gameObject.transform, false);
+
+                foreach (Contestant finishedContestant in FinishedContestants)
+                    ui.AddToRanking(finishedContestant);
+            }
+
+            if (_finishPlayerCount >= PlayersData.Count)
+                ChangeStateDiffered(new FinishedGameState(this));
+        }
+
+        if (!FinishedContestants.Contains(contestant))
+        {
+            FinishedContestants.Add(contestant);
+
+            foreach (GameObject o in Contestants)
+            {
+                var endRaceUiManager = o.GetComponentInChildren<EndRaceUiManager>();
+                if (endRaceUiManager != null)
+                    endRaceUiManager.AddToRanking(contestant);
+            }
+        }
     }
 
     public void ResetChrono()
