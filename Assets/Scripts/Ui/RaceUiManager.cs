@@ -33,7 +33,7 @@ public class RaceUiManager : Factory<RaceUiManager>
     private bool _displayGap;
     private float _checkpointTime;
 
-	void Start ()
+    void Start ()
 	{
         SpeedBar.GetComponent<Slider>().minValue = 0;
         SpeedBar.GetComponent<Slider>().maxValue = Vehicle.GetComponent<VehicleMotor>().ForwardSpeedMax;
@@ -99,21 +99,17 @@ public class RaceUiManager : Factory<RaceUiManager>
 	        : "";
 	}
 
-    public void DisplayCheckpointTime()
+    public void DisplayCheckpointTime(TimeSpan checkpointTime)
     {
         _displayCheckpoint = true;
         _checkpointTime = Time.time;
 
-        TimeSpan checkpoint = GameManager.Instance.Chronometer;
-
-        CheckpointTimeText.GetComponent<Text>().text = GetChronometerText(checkpoint, true);
+        CheckpointTimeText.GetComponent<Text>().text = GetChronometerText(checkpointTime, true);
     }
 
-    public void DisplayGapTime()
+    public void DisplayGapTime(TimeSpan gap)
     {
         _displayGap = true;
-
-        TimeSpan gap = TimeSpan.FromSeconds(0);
 
         GapText.GetComponent<Text>().color = gap.Ticks > 0 ? NegativeColor : PositiveColor;
         GapText.GetComponent<Text>().text = GetChronometerText(gap, false, true);

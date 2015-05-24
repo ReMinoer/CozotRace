@@ -1,10 +1,19 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 public class Contestant : MonoBehaviour
 {
     public int CurrentLap { get; private set; }
     public CheckPoint CurrentCheckPoint { get; private set; }
+    public ReadOnlyCollection<TimeSpan> SplitTimes
+    {
+        get { return _splitTimes.AsReadOnly(); }
+    }
+
+    private List<TimeSpan> _splitTimes;
 
 	public void ValidateCheckPoint(CheckPoint Cp)
 	{
@@ -30,9 +39,37 @@ public class Contestant : MonoBehaviour
                 CurrentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
             }
 
+            _splitTimes.Add(GameManager.Instance.Chronometer);
+
             var ui = gameObject.GetComponentInChildren<RaceUiManager>();
             if (ui != null)
-                ui.DisplayCheckpointTime();
+            {
+                ui.DisplayCheckpointTime(_splitTimes[_splitTimes.Count - 1]);
+                var firstContestant = GameManager.Instance.Contestants[0].GetComponent<Contestant>();
+                if (gameObject != firstContestant.gameObject)
+                {
+                    int checkpointIndex = _splitTimes.Count - 1;
+                    ui.DisplayGapTime(_splitTimes[checkpointIndex] - firstContestant.SplitTimes[checkpointIndex]);
+                }
+            }
+
+            if (gameObject == GameManager.Instance.Contestants[1])
+            {
+                var firstPlayerUi = GameManager.Instance.Contestants[0].GetComponentInChildren<RaceUiManager>();
+                if (firstPlayerUi != null)
+                {
+                    var firstContestant = firstPlayerUi.gameObject.GetComponentInParent<Contestant>();
+                    if (gameObject != firstContestant.gameObject)
+                    {
+                        if (_splitTimes.Count == firstContestant.SplitTimes.Count)
+                        {
+                            int checkpointIndex = _splitTimes.Count - 1;
+                            firstPlayerUi.DisplayGapTime(
+                                firstContestant.SplitTimes[checkpointIndex] - _splitTimes[checkpointIndex]);
+                        }
+                    }
+                }
+            }
         }
 		else
         {
@@ -45,6 +82,8 @@ public class Contestant : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        _splitTimes = new List<TimeSpan>();
+
 		CurrentLap = 0;
         if (Race.Instance.FirstCheckPoint != null)
             CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
