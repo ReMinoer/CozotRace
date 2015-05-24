@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using DesignPattern;
+using UnityEngine.UI;
 
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
@@ -102,10 +103,14 @@ public class GameManager : DesignPattern.Singleton<GameManager>
             var raceUiManager = contestant.gameObject.GetComponentInChildren<RaceUiManager>();
             if (raceUiManager != null)
             {
-                Destroy(raceUiManager.gameObject);
                 EndRaceUiManager ui = Factory<EndRaceUiManager>.New("Ui/EndRaceUi");
                 ui.VehicleNumber = Contestants.Count;
                 ui.GetComponent<Canvas>().worldCamera = contestant.gameObject.GetComponentInChildren<Camera>();
+
+                ui.GetComponent<CanvasScaler>().referenceResolution =
+                    raceUiManager.GetComponent<CanvasScaler>().referenceResolution;
+
+                Destroy(raceUiManager.gameObject);
                 ui.gameObject.transform.SetParent(contestant.gameObject.transform, false);
 
                 foreach (Contestant finishedContestant in FinishedContestants)

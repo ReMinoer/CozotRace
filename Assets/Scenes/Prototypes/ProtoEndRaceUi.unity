@@ -170,6 +170,10 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 626613439}
+    - target: {fileID: 22455396, guid: 050d1fd0aac3f3d4bb7727d295c978a6, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 050d1fd0aac3f3d4bb7727d295c978a6, type: 2}
   m_IsPrefabParent: 0
@@ -229,7 +233,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: .300000012
+  near clip plane: .100000001
   far clip plane: 1000
   field of view: 60
   orthographic: 0

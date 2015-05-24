@@ -719,7 +719,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11468036, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: Grounds.Array.data[0].IsObstacle
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 421676, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: m_LocalPosition.x
@@ -819,6 +819,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: PlayersData.Array.data[3].PlayerIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11468036, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
+      propertyPath: Grounds.Array.data[1].IsObstacle
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
