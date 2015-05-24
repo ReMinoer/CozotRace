@@ -1668,6 +1668,11 @@ MonoBehaviour:
   MaxDiffHeight: 1
   TurningAngle: .00999999978
   isBoosted: 0
+  nitro: 2500
+  nitroDecreaseSpeed: 1
+  Nose: {fileID: 0}
+  Center: {fileID: 0}
+  Tail: {fileID: 0}
 --- !u!114 &11487914
 MonoBehaviour:
   m_ObjectHideFlags: 1
