@@ -4,6 +4,8 @@ using System.Collections;
 
 public class VehicleSound : MonoBehaviour {
     public AudioSource motorSound;
+    public AudioSource AccelerationSound;
+    public AudioSource BrakingSound;
     float lastForward;
 	// Use this for initialization
 	void Start () {
@@ -17,21 +19,26 @@ public class VehicleSound : MonoBehaviour {
 
     void Awake()
     {
+        motorSound.Play();
         GetComponent<VehicleMotor>().StateChanged += OnVehicleStateChanged;
     }
     public void OnVehicleStateChanged(object sender, VehicleMotor.StateChangedEventArgs args)
     {
         
         // Traitement en fonction de args.State
+        //GetComponent<VehicleMotor>().SpeedEvolution != 0
+       
+        
+        
         if(args.State.Forward > 0.0 && lastForward == 0)
         {
-            motorSound.Play();
+            AccelerationSound.Play();
         }
         lastForward = args.State.Forward;
-        //if (GetComponent<VehicleMotor>().SpeedEvolution == 0)
+        
         if(args.State.Forward == 0)
         {
-            motorSound.Stop();
+            AccelerationSound.Stop();
         }
     }
 }
