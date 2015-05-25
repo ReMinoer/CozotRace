@@ -82,13 +82,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  distance: .349999994
+  distance: .5
   height: .300000012
   heightDamping: 10
   lookAtHeight: .0199999996
   parentRigidbody: {fileID: 0}
-  rotationSnapTime: .5
-  distanceSnapTime: .5
+  rotationSnapTime: .100000001
+  distanceSnapTime: 1
   distanceMultiplier: .0799999982
 --- !u!124 &12465342
 Behaviour:
