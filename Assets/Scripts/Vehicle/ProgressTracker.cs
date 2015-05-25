@@ -26,6 +26,19 @@ public class ProgressTracker : MonoBehaviour
     public Transform Target { get; private set; }
     public float ProgressDistance { get; private set; }
 
+    public Vector3 RoutePosition
+    {
+        get { return Track.Instance.GetRoutePosition(ProgressDistance); }
+    }
+
+    public Quaternion RouteRotation
+    {
+        get
+        {
+            return Quaternion.LookRotation(Track.Instance.GetRoutePosition(ProgressDistance + 0.5f) - RoutePosition);
+        }
+    }
+
     private Vector3 _lastPosition;
     private float _speed;
 
