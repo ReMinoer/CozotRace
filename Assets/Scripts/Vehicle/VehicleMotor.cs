@@ -172,6 +172,14 @@ public class VehicleMotor : Factory<VehicleMotor>
 		isBoosted = state.Boost && nitro>0;
 
 		Turn (state.Turn);
+
+	    if (state.Position.HasValue)
+            transform.position = state.Position.Value;
+        if (state.Rotation.HasValue)
+            transform.rotation = state.Rotation.Value;
+
+        state.Position = transform.position;
+        state.Rotation = transform.rotation;
 		state.Time = Time.realtimeSinceStartup;
 
 		if (StateChanged != null)

@@ -17,6 +17,10 @@ public class FinishedGameState : GameState
 
     public override void Update()
     {
-        GameManager.ChangeStateDiffered(new ReplayGameState(GameManager));
+        var replayManager = Object.FindObjectOfType<ReplayManager>();
+        if (replayManager != null)
+            Application.LoadLevel(Application.loadedLevel);
+        else
+            Application.LoadLevel(Application.loadedLevel);
     }
 }

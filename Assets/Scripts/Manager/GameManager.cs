@@ -35,6 +35,11 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public List<Contestant> FinishedContestants { get; private set; }
     private int _finishPlayerCount;
 
+    public bool AllPlayerFinish
+    {
+        get { return _finishPlayerCount >= PlayersData.Count; }
+    }
+
     private bool _differedChangeStateRequest;
     private GameState _stateRequested;
 
@@ -65,7 +70,9 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         if (ChronometerEnabled)
             _chronometer += Time.unscaledDeltaTime;
 
-        Contestants.Sort(new PositionComparer());
+        var replayCameraSystem = FindObjectOfType<ReplayCameraSystem>();
+        if (replayCameraSystem != null)
+            replayCameraSystem.Target = Contestants[0].transform;
 
         if (_differedChangeStateRequest)
         {
@@ -118,9 +125,6 @@ public class GameManager : DesignPattern.Singleton<GameManager>
                 foreach (Contestant finishedContestant in FinishedContestants)
                     ui.AddToRanking(finishedContestant);
             }
-
-            if (_finishPlayerCount >= PlayersData.Count)
-                ChangeStateDiffered(new FinishedGameState(this));
         }
 
         if (!FinishedContestants.Contains(contestant))
@@ -158,7 +162,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         _differedChangeStateRequest = true;
     }
 
-    private class PositionComparer : IComparer<GameObject>
+    public class PositionComparer : IComparer<GameObject>
     {
         public int Compare(GameObject x, GameObject y)
         {

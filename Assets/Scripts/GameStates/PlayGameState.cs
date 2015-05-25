@@ -17,7 +17,14 @@ public class PlayGameState : GameState
 
     public override void Update()
     {
+        GameManager.Contestants.Sort(new GameManager.PositionComparer());
+
         if (Input.GetKeyDown(KeyCode.Escape))
-            GameManager.ChangeStateDiffered(new PauseGameState(GameManager));
+        {
+            if (GameManager.AllPlayerFinish || Object.FindObjectOfType<ReplayCameraSystem>() != null)
+                GameManager.ChangeStateDiffered(new FinishedGameState(GameManager));
+            else
+                GameManager.ChangeStateDiffered(new PauseGameState(GameManager));
+        }
     }
 }

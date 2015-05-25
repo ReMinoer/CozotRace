@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DesignPattern;
 
 public class IntroGameState : GameState
 {
@@ -12,6 +13,34 @@ public class IntroGameState : GameState
     {
         GameManager.Pause();
 
+        var replayManager = Object.FindObjectOfType<ReplayManager>();
+        if (replayManager != null)
+        {
+            int j = 0;
+            foreach (ReplayRecorder replayRecorder in replayManager.Recorders.Values)
+            {
+                var data = new ReplayVehicleData
+                {
+                    DrivingStates = replayRecorder.ListDState
+                };
+                GameObject gameObject = data.Instantiate(GameManager.StartGrid.StartPositions[j]);
+                GameManager.AddContestant(gameObject);
+                j++;
+            }
+
+            Object.Destroy(replayManager.gameObject.GetComponent<DontDestroyOnLoad>());
+            Object.Destroy(replayManager.gameObject);
+
+            var replayCameraSystem = Factory<ReplayCameraSystem>.New("Cameras/ReplayCamera");
+            replayCameraSystem.Target = GameManager.Contestants[0].transform;
+
+            return;
+        }
+
+        var replayManagerObject = new GameObject("ReplayManager");
+        replayManagerObject.AddComponent<DontDestroyOnLoad>();
+        replayManager = replayManagerObject.AddComponent<ReplayManager>();
+
         int i = 0;
 
         int aiCount = 0;
@@ -20,6 +49,7 @@ public class IntroGameState : GameState
             GameObject gameObject = data.Instantiate(GameManager.StartGrid.StartPositions[i]);
             gameObject.GetComponent<Contestant>().PlayerName = "AI n°" + (aiCount + 1);
             GameManager.AddContestant(gameObject);
+            replayManager.AddRecorder(gameObject.GetComponent<VehicleMotor>());
             aiCount++;
             i++;
         }
@@ -30,6 +60,7 @@ public class IntroGameState : GameState
             GameObject gameObject = data.Instantiate(GameManager.StartGrid.StartPositions[i]);
             gameObject.GetComponent<Contestant>().PlayerName = "Player " + (playerCount + 1);
             GameManager.AddContestant(gameObject);
+            replayManager.AddRecorder(gameObject.GetComponent<VehicleMotor>());
             playerCount++;
             i++;
         }
