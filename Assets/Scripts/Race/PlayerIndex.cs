@@ -1,7 +1,9 @@
 ﻿public enum PlayerIndex
 {
-    One,
-    Two,
-    Three,
-    Four
+    KeyboardOne,
+    KeyboardTwo,
+    GamepadOne,
+    GamepadTwo,
+    GamepadThree,
+    GamepadFour
 }

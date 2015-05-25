@@ -14,8 +14,8 @@ public class PlayerVehicleData : VehicleData
         vehicleMotor.transform.position = startPosition.position;
         vehicleMotor.transform.rotation = startPosition.rotation;
 
-        vehicleMotor.gameObject.AddComponent<PlayerInput>();
-        vehicleMotor.gameObject.GetComponent<PlayerInput>().Index = PlayerIndex;
+        var playerInput = vehicleMotor.gameObject.AddComponent<PlayerInput>();
+        playerInput.Index = PlayerIndex;
 
         var model = Object.Instantiate(Resources.Load("Vehicles/Models/BaseModel")) as GameObject;
         if (model == null)

@@ -2,92 +2,76 @@
 
 public class PlayerInput : MonoBehaviour
 {
-
 	public PlayerIndex Index;
+    private PlayerInputConfig InputConfig;
 
-	void Start () {
-	}
+    void Start()
+    {
+        InputConfig = new PlayerInputConfig(Index);
+    }
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-//		if (Players.Count == 1) {
-//
-//			DrivingState drivingState = new DrivingState ();
-//			float horizontalInput = Input.GetAxis ("Horizontal");
-//			float verticalInput = Input.GetAxis ("Vertical");
-//
-//			drivingState.Forward = Mathf.Clamp (verticalInput, 0, 1);
-//			drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
-//			drivingState.Turn = horizontalInput;
-//
-//			GetComponent<VehicleMotor> ().ChangeState (drivingState);
-//		}
-//
-//		if (Players.Count == 2) {
-//			DrivingState drivingState1 = new DrivingState ();
-//			float horizontalInput1 = Input.GetAxis ("Horizontal");
-//			float verticalInput1 = Input.GetAxis ("Vertical");
-//			
-//			drivingState1.Forward = Mathf.Clamp (verticalInput1, 0, 1);
-//			drivingState1.Backward = -Mathf.Clamp (verticalInput1, -1, 0);
-//			drivingState1.Turn = horizontalInput1;
-//			
-//			Players[0].GetComponent<VehicleMotor> ().ChangeState (drivingState1);
-//
-//			DrivingState drivingState2 = new DrivingState ();
-//			float horizontalInput2 = Input.GetAxis ("Horizontal2");
-//			float verticalInput2 = Input.GetAxis ("Vertical2");
-//			
-//			drivingState2.Forward = Mathf.Clamp (verticalInput2, 0, 1);
-//			drivingState2.Backward = -Mathf.Clamp (verticalInput2, -1, 0);
-//			drivingState2.Turn = horizontalInput2;
-//			
-//			Players[1].GetComponent<VehicleMotor> ().ChangeState (drivingState2);
-		//		}
-		DrivingState drivingState = new DrivingState ();
-		float horizontalInput;
-		float verticalInput;
-		bool boostInput = false;
+	void FixedUpdate ()
+    {
+		var drivingState = new DrivingState();
 
-		switch (Index)
-		{
-		case PlayerIndex.One:
-			horizontalInput = Input.GetAxis ("Horizontal");
-			verticalInput = Input.GetAxis ("Vertical");
-			boostInput = Input.GetKey(KeyCode.Space);
-			break;
-		case PlayerIndex.Two:
-			horizontalInput = Input.GetAxis ("Horizontal2");
-			verticalInput = Input.GetAxis ("Vertical2");
-			//boostInput = Input.GetButton(
-			break;
-		default:
-			horizontalInput = Input.GetAxis ("Horizontal");
-			verticalInput = Input.GetAxis ("Vertical");
-			boostInput = Input.GetKey(KeyCode.Space);
-			break;
-		}
+        float horizontalInput = Input.GetAxis(InputConfig.HorizontalInput);
+        float verticalInput = Input.GetAxis(InputConfig.VerticalInput);
+        float boostInput = Input.GetAxis(InputConfig.BoostInput);
 
-		drivingState.Forward = Mathf.Clamp (verticalInput, 0, 1);
-		drivingState.Backward = -Mathf.Clamp (verticalInput, -1, 0);
+		drivingState.Forward = Mathf.Clamp(verticalInput, 0, 1);
+		drivingState.Backward = -Mathf.Clamp(verticalInput, -1, 0);
 		drivingState.Turn = horizontalInput;
-		drivingState.Boost = boostInput;
+		drivingState.Boost = boostInput > float.Epsilon;
 		
-		GetComponentInChildren<VehicleMotor> ().ChangeState (drivingState);
+		GetComponentInChildren<VehicleMotor>().ChangeState(drivingState);
 	}
 
-//	void OnValidate()
-//	{
-//		if (Players.Count == 0)
-//		{
-//			Players.RemoveRange (0, Players.Count - 0);
-//			Debug.LogError ("You need have 1 or 2 players.");
-//		}
-//
-//		if (Players.Count > 2)
-//		{
-//			Players.RemoveRange (2, Players.Count - 2);
-//			Debug.LogError ("You can't have more than 2 players.");
-//		}
-//	}
+    private struct PlayerInputConfig
+    {
+        public string HorizontalInput { get; private set; }
+        public string VerticalInput { get; private set; }
+        public string BoostInput { get; private set; }
+
+        const string KeyboardKeyword = "Keyboard";
+        const string GamepadKeyword = "Gamepad";
+
+        public PlayerInputConfig(PlayerIndex index)
+            : this()
+        {
+            string type = "";
+            int id = 0;
+
+            switch (index)
+            {
+                case PlayerIndex.KeyboardOne:
+                    type = KeyboardKeyword;
+                    id = 1;
+                    break;
+                case PlayerIndex.KeyboardTwo:
+                    type = KeyboardKeyword;
+                    id = 2;
+                    break;
+                case PlayerIndex.GamepadOne:
+                    type = GamepadKeyword;
+                    id = 1;
+                    break;
+                case PlayerIndex.GamepadTwo:
+                    type = GamepadKeyword;
+                    id = 2;
+                    break;
+                case PlayerIndex.GamepadThree:
+                    type = GamepadKeyword;
+                    id = 3;
+                    break;
+                case PlayerIndex.GamepadFour:
+                    type = GamepadKeyword;
+                    id = 4;
+                    break;
+            }
+
+            HorizontalInput = string.Format("Horizontal{0}{1}", type, id);
+            VerticalInput = string.Format("Vertical{0}{1}", type, id);
+            BoostInput = string.Format("Boost{0}{1}", type, id);
+        }
+    }
 }
