@@ -11,6 +11,8 @@ public class PlayGameState : GameState
     public override void Init()
     {
         GameManager.Resume();
+
+        GameManager.PauseUi.gameObject.SetActive(false);
     }
 
     public override void Update()

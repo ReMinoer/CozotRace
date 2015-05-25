@@ -12,6 +12,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public List<AiVehicleData> AisData = new List<AiVehicleData>();
     public StartGrid StartGrid;
     public CameraManager CameraManager;
+    public Canvas PauseUi;
 
     public List<GameObject> Contestants { get; private set; }
 
