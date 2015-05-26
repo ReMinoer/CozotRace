@@ -26,6 +26,15 @@ public class PlayerInput : MonoBehaviour
 		GetComponentInChildren<VehicleMotor>().ChangeState(drivingState);
 	}
 
+    static public PlayerIndex GeneratePlayerIndex(int playerNumber)
+    {
+        int numberOfGamepads = Input.GetJoystickNames().Length;
+
+        return playerNumber <= numberOfGamepads
+            ? (PlayerIndex)((int)PlayerIndex.GamepadOne + playerNumber - 1)
+            : (PlayerIndex)((int)PlayerIndex.KeyboardOne + playerNumber - numberOfGamepads - 1);
+    }
+
     private struct PlayerInputConfig
     {
         public string HorizontalInput { get; private set; }

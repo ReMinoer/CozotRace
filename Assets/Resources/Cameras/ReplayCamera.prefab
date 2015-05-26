@@ -11,7 +11,6 @@ GameObject:
   - 20: {fileID: 2025394}
   - 124: {fileID: 12445700}
   - 92: {fileID: 9284688}
-  - 81: {fileID: 8120160}
   - 114: {fileID: 11408676}
   m_Layer: 0
   m_Name: ReplayCamera
@@ -64,13 +63,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
---- !u!81 &8120160
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 151208}
-  m_Enabled: 1
 --- !u!92 &9284688
 Behaviour:
   m_ObjectHideFlags: 1

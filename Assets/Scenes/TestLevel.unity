@@ -679,7 +679,7 @@ Prefab:
       objectReference: {fileID: 689672137}
     - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: PlayersData.Array.data[1].PlayerIndex
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 413380, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: m_LocalPosition.x
@@ -811,7 +811,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: a5a0604020a4853499e65bad2cb18fd7, type: 2}
     - target: {fileID: 11460194, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: Laps
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: PlayersData.Array.data[2].PlayerIndex
@@ -855,7 +855,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: PlayersData.Array.data[0].PlayerIndex
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400344, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: NextPoint

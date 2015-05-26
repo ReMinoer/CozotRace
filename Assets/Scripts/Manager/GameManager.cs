@@ -13,6 +13,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public StartGrid StartGrid;
     public CameraManager CameraManager;
     public Canvas PauseUi;
+    public MultiplayerAudioListener MultiplayerAudioListener;
 
     public List<GameObject> Contestants { get; private set; }
 

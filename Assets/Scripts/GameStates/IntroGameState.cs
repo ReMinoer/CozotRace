@@ -33,6 +33,7 @@ public class IntroGameState : GameState
 
             var replayCameraSystem = Factory<ReplayCameraSystem>.New("Cameras/ReplayCamera");
             replayCameraSystem.Target = GameManager.Contestants[0].transform;
+            GameManager.MultiplayerAudioListener.Cameras.Add(replayCameraSystem.gameObject.GetComponent<Camera>());
 
             return;
         }
@@ -64,6 +65,9 @@ public class IntroGameState : GameState
             playerCount++;
             i++;
         }
+
+        foreach (Camera camera in Object.FindObjectsOfType<Camera>())
+            GameManager.MultiplayerAudioListener.Cameras.Add(camera);
 
         CameraManager.Instance.Start();
     }
