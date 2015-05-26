@@ -21,6 +21,7 @@ public class IntroGameState : GameState
             {
                 var data = new ReplayVehicleData
                 {
+                    Model = replayManager.VehiclesData[j].Model,
                     DrivingStates = replayRecorder.ListDState
                 };
                 GameObject gameObject = data.Instantiate(GameManager.StartGrid.StartPositions[j]);
@@ -31,7 +32,7 @@ public class IntroGameState : GameState
             Object.Destroy(replayManager.gameObject.GetComponent<DontDestroyOnLoad>());
             Object.Destroy(replayManager.gameObject);
 
-            var replayCameraSystem = Factory<ReplayCameraSystem>.New("Cameras/ReplayCamera");
+            ReplayCameraSystem replayCameraSystem = Factory<ReplayCameraSystem>.New("Cameras/ReplayCamera");
             replayCameraSystem.Target = GameManager.Contestants[0].transform;
             GameManager.MultiplayerAudioListener.Cameras.Add(replayCameraSystem.gameObject.GetComponent<Camera>());
 
@@ -51,6 +52,7 @@ public class IntroGameState : GameState
             gameObject.GetComponent<Contestant>().PlayerName = "AI n°" + (aiCount + 1);
             GameManager.AddContestant(gameObject);
             replayManager.AddRecorder(gameObject.GetComponent<VehicleMotor>());
+            replayManager.VehiclesData.Add(data);
             aiCount++;
             i++;
         }
@@ -62,6 +64,7 @@ public class IntroGameState : GameState
             gameObject.GetComponent<Contestant>().PlayerName = "Player " + (playerCount + 1);
             GameManager.AddContestant(gameObject);
             replayManager.AddRecorder(gameObject.GetComponent<VehicleMotor>());
+            replayManager.VehiclesData.Add(data);
             playerCount++;
             i++;
         }

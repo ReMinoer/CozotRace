@@ -861,6 +861,10 @@ Prefab:
       propertyPath: NextPoint
       value: 
       objectReference: {fileID: 2122300218}
+    - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
+      propertyPath: PlayersData.Array.data[0].Model
+      value: Car_blue
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
   m_IsPrefabParent: 0
