@@ -18,7 +18,7 @@ public class CountdownGameState : GameState
 
     public override void Update()
     {
-        if (GameManager.Countdown.Ticks < 0)
+        if (GameManager.Countdown.Seconds < 1)
         {
             GameManager.CountdownEnabled = false;
             GameManager.ChangeStateDiffered(new PlayGameState(GameManager));

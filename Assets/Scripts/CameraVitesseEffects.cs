@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DesignPattern;
 
-public class CameraVitesseEffects : MonoBehaviour {
+public class CameraVitesseEffects : Factory<CameraVitesseEffects>
+{
 
 	public Transform target;
 	public float distance = 0.35f;

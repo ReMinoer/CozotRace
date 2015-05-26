@@ -1,7 +1,8 @@
 ﻿using System;
+using DesignPattern;
 using UnityEngine;
 
-public class VehicleMotor : MonoBehaviour
+public class VehicleMotor : Factory<VehicleMotor>
 {
     public enum VehicleState
     {
@@ -24,6 +25,12 @@ public class VehicleMotor : MonoBehaviour
 	public float MaxDiffHeight = 1.0f;
 	public float TurningAngle = 50f;
 	public bool isBoosted = false;
+	public float nitro = 2500;
+	public float nitroDecreaseSpeed = 1;
+
+	public Transform Nose;
+	public Transform Center;
+	public Transform Tail;
 
     private const float StopThreshold = 0.1f;
 	private float SpeedCoeff = 1f;
@@ -48,28 +55,16 @@ public class VehicleMotor : MonoBehaviour
 
     public void FixedUpdate()
     {
-		Ray rayNose = new Ray (transform.position, -transform.up);
-		Ray rayTail = new Ray (transform.position, -transform.up);
-		Ray rayCenter = new Ray (transform.position, -transform.up);
+		Ray rayNose = new Ray();
+		Ray rayTail = new Ray();
+		Ray rayCenter = new Ray();
 
-		Transform noseTransform = null;
-		Transform tailTransform = null;
-		Transform centerTransform = null;
-		Transform childTransform = transform.FindChild ("car02");
-
-
-		if (childTransform != null) {
-			centerTransform = childTransform.gameObject.transform.FindChild ("Center");
-			noseTransform = childTransform.gameObject.transform.FindChild ("Nose");
-			tailTransform = childTransform.gameObject.transform.FindChild ("Tail");
-		}
-
-		if(noseTransform != null)
-			rayNose = new Ray (noseTransform.position, -noseTransform.up);
-		if (tailTransform != null)
-			rayTail = new Ray (tailTransform.position, -tailTransform.up);
-		if (centerTransform != null)
-			rayCenter = new Ray (centerTransform.position, -centerTransform.up);
+		if(Nose != null)
+			rayNose = new Ray (Nose.position, -Nose.up);
+		if (Tail != null)
+			rayTail = new Ray (Tail.position, -Tail.up);
+		if (Center != null)
+			rayCenter = new Ray (Center.position, -Center.up);
 		
 		RaycastHit hitNose, hitTail, hitCenter;
 		float proportionalHeight;
@@ -80,8 +75,9 @@ public class VehicleMotor : MonoBehaviour
 		}
 
 
-		if (Physics.Raycast (rayNose, out hitNose, FloatingHeight)) {
-			if (Physics.Raycast (rayTail, out hitTail, FloatingHeight)) {
+		if (Physics.Raycast(rayNose, out hitNose, FloatingHeight, LayerMask.GetMask("Map"))) {
+            if (Physics.Raycast(rayTail, out hitTail, FloatingHeight, LayerMask.GetMask("Map")))
+            {
 				// Debug.Log("Diff : "+(Mathf.Abs(hitNose.distance-hitTail.distance))+"\n");
 				if(hitNose.distance + MaxDiffHeight >= hitTail.distance) {
 					GetComponent<Rigidbody>().AddForce(appliedForce, ForceMode.Acceleration);
@@ -116,13 +112,24 @@ public class VehicleMotor : MonoBehaviour
 		}*/
 
 		TerrainTexture terrainTexture = GetComponent<TerrainTexture>();
-		if (terrainTexture != null)
-			SpeedCoeff = Map.Instance.Grounds [GetComponent<TerrainTexture>().GetMainTexture (transform.position)].SpeedCoeff;
+        if (terrainTexture != null)
+        {
+            int textureIndex = GetComponent<TerrainTexture>().GetMainTexture(transform.position);
+            if (textureIndex != -1)
+                SpeedCoeff = Map.Instance.Grounds[textureIndex].SpeedCoeff;
+        }
+        else
+            SpeedCoeff = 1;
+
+		if (isBoosted) {
+			ForwardSpeedMaxActual = 2 * ForwardSpeedMax;
+			nitro -= Time.deltaTime * nitroDecreaseSpeed;
+			if(nitro<0) nitro=0;
+		}
 		else
-			SpeedCoeff = 1;
+			ForwardSpeedMaxActual = ForwardSpeedMax;
 
         if (_state == VehicleState.Forward && GetComponent<Rigidbody>().velocity.magnitude > ForwardSpeedMaxActual)
-			if (!isBoosted)
 				GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * ForwardSpeedMaxActual;
 
 		if (_state == VehicleState.Backward && GetComponent<Rigidbody>().velocity.magnitude > BackwardSpeedMax)
@@ -162,7 +169,17 @@ public class VehicleMotor : MonoBehaviour
                 break;
         }
 
+		isBoosted = state.Boost && nitro>0;
+
 		Turn (state.Turn);
+
+	    if (state.Position.HasValue)
+            transform.position = state.Position.Value;
+        if (state.Rotation.HasValue)
+            transform.rotation = state.Rotation.Value;
+
+        state.Position = transform.position;
+        state.Rotation = transform.rotation;
 		state.Time = Time.realtimeSinceStartup;
 
 		if (StateChanged != null)

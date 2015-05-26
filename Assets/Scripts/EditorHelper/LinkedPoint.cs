@@ -8,8 +8,8 @@ public abstract class LinkedPoint : MonoBehaviour
 	public GameObject NextPoint;
 	
 	public bool InsertMode = false;
-	
-	void Awake()
+
+    protected virtual void Awake()
 	{
 		if(Application.isEditor && !Application.isPlaying)
 		{

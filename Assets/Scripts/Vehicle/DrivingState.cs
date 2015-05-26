@@ -17,8 +17,8 @@ public class DrivingState
 	public bool DashRight;
 
 	// Unsynchronize fix
-	public Vector3 Position;
-	public Quaternion Rotation;
+	public Vector3? Position;
+    public Quaternion? Rotation;
 
 	public bool HasChange(DrivingState other)
 	{

@@ -6,7 +6,13 @@ public class TrackPoint : LinkedPoint
 {
     private bool _isQuitting = false;
 
-	void Start()
+    protected override void Awake()
+    {
+        if (FindObjectOfType<Track>() != null)
+            base.Awake();
+    }
+
+    void Start()
 	{
 		if (!Application.isPlaying)
 			return;
@@ -35,7 +41,7 @@ public class TrackPoint : LinkedPoint
 
     protected override void OnDestroy()
     {
-        if (!Track.Instance.IsDisable)
+        if (FindObjectOfType<Track>() != null && !Track.Instance.IsDisable)
 			base.OnDestroy ();
     }
 

@@ -1,8 +1,6 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 
@@ -21,28 +19,13 @@ public class ReplayRecorder : MonoBehaviour {
 
 	public void OnVehicleStateChanged(object sender, VehicleMotor.StateChangedEventArgs args)
 	{ 
-		if (ListDState.Count == 0 || args.State.HasChange (ListDState.Last())) {
-			ListDState.Add(args.State);		
-		}
+		//if (ListDState.Count == 0 || args.State.HasChange (ListDState.Last()))
+			ListDState.Add(args.State);
 	}
 
 	void Awake()
 	{
 		GetComponent<VehicleMotor> ().StateChanged += OnVehicleStateChanged;
-	}
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-	void OnDestroy () {
-		//SerializeToFile (@"Assets\Resources\ProtoReplay.xml");
 	}
 
 }

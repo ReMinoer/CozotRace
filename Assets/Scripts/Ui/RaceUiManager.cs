@@ -3,9 +3,10 @@ using UnityEngine;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using DesignPattern;
 using UnityEngine.UI;
 
-public class RaceUiManager : MonoBehaviour
+public class RaceUiManager : Factory<RaceUiManager>
 {
     public GameObject Vehicle;
 
@@ -24,7 +25,8 @@ public class RaceUiManager : MonoBehaviour
     public GameObject CountdownText;
 
     private const float SpeedDisplayCoeff = 50;
-    private const float CheckpointTimePeriod = 2;
+    private const float CheckpointTimePeriod = 3;
+    private const float GapTimePeriod = 1;
     static private Color PositiveColor = Color.green;
     static private Color NegativeColor = Color.red;
 
@@ -32,7 +34,7 @@ public class RaceUiManager : MonoBehaviour
     private bool _displayGap;
     private float _checkpointTime;
 
-	void Start ()
+    void Start ()
 	{
         SpeedBar.GetComponent<Slider>().minValue = 0;
         SpeedBar.GetComponent<Slider>().maxValue = Vehicle.GetComponent<VehicleMotor>().ForwardSpeedMax;
@@ -69,7 +71,7 @@ public class RaceUiManager : MonoBehaviour
         NitroBar.GetComponent<Slider>().value = 0.75f;
 
         // PositionText
-        PositionText.GetComponent<Text>().text = (GameManager.Instance.Contestants.IndexOf(Vehicle.transform.parent.gameObject) + 1).ToString();
+        PositionText.GetComponent<Text>().text = (GameManager.Instance.Contestants.IndexOf(Vehicle) + 1).ToString();
 
         // PositionMaxText
         PositionMaxText.GetComponent<Text>().text = "/" + GameManager.Instance.Contestants.Count;
@@ -80,7 +82,7 @@ public class RaceUiManager : MonoBehaviour
         // TimeText
         TimeText.GetComponent<Text>().text = GetChronometerText(GameManager.Instance.Chronometer, true);
 
-	    if (Time.time - _checkpointTime > CheckpointTimePeriod)
+	    if (Time.time - _checkpointTime - (_displayGap ? GapTimePeriod : 0) > CheckpointTimePeriod)
         {
             _displayCheckpoint = false;
             _displayGap = false;
@@ -98,21 +100,18 @@ public class RaceUiManager : MonoBehaviour
 	        : "";
 	}
 
-    public void DisplayCheckpointTime()
+    public void DisplayCheckpointTime(TimeSpan checkpointTime)
     {
         _displayCheckpoint = true;
+        _displayGap = false;
         _checkpointTime = Time.time;
 
-        TimeSpan checkpoint = GameManager.Instance.Chronometer;
-
-        CheckpointTimeText.GetComponent<Text>().text = GetChronometerText(checkpoint, true);
+        CheckpointTimeText.GetComponent<Text>().text = GetChronometerText(checkpointTime, true);
     }
 
-    public void DisplayGapTime()
+    public void DisplayGapTime(TimeSpan gap)
     {
         _displayGap = true;
-
-        TimeSpan gap = TimeSpan.FromSeconds(0);
 
         GapText.GetComponent<Text>().color = gap.Ticks > 0 ? NegativeColor : PositiveColor;
         GapText.GetComponent<Text>().text = GetChronometerText(gap, false, true);

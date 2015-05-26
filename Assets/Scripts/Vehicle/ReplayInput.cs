@@ -7,44 +7,42 @@ using System.Xml.Serialization;
 using System.IO;
 
 
-public class ReplayInput : MonoBehaviour {
-
+public class ReplayInput : MonoBehaviour
+{
 	public List<DrivingState> ListDState;
 	private DrivingState current;
+
 	static List<DrivingState> DeserializeFromFile(string fileName)
 	{
 		XmlSerializer deserializer = new XmlSerializer(typeof(List<DrivingState>));
 		TextReader textReader = new StreamReader(fileName);
-		List<DrivingState> ListDState; 
-		ListDState = (List<DrivingState>)deserializer.Deserialize(textReader);
+		List<DrivingState> listDState = (List<DrivingState>)deserializer.Deserialize(textReader);
 		textReader.Close();
-		
-		return ListDState;
+
+        return listDState;
 	}
 
-	void Awake () {
-		ListDState = DeserializeFromFile (@"Assets\Resources\ProtoReplay.xml");
-
-	}
-
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		current = null;
 	}
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-
-		if (ListDState.Count != 0) {
-			if (Time.realtimeSinceStartup >= ListDState.First().Time) {
-				current = ListDState.First();
-				ListDState.RemoveAt(0);
-			}
+	void FixedUpdate ()
+    {
+		if (ListDState.Count != 0 && Time.realtimeSinceStartup >= ListDState.First().Time)
+        {
+			current = ListDState.First();
+			ListDState.RemoveAt(0);
 		}
-		if (current != null) {
+
+	    if (ListDState.Count == 0)
+	    {
+	        gameObject.AddComponent<AiInput>();
+	        Destroy(this);
+	    }
+
+		if (current != null)
 			GetComponent<VehicleMotor> ().ChangeState (current);
-		}
-
 	}
 	
 }

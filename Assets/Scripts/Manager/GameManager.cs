@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using DesignPattern;
+using UnityEngine.UI;
 
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
@@ -9,6 +11,9 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     public List<PlayerVehicleData> PlayersData = new List<PlayerVehicleData>();
     public List<AiVehicleData> AisData = new List<AiVehicleData>();
     public StartGrid StartGrid;
+    public CameraManager CameraManager;
+    public Canvas PauseUi;
+    public MultiplayerAudioListener MultiplayerAudioListener;
 
     public List<GameObject> Contestants { get; private set; }
 
@@ -28,12 +33,21 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     private float _countdown;
     private float _chronometer;
 
+    public List<Contestant> FinishedContestants { get; private set; }
+    private int _finishPlayerCount;
+
+    public bool AllPlayerFinish
+    {
+        get { return _finishPlayerCount >= PlayersData.Count; }
+    }
+
     private bool _differedChangeStateRequest;
     private GameState _stateRequested;
 
     protected GameManager()
     {
         Contestants = new List<GameObject>();
+        FinishedContestants = new List<Contestant>();
     }
 
     void Awake()
@@ -57,7 +71,9 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         if (ChronometerEnabled)
             _chronometer += Time.unscaledDeltaTime;
 
-        Contestants.Sort(new PositionComparer());
+        var replayCameraSystem = FindObjectOfType<ReplayCameraSystem>();
+        if (replayCameraSystem != null)
+            replayCameraSystem.Target = Contestants[0].transform;
 
         if (_differedChangeStateRequest)
         {
@@ -83,6 +99,48 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         Contestants.Add(contestant);
     }
 
+    public void EndRace(Contestant contestant)
+    {
+        PlayerInput playerInput = contestant.gameObject.GetComponent<PlayerInput>();
+        if (playerInput != null)
+        {
+            _finishPlayerCount++;
+
+            Destroy(playerInput);
+            contestant.gameObject.AddComponent<AiInput>();
+
+            var raceUiManager = contestant.gameObject.GetComponentInChildren<RaceUiManager>();
+            if (raceUiManager != null)
+            {
+                EndRaceUiManager ui = Factory<EndRaceUiManager>.New("Ui/EndRaceUi");
+                ui.VehicleNumber = Contestants.Count;
+                ui.GetComponent<Canvas>().worldCamera = raceUiManager.GetComponent<Canvas>().worldCamera;
+
+                ui.GetComponent<CanvasScaler>().referenceResolution =
+                    raceUiManager.GetComponent<CanvasScaler>().referenceResolution;
+
+                Destroy(raceUiManager.gameObject);
+
+                ui.gameObject.transform.SetParent(contestant.gameObject.transform, false);
+
+                foreach (Contestant finishedContestant in FinishedContestants)
+                    ui.AddToRanking(finishedContestant, contestant.SplitTimes.Count - 1);
+            }
+        }
+
+        if (!FinishedContestants.Contains(contestant))
+        {
+            FinishedContestants.Add(contestant);
+
+            foreach (GameObject o in Contestants)
+            {
+                var endRaceUiManager = o.GetComponentInChildren<EndRaceUiManager>();
+                if (endRaceUiManager != null)
+                    endRaceUiManager.AddToRanking(contestant, contestant.SplitTimes.Count - 1);
+            }
+        }
+    }
+
     public void ResetChrono()
     {
         _chronometer = 0;
@@ -105,7 +163,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         _differedChangeStateRequest = true;
     }
 
-    private class PositionComparer : IComparer<GameObject>
+    public class PositionComparer : IComparer<GameObject>
     {
         public int Compare(GameObject x, GameObject y)
         {

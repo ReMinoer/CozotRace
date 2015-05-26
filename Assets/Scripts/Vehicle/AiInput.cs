@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using DesignPattern;
 
-[RequireComponent(typeof(ProgressTracker))]
-public class AiInput : Factory<AiInput>
+public class AiInput : MonoBehaviour
 {
     public bool DebugTrajectory = false;
     private Vector3 _lastPosition;
@@ -14,15 +11,15 @@ public class AiInput : Factory<AiInput>
 
     [SerializeField]
     [Range(0, 1)]
-    private float _cautiousSpeedFactor = 0.05f;               // percentage of max speed to use when being maximally cautious
+    private float _cautiousSpeedFactor = 0.10f;               // percentage of max speed to use when being maximally cautious
     [SerializeField]
     [Range(0, 180)]
-    private float _cautiousMaxAngle = 50f;                  // angle of approaching corner to treat as warranting maximum caution
+    private float _cautiousMaxAngle = 90f;                  // angle of approaching corner to treat as warranting maximum caution
     [SerializeField]
     private float _cautiousAngularVelocityFactor = 30f;                     // how cautious the AI should be when considering its own current angular velocity (i.e. easing off acceleration if spinning!)
 
     [SerializeField]
-    private float _reactionAngle = 60f;
+    private float _reactionAngle = 30f;
     [SerializeField]
     private float _minimalTurn = 0.2f;
     [SerializeField]
@@ -40,9 +37,9 @@ public class AiInput : Factory<AiInput>
 
     private void Awake()
     {
-        _vehicle = GetComponentInChildren<VehicleMotor>();
+        _vehicle = GetComponent<VehicleMotor>();
         _progressTracker = GetComponent<ProgressTracker>();
-        _rigidbody = GetComponentInChildren<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
 
         _randomPerlin = Random.value * 100;
     }
@@ -56,6 +53,9 @@ public class AiInput : Factory<AiInput>
         }
 
         // the car will brake according to the upcoming change in direction of the target. Useful for route-based AI, slowing for corners.
+
+        if (_progressTracker.Target == null)
+            return;
 
         // check out the angle of our target compared to the current direction of the car
         float approachingCornerAngle = Vector3.Angle(_progressTracker.Target.position - _vehicle.transform.position, fwd);
@@ -110,7 +110,7 @@ public class AiInput : Factory<AiInput>
         var state = new DrivingState
         {
             Forward = accelerate ? accelerateAmount : 0,
-            Backward = accelerate ? 0 : accelerateAmount,
+            Backward = 0,//accelerate ? 0 : accelerateAmount,
             Turn = turn
         };
 
