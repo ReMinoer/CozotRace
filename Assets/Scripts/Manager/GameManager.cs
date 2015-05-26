@@ -123,7 +123,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
                 ui.gameObject.transform.SetParent(contestant.gameObject.transform, false);
 
                 foreach (Contestant finishedContestant in FinishedContestants)
-                    ui.AddToRanking(finishedContestant);
+                    ui.AddToRanking(finishedContestant, contestant.SplitTimes.Count - 1);
             }
         }
 
@@ -135,7 +135,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
             {
                 var endRaceUiManager = o.GetComponentInChildren<EndRaceUiManager>();
                 if (endRaceUiManager != null)
-                    endRaceUiManager.AddToRanking(contestant);
+                    endRaceUiManager.AddToRanking(contestant, contestant.SplitTimes.Count - 1);
             }
         }
     }

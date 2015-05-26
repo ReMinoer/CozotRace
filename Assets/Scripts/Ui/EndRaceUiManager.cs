@@ -30,12 +30,12 @@ public class EndRaceUiManager : Factory<EndRaceUiManager>
 	    }
 	}
 	
-	public void AddToRanking (Contestant contestant)
+	public void AddToRanking (Contestant contestant, int lastSplitIndex)
 	{
 	    if (VehicleNumber != _rankingEntries.Count)
             Awake();
 
-	    _rankingEntries[_contestantCount].ChangeEntry(_contestantCount + 1, contestant.PlayerName, contestant.SplitTimes.Last());
+        _rankingEntries[_contestantCount].ChangeEntry(_contestantCount + 1, contestant.PlayerName, contestant.SplitTimes[lastSplitIndex]);
 	    _contestantCount++;
     }
 }
