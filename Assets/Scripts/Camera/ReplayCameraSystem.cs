@@ -8,7 +8,7 @@ public class ReplayCameraSystem : Factory<ReplayCameraSystem>
     private Camera _camera;
 
     private const float Speed = 0.1f;
-    private const float SpeedRotation = 0.2f;
+    private const float SpeedRotation = 0.4f;
 
     void Start()
     {

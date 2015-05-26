@@ -180,7 +180,7 @@ public class VehicleMotor : Factory<VehicleMotor>
 
         state.Position = transform.position;
         state.Rotation = transform.rotation;
-		state.Time = Time.realtimeSinceStartup;
+		state.Time = (float)GameManager.Instance.Chronometer.TotalSeconds;
 
 		if (StateChanged != null)
 			StateChanged.Invoke (this, new StateChangedEventArgs { State = state });

@@ -28,12 +28,18 @@ public class ReplayInput : MonoBehaviour
 	}
 	
 	void FixedUpdate ()
-    {
-		if (ListDState.Count != 0 && Time.realtimeSinceStartup >= ListDState.First().Time)
+	{
+	    bool valid = false;
+	    do
         {
-			current = ListDState.First();
-			ListDState.RemoveAt(0);
-		}
+            valid = false;
+            if (ListDState.Count != 0 && (float)GameManager.Instance.Chronometer.TotalSeconds >= ListDState.First().Time)
+            {
+			    current = ListDState.First();
+			    ListDState.RemoveAt(0);
+                valid = true;
+            }
+        } while (valid);
 
 	    if (ListDState.Count == 0)
 	    {
