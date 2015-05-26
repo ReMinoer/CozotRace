@@ -167,6 +167,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 35705599}
   - 114: {fileID: 35705598}
+  - 114: {fileID: 35705600}
   m_Layer: 0
   m_Name: DataRace
   m_TagString: Untagged
@@ -202,6 +203,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
+--- !u!114 &35705600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 35705597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba970d7b3630d442844c2c4e9254c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &172397126
 GameObject:
   m_ObjectHideFlags: 0
