@@ -69,7 +69,7 @@ public class GameManager : DesignPattern.Singleton<GameManager>
             _countdown += Time.unscaledDeltaTime;
 
         if (ChronometerEnabled)
-            _chronometer += Time.unscaledDeltaTime;
+            _chronometer += Time.deltaTime;
 
         var replayCameraSystem = FindObjectOfType<ReplayCameraSystem>();
         if (replayCameraSystem != null)
