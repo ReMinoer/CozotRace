@@ -186,8 +186,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberPlayers: 0
+  numberVehicles: 6
+  numberTurns: 3
   sceneToLoad: 0
-  vehiclePlayer: {fileID: 0}
+  vehiclePlayer: 0
 --- !u!4 &35705599
 Transform:
   m_ObjectHideFlags: 0
@@ -2753,6 +2755,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5038f31e5548ac488c376504e570a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DataRace: {fileID: 35705597}
   RaceControler: {fileID: 1143826119}
   RaceChoiceImage: {fileID: 1005987141}
   RaceImages:
