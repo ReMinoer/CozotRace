@@ -4,6 +4,12 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class CheckPoint : LinkedPoint
 {
+    protected override void Awake()
+    {
+        if (FindObjectOfType<Race>() != null)
+            base.Awake();
+    }
+
 	void OnTriggerEnter(Collider Col)
 	{
 		if (Col.isTrigger && Col.gameObject.GetComponent<Contestant>() != null)
