@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class DataRace : MonoBehaviour {
+public class DataRace : MonoBehaviour
+{
+    public string Level { get; set; }
+    public string[] Models { get; set; }
+    public int VehicleCount { get; set; }
+    public int PlayerCount { get; set; }
+    public int Laps { get; set; }
 
-	public int numberPlayers = 1;
-	public int numberVehicles = 6;
-	public int numberTurns = 3;
-	public int sceneToLoad = 3;
-	public int vehiclePlayer;
+    public DataRace()
+    {
+        Models = new string[4];
+    }
 }
