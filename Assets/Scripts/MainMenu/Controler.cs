@@ -9,12 +9,12 @@ public class Controler : MonoBehaviour {
 	public void NextSelection() {
 		value += 1;
 		if (value > valueMax)
-			value = valueMax;
+			value = 0;
 	}
 	
 	public void PreviousSelection() {
 		value -= 1;
 		if (value < 0)
-			value = 0;
+			value = valueMax;
 	}
 }
