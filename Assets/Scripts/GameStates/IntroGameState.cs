@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DesignPattern;
 
 public class IntroGameState : GameState
@@ -21,6 +23,7 @@ public class IntroGameState : GameState
             {
                 var data = new ReplayVehicleData
                 {
+                    Model = replayManager.VehiclesData[j].Model,
                     DrivingStates = replayRecorder.ListDState
                 };
                 GameObject gameObject = data.Instantiate(GameManager.StartGrid.StartPositions[j]);
@@ -31,7 +34,7 @@ public class IntroGameState : GameState
             Object.Destroy(replayManager.gameObject.GetComponent<DontDestroyOnLoad>());
             Object.Destroy(replayManager.gameObject);
 
-            var replayCameraSystem = Factory<ReplayCameraSystem>.New("Cameras/ReplayCamera");
+            ReplayCameraSystem replayCameraSystem = Factory<ReplayCameraSystem>.New("Cameras/ReplayCamera");
             replayCameraSystem.Target = GameManager.Contestants[0].transform;
             GameManager.MultiplayerAudioListener.Cameras.Add(replayCameraSystem.gameObject.GetComponent<Camera>());
 
@@ -44,13 +47,16 @@ public class IntroGameState : GameState
 
         int i = 0;
 
+        string[] aiNames = GenerateAiNames(GameManager.AisData.Count);
+
         int aiCount = 0;
         foreach (AiVehicleData data in GameManager.AisData)
         {
             GameObject gameObject = data.Instantiate(GameManager.StartGrid.StartPositions[i]);
-            gameObject.GetComponent<Contestant>().PlayerName = "AI n°" + (aiCount + 1);
+            gameObject.GetComponent<Contestant>().PlayerName = aiNames[aiCount];
             GameManager.AddContestant(gameObject);
             replayManager.AddRecorder(gameObject.GetComponent<VehicleMotor>());
+            replayManager.VehiclesData.Add(data);
             aiCount++;
             i++;
         }
@@ -62,6 +68,7 @@ public class IntroGameState : GameState
             gameObject.GetComponent<Contestant>().PlayerName = "Player " + (playerCount + 1);
             GameManager.AddContestant(gameObject);
             replayManager.AddRecorder(gameObject.GetComponent<VehicleMotor>());
+            replayManager.VehiclesData.Add(data);
             playerCount++;
             i++;
         }
@@ -75,5 +82,30 @@ public class IntroGameState : GameState
     public override void Update()
     {
         GameManager.ChangeStateDiffered(new CountdownGameState(GameManager));
+    }
+
+    static private string[] AiNamesCollection =
+    {
+        "Rémi", "Frédéric", "Tristan", "Maxime", "Valentin", "Océane", "Johan",
+        "Clément", "Lacarte", "Daniel", "Florent", "Danchi", "Paul", "Adrien"
+    };
+
+    private static string[] GenerateAiNames(int count)
+    {
+        string[] result = new string[count];
+        int[] indexes = new int[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            int randomIndex;
+            do
+            {
+                randomIndex = Random.Range(0, AiNamesCollection.Length);
+            } while (indexes.Contains(randomIndex));
+            indexes[i] = randomIndex;
+            result[i] = AiNamesCollection[randomIndex];
+        }
+
+        return result;
     }
 }

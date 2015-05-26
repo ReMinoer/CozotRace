@@ -4,9 +4,11 @@ using System.Collections.Generic;
 public class ReplayManager : MonoBehaviour
 {
     public Dictionary<VehicleMotor, ReplayRecorder> Recorders { get; private set; }
+    public List<VehicleData> VehiclesData { get; set; }
 
 	void Awake()
     {
+        VehiclesData = new List<VehicleData>();
         Recorders = new Dictionary<VehicleMotor, ReplayRecorder>();
 	}
 	
