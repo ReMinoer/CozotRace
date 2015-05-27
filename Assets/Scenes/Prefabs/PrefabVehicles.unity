@@ -87,11 +87,6 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!82 &263520362 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 8267856, guid: 50f5530b509b4b74db04413cac34bf44,
-    type: 2}
-  m_PrefabInternal: {fileID: 491438752}
 --- !u!1 &357216948
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,31 +241,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 11485850, guid: 50f5530b509b4b74db04413cac34bf44, type: 2}
-      propertyPath: MotorSound
-      value: 
-      objectReference: {fileID: 1219800455}
-    - target: {fileID: 11485850, guid: 50f5530b509b4b74db04413cac34bf44, type: 2}
-      propertyPath: AccelerationSound
-      value: 
-      objectReference: {fileID: 263520362}
-    - target: {fileID: 11485850, guid: 50f5530b509b4b74db04413cac34bf44, type: 2}
-      propertyPath: BrakingSound
-      value: 
-      objectReference: {fileID: 1220177385}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 50f5530b509b4b74db04413cac34bf44, type: 2}
   m_IsPrefabParent: 0
---- !u!82 &1219800455 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 8209256, guid: 50f5530b509b4b74db04413cac34bf44,
-    type: 2}
-  m_PrefabInternal: {fileID: 491438752}
---- !u!82 &1220177385 stripped
-AudioSource:
-  m_PrefabParentObject: {fileID: 8234210, guid: 50f5530b509b4b74db04413cac34bf44,
-    type: 2}
-  m_PrefabInternal: {fileID: 491438752}
 --- !u!1 &1471297887 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 120152, guid: 50f5530b509b4b74db04413cac34bf44, type: 2}

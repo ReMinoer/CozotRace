@@ -29,11 +29,6 @@ public abstract class VehicleData
         model.GetComponentInChildren<ReactorBehaviour>().Vehicle = vehicleMotor.gameObject;
         model.transform.SetParent(vehicleMotor.gameObject.transform, false);
 
-        GameObject colliders = Object.Instantiate(Resources.Load("Vehicles/VehicleCollider")) as GameObject;
-        if (colliders == null)
-            throw new NullReferenceException();
-        colliders.transform.SetParent(vehicleMotor.gameObject.transform, false);
-
         return vehicleMotor.gameObject;
     }
 }
