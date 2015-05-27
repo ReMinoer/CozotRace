@@ -20,25 +20,7 @@ public class Contestant : MonoBehaviour
 	{
 		if (Cp == CurrentCheckPoint)
         {
-            _splitTimes.Add(GameManager.Instance.Chronometer);
-
-            if (CurrentCheckPoint.NextPoint == null)
-            {
-                CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
-            }
-            else
-            {
-                if (CurrentCheckPoint == Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>())
-                {
-                    CurrentLap++;
-                    if (CurrentLap > Race.Instance.Laps)
-                    {
-                        GameManager.Instance.EndRace(this);
-                    }
-                }
-                CurrentCheckPoint = Cp.NextPoint.GetComponent<CheckPoint>();
-            }
-
+            ValidateProgression();
 
             var ui = gameObject.GetComponentInChildren<RaceUiManager>();
             if (ui != null)
@@ -71,23 +53,57 @@ public class Contestant : MonoBehaviour
             }
         }
 		else
-        {
-			Debug.Log("miss point");
+		{
+		    var aiInput = gameObject.GetComponent<AiInput>();
+		    if (aiInput != null)
+            {
+                do
+                {
+                    ValidateProgression();
+                } while (CurrentCheckPoint == Cp.GetComponent<CheckPoint>());
+
+                _splitTimes.Add(GameManager.Instance.Chronometer);
+
+                ValidateProgression();
+                return;
+            }
+
 			CheckPoint old = CurrentCheckPoint;
-			for(int i=0; i<3; i++) {
-				if(old.PreviousPoint==null)
+			for(int i=0; i<3; i++)
+            {
+				if (old.PreviousPoint==null)
 					old = Race.Instance.GetLastCheckPoint().GetComponent<CheckPoint>();
 				else
 					old = old.PreviousPoint.GetComponent<CheckPoint>();
 
-				if(Cp == old)
+				if (Cp == old)
 					return;
 			}
 			RespawnAtNextCheckPoint();
-
 		}
-
 	}
+
+    private void ValidateProgression()
+    {
+        _splitTimes.Add(GameManager.Instance.Chronometer);
+
+        if (CurrentCheckPoint.NextPoint == null)
+        {
+            CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
+        }
+        else
+        {
+            if (CurrentCheckPoint == Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>())
+            {
+                CurrentLap++;
+                if (CurrentLap > Race.Instance.Laps)
+                {
+                    GameManager.Instance.EndRace(this);
+                }
+            }
+            CurrentCheckPoint = CurrentCheckPoint.NextPoint.GetComponent<CheckPoint>();
+        }
+    }
 
 	void RespawnAtNextCheckPoint() {
 		GetComponent<Rigidbody> ().velocity = Vector3.zero;
