@@ -4,32 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoMain.unity
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoSelector.unity
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoRace4(1).unity
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoRace1.unity
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoRace2.unity
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoRace2.unity
-  - enabled: 0
-    path: Assets/Scenes/Prototypes/ProtoRace3.unity
-  - enabled: 1
-<<<<<<< HEAD
-    path: Assets/Scenes/Levels/EasyPlain.unity
-=======
-    path: Assets/Scenes/TitleScreen.unity
-  - enabled: 1
-    path: Assets/Scenes/ConfigurationMenu.unity
-  - enabled: 1
-    path: Assets/Scenes/Levels/EasyPlain.unity
-  - enabled: 1
-    path: Assets/Scenes/Levels/GrassHills.unity
-  - enabled: 1
-    path: Assets/Scenes/Levels/SpringLoop.unity
->>>>>>> 99400afaa5a5761951afd9a867b8a9aa56213c63
+  m_Scenes: []
