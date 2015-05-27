@@ -20,6 +20,6 @@ public class PauseGameState : GameState
         if (Input.GetKeyDown(KeyCode.Escape))
             GameManager.ChangeStateDiffered(new PlayGameState(GameManager));
         if (Input.GetKeyDown(KeyCode.Return))
-            Application.LoadLevel(Application.loadedLevel);
+            Application.LoadLevel(0);
     }
 }

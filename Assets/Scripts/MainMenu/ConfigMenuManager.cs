@@ -17,7 +17,7 @@ public class ConfigMenuManager : MonoBehaviour
     public Transform[] VehicleTransforms = new Transform[4];
     private string[] _lastVehicles = new string[4];
     private GameObject[] _currentVehicles = new GameObject[4];
-    private string[] vehicleNames = { "blue", "cyan", "green", "lightGreen", "orange", "pink", "purple", "yellow" };
+    public static readonly string[] VehicleNames = { "car_blue", "car_cyan", "car_green", "car_lightGreen", "car_orange", "car_pink", "car_purple", "car_yellow" };
 
     public Controler NumberVehicleControler;
     public Text CounterVehicles;
@@ -55,20 +55,20 @@ public class ConfigMenuManager : MonoBehaviour
 	    {
             int vehicleValue = VehicleControlers[i].value;
 
-            if (_lastVehicles[i] != vehicleNames[vehicleValue])
+            if (_lastVehicles[i] != VehicleNames[vehicleValue])
 	        {
                 Destroy(_currentVehicles[i]);
 
                 _currentVehicles[i] =
-	                Instantiate(Resources.Load("Vehicles/Models/car_" + vehicleNames[vehicleValue].ToLower())) as
+	                Instantiate(Resources.Load("Vehicles/Models/" + VehicleNames[vehicleValue].ToLower())) as
 	                    GameObject;
                 if (_currentVehicles[i] == null)
 	                throw new NullReferenceException();
                 _currentVehicles[i].transform.SetParent(VehicleTransforms[i], false);
                 Destroy(_currentVehicles[i].GetComponentInChildren<ReactorBehaviour>());
 	        }
-            _lastVehicles[i] = vehicleNames[vehicleValue];
-            DataRace.Models[i] = vehicleNames[vehicleValue];
+            _lastVehicles[i] = VehicleNames[vehicleValue];
+            DataRace.Models[i] = VehicleNames[vehicleValue];
 	    }
 
         // NumberVehicles
@@ -79,10 +79,16 @@ public class ConfigMenuManager : MonoBehaviour
         // NumberPlayers
 
         int numberPlayerValue = NumberPlayerControler.value;
-        if (numberPlayerValue > numberVehicleValue)
+        if (numberPlayers[numberPlayerValue] > numberVehicles[numberVehicleValue])
         {
             NumberPlayerControler.value = numberVehicleValue;
             numberPlayerValue = numberVehicleValue;
+        }
+
+        if (numberPlayers[numberPlayerValue] > PlayerInput.GetNumberOfGamepads() + 2)
+        {
+            NumberPlayerControler.value = PlayerInput.GetNumberOfGamepads() + 1;
+            numberPlayerValue = PlayerInput.GetNumberOfGamepads() + 1;
         }
 
 		CounterPlayers.text = "" + numberPlayers [numberPlayerValue];
