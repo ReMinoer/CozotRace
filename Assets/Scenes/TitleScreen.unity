@@ -208,10 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632605b7c4e07364c8e456b12c3aa061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level3music: {fileID: 8300000, guid: 79148276f4a538c4ba687b7fa2a72bbf, type: 3}
-  level4music: {fileID: 8300000, guid: f4a92f438d4ef604dbb83e5701adfed6, type: 3}
-  level5music: {fileID: 8300000, guid: d0606418ed14983468973125be7fbfc2, type: 3}
-  level6music: {fileID: 8300000, guid: 997ddf82cf644534eb0f21f3d0d2759b, type: 3}
+  level2music: {fileID: 8300000, guid: 79148276f4a538c4ba687b7fa2a72bbf, type: 3}
+  level3music: {fileID: 8300000, guid: f4a92f438d4ef604dbb83e5701adfed6, type: 3}
+  level4music: {fileID: 8300000, guid: d0606418ed14983468973125be7fbfc2, type: 3}
+  level5music: {fileID: 8300000, guid: 997ddf82cf644534eb0f21f3d0d2759b, type: 3}
 --- !u!1 &360247906
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +488,10 @@ Prefab:
     - target: {fileID: 22496402, guid: efbfdcf12d95cab478f4d4ddeb88d245, type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11429098, guid: efbfdcf12d95cab478f4d4ddeb88d245, type: 2}
+      propertyPath: m_Text
+      value: Horace
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: efbfdcf12d95cab478f4d4ddeb88d245, type: 2}

@@ -3,10 +3,10 @@ using System.Collections;
 
 public class ChangeMusic : MonoBehaviour {
 
+	public AudioClip level2music;
 	public AudioClip level3music;
 	public AudioClip level4music;
 	public AudioClip level5music;
-	public AudioClip level6music;
 
 	private AudioSource source;
 	private AudioClip level0music;
@@ -23,21 +23,21 @@ public class ChangeMusic : MonoBehaviour {
 			source.clip = level0music;
 			source.Play();
 		}
-		if(level == 3) {
+		if(level == 2) {
+			source.clip = level2music;
+			source.Play();
+		}
+		if (level == 3) 
+		{
 			source.clip = level3music;
 			source.Play();
 		}
-		if (level == 4) 
-		{
+		if(level == 4) {
 			source.clip = level4music;
 			source.Play();
 		}
 		if(level == 5) {
 			source.clip = level5music;
-			source.Play();
-		}
-		if(level == 6) {
-			source.clip = level6music;
 			source.Play();
 		}
 	}
