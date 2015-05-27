@@ -208,7 +208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632605b7c4e07364c8e456b12c3aa061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level1music: {fileID: 8300000, guid: 79148276f4a538c4ba687b7fa2a72bbf, type: 3}
   level2music: {fileID: 8300000, guid: f4a92f438d4ef604dbb83e5701adfed6, type: 3}
+  level3music: {fileID: 8300000, guid: d0606418ed14983468973125be7fbfc2, type: 3}
 --- !u!1 &360247906
 GameObject:
   m_ObjectHideFlags: 0

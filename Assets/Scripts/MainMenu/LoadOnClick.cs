@@ -11,6 +11,7 @@ public class LoadOnClick : MonoBehaviour {
 
 	public void LoadScene(int level) 
 	{
+		Debug.Log (level);
 		_loadingImage.SetActive (true);
 		Application.LoadLevel (level);
 		_text.text = newText[level-1];
