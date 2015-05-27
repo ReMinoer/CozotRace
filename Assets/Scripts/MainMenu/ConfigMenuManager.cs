@@ -11,7 +11,7 @@ public class ConfigMenuManager : MonoBehaviour
     public Transform RaceTransform;
     private string _lastRace;
     private GameObject _currentTerrain;
-	private string[] mapNames = {"EasyPlain", "GrassHills", "SpringLoop"};
+    private string[] mapNames = { "EasyPlain", "GrassHills", "SpringLoop", "WindyMounts" };
 
     public Controler[] VehicleControlers = new Controler[4];
     public Transform[] VehicleTransforms = new Transform[4];
@@ -45,6 +45,7 @@ public class ConfigMenuManager : MonoBehaviour
             if (_currentTerrain == null)
                 throw new NullReferenceException();
             _currentTerrain.transform.SetParent(RaceTransform, false);
+            _currentTerrain.transform.Translate(-_currentTerrain.GetComponent<Terrain>().terrainData.size / 2);
 	    }
         _lastRace = mapNames[raceValue];
 
