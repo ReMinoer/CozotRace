@@ -6,6 +6,7 @@ public class ChangeMusic : MonoBehaviour {
 	public AudioClip level3music;
 	public AudioClip level4music;
 	public AudioClip level5music;
+	public AudioClip level6music;
 
 	private AudioSource source;
 	private AudioClip level0music;
@@ -31,9 +32,12 @@ public class ChangeMusic : MonoBehaviour {
 			source.clip = level4music;
 			source.Play();
 		}
-
 		if(level == 5) {
 			source.clip = level5music;
+			source.Play();
+		}
+		if(level == 6) {
+			source.clip = level6music;
 			source.Play();
 		}
 	}
