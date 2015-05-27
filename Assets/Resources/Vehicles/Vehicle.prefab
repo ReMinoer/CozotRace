@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eae8a88f29ae53439a5d3fc2b8d32d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAheadForTargetOffset: 0
+  lookAheadForTargetOffset: 5
   lookAheadForTargetFactor: 1
   _lookAheadForSpeedOffset: 5
   _lookAheadForSpeedFactor: 2

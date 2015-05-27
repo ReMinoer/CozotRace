@@ -11,7 +11,7 @@ public class AiInput : MonoBehaviour
 
     [SerializeField]
     [Range(0, 1)]
-    private float _cautiousSpeedFactor = 0.10f;               // percentage of max speed to use when being maximally cautious
+    private float _cautiousSpeedFactor = 0.8f;               // percentage of max speed to use when being maximally cautious
     [SerializeField]
     [Range(0, 180)]
     private float _cautiousMaxAngle = 90f;                  // angle of approaching corner to treat as warranting maximum caution
