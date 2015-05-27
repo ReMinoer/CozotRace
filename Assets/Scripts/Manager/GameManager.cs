@@ -1,8 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using DesignPattern;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
@@ -53,6 +55,40 @@ public class GameManager : DesignPattern.Singleton<GameManager>
     void Awake()
     {
         State = new IntroGameState(this);
+        
+        var dataRace = FindObjectOfType<DataRace>();
+        if (dataRace != null)
+        {
+            PlayersData = new List<PlayerVehicleData>();
+            for (int i = 0; i < dataRace.PlayerCount; i++)
+            {
+                PlayerIndex playerIndex = PlayerInput.GeneratePlayerIndex(i + 1);
+                PlayersData.Add(new PlayerVehicleData {
+                    Model = dataRace.Models[i],
+                    PlayerIndex = playerIndex
+                });
+            }
+
+            AisData = new List<AiVehicleData>();
+            for (int i = 0; i < dataRace.VehicleCount - dataRace.PlayerCount; i++)
+            {
+                string randomModel;
+                do
+                {
+                    randomModel = ConfigMenuManager.VehicleNames[Random.Range(0, ConfigMenuManager.VehicleNames.Length)];
+                } while (PlayersData.Any(data => data.Model == randomModel));
+
+                AisData.Add(new AiVehicleData
+                {
+                    Model = randomModel
+                });
+            }
+
+            Race.Instance.Laps = dataRace.Laps;
+
+            Destroy(dataRace.gameObject.GetComponent<DontDestroyOnLoad>());
+            Destroy(dataRace.gameObject);
+        }
     }
 
     void Start()

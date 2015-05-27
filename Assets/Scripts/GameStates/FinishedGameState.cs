@@ -21,6 +21,6 @@ public class FinishedGameState : GameState
         if (replayManager != null)
             Application.LoadLevel(Application.loadedLevel);
         else
-            Application.LoadLevel(Application.loadedLevel);
+            Application.LoadLevel(0);
     }
 }

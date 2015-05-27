@@ -22,7 +22,6 @@ public class Contestant : MonoBehaviour
         {
             _splitTimes.Add(GameManager.Instance.Chronometer);
 
-            //Debug.Log("Next checkpoint");
             if (CurrentCheckPoint.NextPoint == null)
             {
                 CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
@@ -31,11 +30,9 @@ public class Contestant : MonoBehaviour
             {
                 if (CurrentCheckPoint == Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>())
                 {
-                    //Debug.Log("Next lap");
                     CurrentLap++;
                     if (CurrentLap > Race.Instance.Laps)
                     {
-                        //Debug.Log("Finish race");
                         GameManager.Instance.EndRace(this);
                     }
                 }
@@ -76,8 +73,27 @@ public class Contestant : MonoBehaviour
 		else
         {
 			Debug.Log("miss point");
+			CheckPoint old = CurrentCheckPoint;
+			for(int i=0; i<3; i++) {
+				if(old.PreviousPoint==null)
+					old = Race.Instance.GetLastCheckPoint().GetComponent<CheckPoint>();
+				else
+					old = old.PreviousPoint.GetComponent<CheckPoint>();
+
+				if(Cp == old)
+					return;
+			}
+			RespawnAtNextCheckPoint();
+
 		}
 
+	}
+
+	void RespawnAtNextCheckPoint() {
+		GetComponent<Rigidbody> ().velocity = Vector3.zero;
+		transform.rotation = CurrentCheckPoint.transform.rotation;
+		transform.position = CurrentCheckPoint.transform.position;
+		transform.Translate (-transform.forward*3);
 	}
 
 

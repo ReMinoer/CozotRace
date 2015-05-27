@@ -808,7 +808,7 @@ Prefab:
     - target: {fileID: 2347050, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a5a0604020a4853499e65bad2cb18fd7, type: 2}
+      objectReference: {fileID: 2100000, guid: c9c8734161d8ece4caf647e2a534f01b, type: 2}
     - target: {fileID: 11460194, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
       propertyPath: Laps
       value: 1
@@ -865,6 +865,14 @@ Prefab:
       propertyPath: PlayersData.Array.data[0].Model
       value: Car_blue
       objectReference: {fileID: 0}
+    - target: {fileID: 11479936, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
+      propertyPath: NextPoint
+      value: 
+      objectReference: {fileID: 982504854}
+    - target: {fileID: 11479936, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
+      propertyPath: alternativeMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c9c8734161d8ece4caf647e2a534f01b, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
   m_IsPrefabParent: 0

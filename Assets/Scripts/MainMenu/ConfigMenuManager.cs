@@ -1,58 +1,107 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ConfigMenuManager : MonoBehaviour {
+public class ConfigMenuManager : MonoBehaviour
+{
+    public DataRace DataRace;
 
-	public GameObject DataRace;
-
-	public RectTransform RaceControler;
-	public Image RaceChoiceImage;
-	public Sprite[] RaceImages;
+    public Controler RaceControler;
 	public Text RaceName;
-	public string[] mapNames = {"EasyPlain", "GrassHills", "SpringLoop"};
+    public Transform RaceTransform;
+    private string _lastRace;
+    private GameObject _currentTerrain;
+	private string[] mapNames = {"EasyPlain", "GrassHills", "SpringLoop"};
 
-	public RectTransform VehicleControler;
-	public Image VehicleChoiceImage;
-	public Sprite[] VehicleImages;
-	public Text VehicleName;
-	public string[] vehicleNames;
+    public Controler[] VehicleControlers = new Controler[4];
+    public Transform[] VehicleTransforms = new Transform[4];
+    private string[] _lastVehicles = new string[4];
+    private GameObject[] _currentVehicles = new GameObject[4];
+    public static readonly string[] VehicleNames = { "car_blue", "car_cyan", "car_green", "car_lightGreen", "car_orange", "car_pink", "car_purple", "car_yellow" };
 
-	public RectTransform NumberPlayerControler;
+    public Controler NumberVehicleControler;
+    public Text CounterVehicles;
+    private int[] numberVehicles = { 1, 2, 3, 4, 5, 6, 7, 8 };
+
+    public Controler NumberPlayerControler;
 	public Text CounterPlayers;
-	public int[] numberPlayers = {1, 2, 3, 4};
+    private int[] numberPlayers = { 1, 2, 3, 4 };
 
-	
-	public RectTransform NumberVehicleControler;
-	public Text CounterVehicles;
-	public int[] numberVehicles = {2, 3, 4, 5, 6, 7 ,8};
-
-	public RectTransform NumberTurnControler;
+    public Controler NumberTurnControler;
 	public Text CounterTurn;
-	public int[] numberTurns = {1, 2, 3, 4};
+    private int[] numberTurns = { 1, 2, 3, 4, 5 };
 
-	void Update() {
-		int _raceValue = RaceControler.GetComponent<Controler>().value;
-		RaceChoiceImage.sprite = RaceImages [_raceValue];
-		RaceName.text = mapNames [_raceValue];
-		DataRace.GetComponent<DataRace> ().sceneToLoad = _raceValue + 2;
-		
-		int _vehicleValue = VehicleControler.GetComponent<Controler> ().value;
-		VehicleChoiceImage.sprite = VehicleImages [_vehicleValue];
-		VehicleName.text = vehicleNames [_vehicleValue];
-		DataRace.GetComponent<DataRace> ().vehiclePlayer = _vehicleValue;
+	void Update()
+    {
+        // Race
+        int raceValue = RaceControler.value;
+        RaceName.text = mapNames[raceValue];
 
-		int _numberPlayerValue = NumberPlayerControler.GetComponent<Controler> ().value;
-		CounterPlayers.text = "" + numberPlayers [_numberPlayerValue];
-		DataRace.GetComponent<DataRace> ().numberPlayers = numberPlayers [_numberPlayerValue];
-		
-		int _numberVehicleValue = NumberVehicleControler.GetComponent<Controler> ().value;
-		CounterVehicles.text = "" + numberVehicles [_numberVehicleValue];
-		DataRace.GetComponent<DataRace> ().numberVehicles = numberVehicles [_numberVehicleValue];
-		
-		int _numberTurnValue = NumberTurnControler.GetComponent<Controler> ().value;
-		CounterTurn.text = "" + numberTurns [_numberTurnValue];
-		DataRace.GetComponent<DataRace> ().numberTurns = numberTurns [_numberTurnValue];
+	    if (_lastRace != mapNames[raceValue])
+	    {
+            Destroy(_currentTerrain);
 
+            _currentTerrain = Instantiate(Resources.Load("Terrains/" + mapNames[raceValue])) as GameObject;
+            if (_currentTerrain == null)
+                throw new NullReferenceException();
+            _currentTerrain.transform.SetParent(RaceTransform, false);
+	    }
+        _lastRace = mapNames[raceValue];
+
+        DataRace.Level = mapNames[raceValue];
+
+        // Vehicle
+	    for (int i = 0; i < VehicleControlers.Length; i++)
+	    {
+            int vehicleValue = VehicleControlers[i].value;
+
+            if (_lastVehicles[i] != VehicleNames[vehicleValue])
+	        {
+                Destroy(_currentVehicles[i]);
+
+                _currentVehicles[i] =
+	                Instantiate(Resources.Load("Vehicles/Models/" + VehicleNames[vehicleValue].ToLower())) as
+	                    GameObject;
+                if (_currentVehicles[i] == null)
+	                throw new NullReferenceException();
+                _currentVehicles[i].transform.SetParent(VehicleTransforms[i], false);
+                Destroy(_currentVehicles[i].GetComponentInChildren<ReactorBehaviour>());
+	        }
+            _lastVehicles[i] = VehicleNames[vehicleValue];
+            DataRace.Models[i] = VehicleNames[vehicleValue];
+	    }
+
+        // NumberVehicles
+        int numberVehicleValue = NumberVehicleControler.value;
+        CounterVehicles.text = "" + numberVehicles[numberVehicleValue];
+        DataRace.VehicleCount = numberVehicles[numberVehicleValue];
+
+        // NumberPlayers
+
+        int numberPlayerValue = NumberPlayerControler.value;
+        if (numberPlayers[numberPlayerValue] > numberVehicles[numberVehicleValue])
+        {
+            NumberPlayerControler.value = numberVehicleValue;
+            numberPlayerValue = numberVehicleValue;
+        }
+
+        if (numberPlayers[numberPlayerValue] > PlayerInput.GetNumberOfGamepads() + 2)
+        {
+            NumberPlayerControler.value = PlayerInput.GetNumberOfGamepads() + 1;
+            numberPlayerValue = PlayerInput.GetNumberOfGamepads() + 1;
+        }
+
+		CounterPlayers.text = "" + numberPlayers [numberPlayerValue];
+		DataRace.PlayerCount = numberPlayers [numberPlayerValue];
+
+        // Laps
+        int numberTurnValue = NumberTurnControler.value;
+		CounterTurn.text = "" + numberTurns [numberTurnValue];
+		DataRace.Laps = numberTurns [numberTurnValue];
 	}
+
+    public void LaunchRace()
+    {
+        Application.LoadLevel(DataRace.Level);
+    }
 }
