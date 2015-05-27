@@ -55,6 +55,7 @@ public class ProgressTracker : MonoBehaviour
         // then this component will update it, and the AI can read it.
 
         _vehicle = GetComponentInChildren<VehicleMotor>();
+        _lastPosition = _vehicle.transform.position;
 
         if (Target == null)
         {
