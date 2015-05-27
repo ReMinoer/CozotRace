@@ -4,18 +4,10 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class CheckPoint : LinkedPoint
 {
-    public Material alternativeMaterial;
-
     protected override void Awake()
     {
         if (FindObjectOfType<Race>() != null)
             base.Awake();
-    }
-
-    void Start()
-    {
-        if (alternativeMaterial != null)
-            GetComponent<MeshRenderer>().material = alternativeMaterial;
     }
 
 	void OnTriggerEnter(Collider Col)
