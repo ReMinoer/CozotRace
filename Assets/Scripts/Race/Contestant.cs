@@ -76,8 +76,33 @@ public class Contestant : MonoBehaviour
 		else
         {
 			Debug.Log("miss point");
+			/*if(CheckLastCheckPoints(Cp, CurrentCheckPoint, 3))
+				BackToNextCheckPoint_NameToChange();*/
 		}
 
+	}
+
+	bool CheckLastCheckPoints(CheckPoint Cp, CheckPoint checkedCP, int nbPredecessors) {
+		Debug.Log (nbPredecessors);
+		if(nbPredecessors == 0) {
+			return false;
+		}
+		/*else if(checkedCP.GetComponent<CheckPoint>().PreviousPoint == null) {
+			transform.position=Race.Instance.GetLastCheckPoint().transform.position;
+			transform.rotation=Race.Instance.GetLastCheckPoint().transform.rotation;
+			return false;
+		}*/
+		else {
+			if(Cp != checkedCP.GetComponent<CheckPoint>().PreviousPoint)
+				return CheckLastCheckPoints(Cp,checkedCP.PreviousPoint.GetComponent<CheckPoint>(), nbPredecessors-1);
+			else
+				return true;
+		}
+	}
+
+	void BackToNextCheckPoint_NameToChange() {
+		transform.position = CurrentCheckPoint.transform.position;
+		transform.rotation = CurrentCheckPoint.transform.rotation;
 	}
 
 
