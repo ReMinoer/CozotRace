@@ -60,10 +60,7 @@ public class Contestant : MonoBehaviour
                 do
                 {
                     ValidateProgression();
-                } while (CurrentCheckPoint == Cp.GetComponent<CheckPoint>());
-
-                _splitTimes.Add(GameManager.Instance.Chronometer);
-
+                } while (CurrentCheckPoint != Cp.GetComponent<CheckPoint>());
                 ValidateProgression();
                 return;
             }
