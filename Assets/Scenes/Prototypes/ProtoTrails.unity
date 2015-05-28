@@ -331,7 +331,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: .300000012
+  near clip plane: .100000001
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -385,6 +385,70 @@ Prefab:
     - target: {fileID: 416538, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_EndWidth
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_EndWidth
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[0].rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[1].rgba
+      value: 3456106495
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[2].rgba
+      value: 2449473535
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[3].rgba
+      value: 1694498815
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[4].rgba
+      value: 889192447
+      objectReference: {fileID: 0}
+    - target: {fileID: 9627664, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Time
+      value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Time
+      value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[0].rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[1].rgba
+      value: 3456106495
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[2].rgba
+      value: 2449473535
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[3].rgba
+      value: 1694498815
+      objectReference: {fileID: 0}
+    - target: {fileID: 9636792, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: m_Colors.m_Color[4].rgba
+      value: 889192447
+      objectReference: {fileID: 0}
+    - target: {fileID: 11479152, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: seuil
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11407228, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
+      propertyPath: seuil
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 321cb42a4f0b63648a905daa8b62fc0a, type: 2}
