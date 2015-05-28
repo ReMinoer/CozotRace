@@ -106,9 +106,8 @@ public class Contestant : MonoBehaviour
 		GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		transform.rotation = CurrentCheckPoint.transform.rotation;
 		transform.position = CurrentCheckPoint.transform.position;
-		transform.Translate (-transform.forward*3);
+		transform.position += -CurrentCheckPoint.transform.forward * 3;
 	}
-
 
 	// Use this for initialization
 	void Start ()
