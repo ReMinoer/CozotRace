@@ -13,7 +13,10 @@ public class IntroGameState : GameState
 
     public override void Init()
     {
-        GameManager.Pause();
+		GameManager.Pause();
+		
+		GameManager.AudioMessageSource.clip = GameManager.CountdownSound;
+		GameManager.AudioMessageSource.Play();
 
         var replayManager = Object.FindObjectOfType<ReplayManager>();
         if (replayManager != null)

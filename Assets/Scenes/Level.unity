@@ -199,10 +199,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 148922, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
+      propertyPath: CountdownSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f9ecf488dfa4289489e802160fefd862, type: 3}
+    - target: {fileID: 11473920, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
+      propertyPath: FinishSound
+      value: 
+      objectReference: {fileID: 8300000, guid: bdada719ea50ba24590f7daf7a1076c9, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e7c4d8f2a9ae4ad4eb0f3adaa4e3033a, type: 2}
   m_IsPrefabParent: 0

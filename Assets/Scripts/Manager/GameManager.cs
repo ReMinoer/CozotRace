@@ -9,6 +9,10 @@ using Random = UnityEngine.Random;
 public class GameManager : DesignPattern.Singleton<GameManager>
 {
     public GameState State;
+	
+	public AudioSource AudioMessageSource;
+	public AudioClip CountdownSound;
+	public AudioClip FinishSound;
 
     public List<PlayerVehicleData> PlayersData = new List<PlayerVehicleData>();
     public List<AiVehicleData> AisData = new List<AiVehicleData>();
@@ -141,6 +145,9 @@ public class GameManager : DesignPattern.Singleton<GameManager>
         if (playerInput != null)
         {
             _finishPlayerCount++;
+
+			AudioMessageSource.clip = FinishSound;
+			AudioMessageSource.Play();
 
             Destroy(playerInput);
             contestant.gameObject.AddComponent<AiInput>();
