@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ReplayCameraSystem : Factory<ReplayCameraSystem>
 {
-    public float Height = 10f;
     public Transform Target;
+    public float Height = 10f;
     private Camera _camera;
     private const float Speed = 0.12f;
     private const float SpeedRotation = 0.4f;

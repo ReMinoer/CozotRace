@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class VehicleMotor : Factory<VehicleMotor>
 {
+    public float ForwardForce = 25f;
+    public float ForwardSpeedMax = 25f;
     public float BackwardForce = 25f;
     public float BackwardSpeedMax = 10f;
     public float BrakeForce = 30f;
-    public Transform Center;
+    public float TurningAngle = 50f;
+    public float SpeedEvolution = 0.2f;
     public float FloatingHeight = 1.5f;
-    public float ForwardForce = 25f;
-    public float ForwardSpeedMax = 25f;
     public float ForwardSpeedMaxActual = 25f;
     public float HoverForce = 65f;
     public bool IsBoosted;
@@ -18,9 +19,8 @@ public class VehicleMotor : Factory<VehicleMotor>
     public float Nitro = 2500;
     public float NitroDecreaseSpeed = 1;
     public Transform Nose;
-    public float SpeedEvolution = 0.2f;
+    public Transform Center;
     public Transform Tail;
-    public float TurningAngle = 50f;
     private float _speedCoeff = 1f;
     private VehicleState _state;
     private const float StopThreshold = 0.1f;

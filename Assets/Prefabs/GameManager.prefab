@@ -821,8 +821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3133b47216eca474c84a8e86d3880c83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Laps: 3
   FirstCheckPoint: {fileID: 118178}
+  Laps: 3
 --- !u!114 &11460266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -888,16 +888,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8519a96e24465b47baa4406e4379d37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioMessageSource: {fileID: 8234518}
-  CountdownSound: {fileID: 8300000, guid: f9ecf488dfa4289489e802160fefd862, type: 3}
-  FinishSound: {fileID: 8300000, guid: bdada719ea50ba24590f7daf7a1076c9, type: 3}
   PlayersData:
   - Model: 
     PlayerIndex: 0
   AisData: []
-  StartGrid: {fileID: 11442532}
   CameraManager: {fileID: 11471490}
   PauseUi: {fileID: 22391256}
+  StartGrid: {fileID: 11442532}
+  AudioMessageSource: {fileID: 8234518}
+  CountdownSound: {fileID: 8300000, guid: f9ecf488dfa4289489e802160fefd862, type: 3}
+  FinishSound: {fileID: 8300000, guid: bdada719ea50ba24590f7daf7a1076c9, type: 3}
   MultiplayerAudioListener: {fileID: 11494046}
 --- !u!114 &11479936
 MonoBehaviour:
@@ -983,8 +983,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0078219c20beea14e8adc2f9914d174f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartPoint: {fileID: 127878}
   IsDisable: 1
+  StartPoint: {fileID: 127878}
 --- !u!222 &22208380
 CanvasRenderer:
   m_ObjectHideFlags: 1

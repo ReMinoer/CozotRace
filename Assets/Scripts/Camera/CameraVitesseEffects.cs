@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class CameraVitesseEffects : Factory<CameraVitesseEffects>
 {
+    public Transform Target;
+    public Rigidbody ParentRigidbody;
     public float Distance = 0.35f;
     public float DistanceMultiplier = 0.08F;
     public float DistanceSnapTime = 0.5F;
+    public float RotationSnapTime = 0.5F;
     public float Height = 0.3f;
     public float HeightDamping = 10.0f;
     public float LookAtHeight = 0.02f;
-    public Rigidbody ParentRigidbody;
-    public float RotationSnapTime = 0.5F;
-    public Transform Target;
     private float _currentHeight;
     private float _currentRotationAngle;
     private Vector3 _lookAtVector;

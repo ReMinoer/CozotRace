@@ -4,18 +4,18 @@ using UnityEngine.UI;
 
 public class ConfigMenuManager : MonoBehaviour
 {
-    public Text CounterPlayers;
-    public Text CounterLaps;
-    public Text CounterVehicles;
-    public RaceData RaceData = new RaceData();
+    public RaceData RaceData;
     public Controler NumberPlayerControler;
     public Controler NumberLapsControler;
     public Controler NumberVehicleControler;
     public Controler RaceControler;
-    public Text RaceName;
-    public Transform RaceTransform;
     public Controler[] VehicleControlers = new Controler[4];
+    public Transform RaceTransform;
     public Transform[] VehicleTransforms = new Transform[4];
+    public Text RaceName;
+    public Text CounterPlayers;
+    public Text CounterLaps;
+    public Text CounterVehicles;
     private readonly GameObject[] _currentVehicles = new GameObject[4];
     private readonly string[] _lastVehicles = new string[4];
     private readonly string[] _mapNames = {"EasyPlain", "GrassHills", "SpringLoop", "WindyMounts"};

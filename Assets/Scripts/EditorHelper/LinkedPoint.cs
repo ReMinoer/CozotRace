@@ -4,9 +4,9 @@ using UnityEngine;
 [ExecuteInEditMode]
 public abstract class LinkedPoint : MonoBehaviour
 {
-    public bool InsertMode;
-    public GameObject NextPoint;
     public GameObject PreviousPoint;
+    public GameObject NextPoint;
+    public bool InsertMode;
 
     protected virtual void Awake()
     {

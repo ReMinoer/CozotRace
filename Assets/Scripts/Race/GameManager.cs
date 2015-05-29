@@ -8,16 +8,16 @@ using Random = UnityEngine.Random;
 
 public class GameManager : Singleton<GameManager>
 {
+    public GameState State;
+    public List<PlayerVehicleData> PlayersData = new List<PlayerVehicleData>();
     public List<AiVehicleData> AisData = new List<AiVehicleData>();
-    public AudioSource AudioMessageSource;
     public CameraManager CameraManager;
+    public Canvas PauseUi;
+    public StartGrid StartGrid;
+    public AudioSource AudioMessageSource;
     public AudioClip CountdownSound;
     public AudioClip FinishSound;
     public MultiplayerAudioListener MultiplayerAudioListener;
-    public Canvas PauseUi;
-    public List<PlayerVehicleData> PlayersData = new List<PlayerVehicleData>();
-    public StartGrid StartGrid;
-    public GameState State;
     private float _chronometer;
     private float _countdown;
     private bool _differedChangeStateRequest;
