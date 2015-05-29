@@ -44,11 +44,5 @@ namespace DesignPattern
                 }
             }
         }
-
-        public void OnDestroy()
-        {
-            if (!Application.isEditor)
-                _applicationIsQuitting = true;
-        }
     }
 }
