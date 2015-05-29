@@ -59,7 +59,7 @@ public class Contestant : MonoBehaviour
                 do
                 {
                     ValidateProgression();
-                } while (CurrentCheckPoint != checkpoint.GetComponent<CheckPoint>());
+                } while (CurrentCheckPoint != checkpoint);
                 ValidateProgression();
                 return;
             }
