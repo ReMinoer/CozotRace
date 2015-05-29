@@ -10,7 +10,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ConfigurationMenu.unity
   - enabled: 0
-    path: Assets/Scenes/Level.unity
+    path: Assets/Scenes/Prefabs/PrefabLevel.unity
   - enabled: 1
     path: Assets/Scenes/Levels/EasyPlain.unity
   - enabled: 1

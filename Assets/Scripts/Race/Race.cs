@@ -1,77 +1,82 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using DesignPattern;
+using UnityEngine;
 
-public class Race : DesignPattern.Singleton<Race>
+public class Race : Singleton<Race>
 {
-	public int Laps;
-	public GameObject FirstCheckPoint;
+    public GameObject FirstCheckPoint;
+    public int Laps;
 
-	protected Race() {}
+    public int CheckPointsCount
+    {
+        get
+        {
+            int count = 1;
+            var pt = FirstCheckPoint.GetComponent<CheckPoint>();
+            while (pt.NextPoint != null)
+            {
+                pt = pt.NextPoint.GetComponent<CheckPoint>();
+                count++;
+            }
+            return count;
+        }
+    }
 
-	public int CheckPointsCount
-	{
-		get
-		{
-			int Count = 1;
-			CheckPoint Pt = FirstCheckPoint.GetComponent<CheckPoint>();
-			while (Pt.NextPoint != null) {
-				Pt = Pt.NextPoint.GetComponent<CheckPoint>();
-				Count++;
-			}
-			return Count;
-		}
-	}
+    protected Race()
+    {
+    }
 
-    void Start()
+    public List<GameObject> GetAllPoints()
+    {
+        var list = new List<GameObject>();
+
+        GameObject currentPoint = FirstCheckPoint;
+        while (currentPoint != null)
+        {
+            list.Add(currentPoint);
+            currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
+        }
+
+        return list;
+    }
+
+    public GameObject GetLastCheckPoint()
+    {
+        GameObject currentPoint = FirstCheckPoint;
+        while (currentPoint.GetComponent<CheckPoint>().NextPoint != null)
+            currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
+
+        return currentPoint;
+    }
+
+    public void DisableInsertModeOtherPoints(GameObject point)
+    {
+        GameObject currentPoint = FirstCheckPoint;
+        while (currentPoint != null)
+        {
+            if (currentPoint == point)
+            {
+                currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
+                continue;
+            }
+
+            currentPoint.GetComponent<CheckPoint>().InsertMode = false;
+            currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
+        }
+    }
+
+    public void DisableInsertModeAllPoints()
+    {
+        GameObject currentPoint = FirstCheckPoint;
+        while (currentPoint != null)
+        {
+            currentPoint.GetComponent<CheckPoint>().InsertMode = false;
+            currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
+        }
+    }
+
+    private void Start()
     {
         DisableInsertModeAllPoints();
     }
-
-	public List<GameObject> GetAllPoints()
-	{
-		var list = new List<GameObject>();
-		
-		GameObject currentPoint = FirstCheckPoint;
-		while (currentPoint != null)
-		{
-			list.Add(currentPoint);
-			currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
-		}
-		
-		return list;
-	}
-	
-	public GameObject GetLastCheckPoint()
-	{
-		GameObject currentPoint = FirstCheckPoint;
-		while (currentPoint.GetComponent<CheckPoint>().NextPoint != null)
-			currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
-		
-		return currentPoint;
-	}
-	public void DisableInsertModeOtherPoints(GameObject point)
-	{
-		GameObject currentPoint = FirstCheckPoint;
-		while (currentPoint != null)
-		{
-			if (currentPoint == point)
-			{
-				currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
-				continue;
-			}
-			
-			currentPoint.GetComponent<CheckPoint>().InsertMode = false;
-			currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
-		}
-	}
-
-	public void DisableInsertModeAllPoints()
-	{
-		GameObject currentPoint = FirstCheckPoint;
-		while (currentPoint != null)
-		{
-			currentPoint.GetComponent<CheckPoint>().InsertMode = false;
-			currentPoint = currentPoint.GetComponent<CheckPoint>().NextPoint;
-		}
-	}
 }

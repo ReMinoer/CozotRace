@@ -167,7 +167,7 @@ GameObject:
   - 114: {fileID: 35705598}
   - 114: {fileID: 35705600}
   m_Layer: 0
-  m_Name: DataRace
+  m_Name: RaceData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2020,6 +2020,10 @@ Prefab:
       propertyPath: valueMax
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11415088, guid: 5ee8b7d9c5d20ea4f9162cd868d6eee9, type: 2}
+      propertyPath: ValueMax
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5ee8b7d9c5d20ea4f9162cd868d6eee9, type: 2}
   m_IsPrefabParent: 0
@@ -2975,7 +2979,7 @@ GameObject:
   - 222: {fileID: 1717292785}
   - 114: {fileID: 1717292784}
   m_Layer: 5
-  m_Name: NumberTurnsText
+  m_Name: NumberLapsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3495,7 +3499,7 @@ GameObject:
   - 222: {fileID: 2035049690}
   - 114: {fileID: 2035049689}
   m_Layer: 5
-  m_Name: CounterTurns
+  m_Name: CounterLaps
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3691,7 +3695,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5038f31e5548ac488c376504e570a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DataRace: {fileID: 35705598}
+  CounterPlayers: {fileID: 1024664621}
+  CounterLaps: {fileID: 2035049689}
+  CounterVehicles: {fileID: 2072782546}
+  RaceData: {fileID: 35705598}
+  NumberPlayerControler: {fileID: 1527944960}
+  NumberLapsControler: {fileID: 1958269204}
+  NumberVehicleControler: {fileID: 741005732}
   RaceControler: {fileID: 1660295600}
   RaceName: {fileID: 1507002695}
   RaceTransform: {fileID: 1406947527}
@@ -3705,12 +3715,6 @@ MonoBehaviour:
   - {fileID: 186553553}
   - {fileID: 1461499196}
   - {fileID: 868690922}
-  NumberVehicleControler: {fileID: 741005732}
-  CounterVehicles: {fileID: 2072782546}
-  NumberPlayerControler: {fileID: 1527944960}
-  CounterPlayers: {fileID: 1024664621}
-  NumberTurnControler: {fileID: 1958269204}
-  CounterTurn: {fileID: 2035049689}
 --- !u!1 &2072782544
 GameObject:
   m_ObjectHideFlags: 0

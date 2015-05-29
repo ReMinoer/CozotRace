@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class ReplayCameraSystem : Factory<ReplayCameraSystem>
 {
-    public Transform Target;
     public float Height = 10f;
+    public Transform Target;
     private Camera _camera;
-
     private const float Speed = 0.12f;
     private const float SpeedRotation = 0.4f;
 
-    void Start()
+    private void Start()
     {
         _camera = GetComponent<Camera>();
 
@@ -19,7 +18,7 @@ public class ReplayCameraSystem : Factory<ReplayCameraSystem>
         _camera.transform.LookAt(Target);
     }
 
-    void Update()
+    private void Update()
     {
         Vector3 targetPosition = Target.position + Height * Vector3.up;
         Vector3 gap = targetPosition - _camera.transform.position;

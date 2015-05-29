@@ -81,15 +81,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c67448bfc2d324c9a8848e8f20b786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  distance: .5
-  height: .300000012
-  heightDamping: 10
-  lookAtHeight: .0199999996
-  parentRigidbody: {fileID: 0}
-  rotationSnapTime: .100000001
-  distanceSnapTime: 1
-  distanceMultiplier: .0799999982
+  Distance: .349999994
+  DistanceMultiplier: .0799999982
+  DistanceSnapTime: .5
+  Height: .300000012
+  HeightDamping: 10
+  LookAtHeight: .0199999996
+  ParentRigidbody: {fileID: 0}
+  RotationSnapTime: .100000001
+  Target: {fileID: 0}
 --- !u!124 &12465342
 Behaviour:
   m_ObjectHideFlags: 1

@@ -1,24 +1,23 @@
 ﻿using System;
-using UnityEngine;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using UnityEngine;
 
 public class Contestant : MonoBehaviour
 {
+    private List<TimeSpan> _splitTimes;
     public string PlayerName { get; set; }
     public int CurrentLap { get; private set; }
     public CheckPoint CurrentCheckPoint { get; private set; }
+
     public ReadOnlyCollection<TimeSpan> SplitTimes
     {
         get { return _splitTimes.AsReadOnly(); }
     }
 
-    private List<TimeSpan> _splitTimes;
-
-	public void ValidateCheckPoint(CheckPoint Cp)
-	{
-		if (Cp == CurrentCheckPoint)
+    public void ValidateCheckPoint(CheckPoint checkpoint)
+    {
+        if (checkpoint == CurrentCheckPoint)
         {
             ValidateProgression();
 
@@ -52,33 +51,33 @@ public class Contestant : MonoBehaviour
                 }
             }
         }
-		else
-		{
-		    var aiInput = gameObject.GetComponent<AiInput>();
-		    if (aiInput != null)
+        else
+        {
+            var aiInput = gameObject.GetComponent<AiInput>();
+            if (aiInput != null)
             {
                 do
                 {
                     ValidateProgression();
-                } while (CurrentCheckPoint != Cp.GetComponent<CheckPoint>());
+                } while (CurrentCheckPoint != checkpoint.GetComponent<CheckPoint>());
                 ValidateProgression();
                 return;
             }
 
-			CheckPoint old = CurrentCheckPoint;
-			for(int i=0; i<3; i++)
+            CheckPoint old = CurrentCheckPoint;
+            for (int i = 0; i < 3; i++)
             {
-				if (old.PreviousPoint==null)
-					old = Race.Instance.GetLastCheckPoint().GetComponent<CheckPoint>();
-				else
-					old = old.PreviousPoint.GetComponent<CheckPoint>();
+                if (old.PreviousPoint == null)
+                    old = Race.Instance.GetLastCheckPoint().GetComponent<CheckPoint>();
+                else
+                    old = old.PreviousPoint.GetComponent<CheckPoint>();
 
-				if (Cp == old)
-					return;
-			}
-			RespawnAtNextCheckPoint();
-		}
-	}
+                if (checkpoint == old)
+                    return;
+            }
+            RespawnAtNextCheckPoint();
+        }
+    }
 
     private void ValidateProgression()
     {
@@ -102,26 +101,20 @@ public class Contestant : MonoBehaviour
         }
     }
 
-	void RespawnAtNextCheckPoint() {
-		GetComponent<Rigidbody> ().velocity = Vector3.zero;
-		transform.rotation = CurrentCheckPoint.transform.rotation;
-		transform.position = CurrentCheckPoint.transform.position;
-		transform.position += -CurrentCheckPoint.transform.forward * 3;
-	}
+    private void RespawnAtNextCheckPoint()
+    {
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        transform.rotation = CurrentCheckPoint.transform.rotation;
+        transform.position = CurrentCheckPoint.transform.position;
+        transform.position += -CurrentCheckPoint.transform.forward * 3;
+    }
 
-	// Use this for initialization
-	void Start ()
+    private void Start()
     {
         _splitTimes = new List<TimeSpan>();
 
-		CurrentLap = 0;
+        CurrentLap = 0;
         if (Race.Instance.FirstCheckPoint != null)
             CurrentCheckPoint = Race.Instance.FirstCheckPoint.GetComponent<CheckPoint>();
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	
-	}
+    }
 }

@@ -310,6 +310,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11495514, guid: e85317e1b89354749b3523738e93ba94, type: 2}
+      propertyPath: Index
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e85317e1b89354749b3523738e93ba94, type: 2}
   m_IsPrefabParent: 0
@@ -437,7 +441,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 627890145}
   m_Mesh: {fileID: 4300014, guid: 9e79eb0383b4242408ff49da4002df66, type: 3}
---- !u!1 &674732558
+--- !u!1 &674732558 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 195538, guid: e85317e1b89354749b3523738e93ba94, type: 2}
   m_PrefabInternal: {fileID: 404448854}
@@ -866,13 +870,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e8adef283fbf89489edbff23c97abf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardForce: 40
   BackwardForce: 10
-  BrakeForce: 30
-  ForwardSpeedMax: 25
   BackwardSpeedMax: 10
-  TurningAngle: 140
+  BrakeForce: 30
+  Center: {fileID: 0}
   FloatingHeight: 1
+  ForwardForce: 40
+  ForwardSpeedMax: 25
+  ForwardSpeedMaxActual: 25
+  HoverForce: 65
+  IsBoosted: 0
+  MaxDiffHeight: 1
+  Nitro: 2500
+  NitroDecreaseSpeed: 1
+  Nose: {fileID: 0}
+  SpeedEvolution: .200000003
+  Tail: {fileID: 0}
+  TurningAngle: 140
 --- !u!114 &1451970292
 MonoBehaviour:
   m_ObjectHideFlags: 0
