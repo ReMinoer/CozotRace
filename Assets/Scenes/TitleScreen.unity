@@ -208,10 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632605b7c4e07364c8e456b12c3aa061, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level2Music: {fileID: 0}
-  Level3Music: {fileID: 0}
-  Level4Music: {fileID: 0}
-  Level5Music: {fileID: 0}
+  Level2Music: {fileID: 8300000, guid: 049b27843a6b1654a8d5701e1dcdee81, type: 3}
+  Level3Music: {fileID: 8300000, guid: 79148276f4a538c4ba687b7fa2a72bbf, type: 3}
+  Level4Music: {fileID: 8300000, guid: ea343704a08c45041aab3967f484ff4b, type: 3}
+  Level5Music: {fileID: 8300000, guid: d0606418ed14983468973125be7fbfc2, type: 3}
 --- !u!1 &219464877 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 131906, guid: efbfdcf12d95cab478f4d4ddeb88d245, type: 2}
