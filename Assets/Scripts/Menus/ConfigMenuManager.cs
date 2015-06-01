@@ -21,7 +21,7 @@ public class ConfigMenuManager : MonoBehaviour
     private readonly string[] _mapNames = {"EasyPlain", "GrassHills", "SpringLoop", "WindyMounts"};
     private readonly int[] _numberPlayers = {1, 2, 3, 4};
     private readonly int[] _numberLaps = {1, 2, 3, 4, 5};
-    private readonly int[] _numberVehicles = {1, 2, 3, 4, 5, 6, 7, 8};
+    private readonly int[] _numberVehicles = {1, 2, 3, 4, 5, 6};
     private GameObject _currentTerrain;
     private string _lastRace;
 
